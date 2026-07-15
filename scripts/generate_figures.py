@@ -28,12 +28,16 @@ mpl.rcParams.update({
     "svg.fonttype": "none",
 })
 WIDTH_IN = 190 / 25.4
+CHECK_ONLY = False
 
 
 def save_all(fig: plt.Figure, outbase: Path, dpi: int) -> None:
+    """Save publication assets, or only a lightweight PDF during test runs."""
     outbase.parent.mkdir(parents=True, exist_ok=True)
     kwargs = dict(bbox_inches="tight", pad_inches=0.04, facecolor="white")
     fig.savefig(outbase.with_suffix(".pdf"), **kwargs)
+    if CHECK_ONLY:
+        return
     fig.savefig(outbase.with_suffix(".svg"), **kwargs)
     fig.savefig(outbase.with_suffix(".png"), dpi=dpi, **kwargs)
     tmp = outbase.with_suffix(".tmp.png")
@@ -327,10 +331,16 @@ def write_captions(outdir: Path) -> None:
 
 
 def main() -> None:
+    global CHECK_ONLY
     parser = argparse.ArgumentParser()
     parser.add_argument("--outdir", type=Path, required=True)
     parser.add_argument("--class-summary", type=Path, required=True)
+    parser.add_argument(
+        "--check-only", action="store_true",
+        help="Generate lightweight PDF outputs only; intended for automated checks.",
+    )
     args = parser.parse_args()
+    CHECK_ONLY = args.check_only
     args.outdir.mkdir(parents=True, exist_ok=True)
     figure1(args.outdir)
     figure2(args.outdir)

@@ -1,27 +1,32 @@
 #!/usr/bin/env python3
-"""Verify the candidate-preservation invariants claimed by the manuscript.
+"""Verify candidate preservation through selection, review, and CSV export.
 
-This test drives the released browser application with the adversarial fixture
-served by scripts/mock_nist_bridge.py. No NIST software, NIST library, NIST
-spectrum, or vendor-native file is involved. All candidates are synthetic.
+The released browser application is driven against the adversarial synthetic
+fixture served by ``scripts/mock_nist_bridge.py``.  No NIST software, licensed
+library, licensed spectrum, or vendor-native file is used.
 
-The test asserts the invariants that constitute the software's central claim:
+Invariants:
 
   I1  Every candidate returned by the search stage is present in the exported
-      record, up to the user-selected top-N limit.
-  I2  The original rank of every candidate is preserved.
-  I3  The original match factor, reverse match factor, probability, CAS, and
-      library identifier of every candidate are preserved unmodified.
-  I4  Selecting a candidate never removes the alternatives.
-  5   A component whose candidates are all weak may remain unassigned.
-  I6  A component that returns zero candidates is retained as unidentified
-      rather than deleted.
+      record, up to the selected top-N limit.
+  I2  Every exported candidate retains its original rank.
+  I3  Match factor, reverse match factor, probability, CAS, and library
+      identifier are preserved unmodified.
+  I4  Selecting a non-top candidate does not remove or reorder the archived
+      alternatives in the candidate columns.
+  I5  A component whose candidates are all weak can remain unassigned while
+      its original candidates remain in the export.
+  I6  A zero-hit component remains in the export as unidentified and receives
+      no fabricated candidate.
 
-Requires: pip install -r requirements-browser.txt && playwright install chromium
+Requires: ``pip install -r requirements-browser.txt`` and Playwright Chromium.
+A missing browser dependency exits with status 77, which ``run_checks.py``
+reports as a skip and can treat as an error with ``--require-browser``.
 """
 from __future__ import annotations
 
-import json
+import csv
+import io
 import subprocess
 import sys
 import time
@@ -29,13 +34,16 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+SKIP = 77
 try:
     from playwright.sync_api import sync_playwright
-except ImportError:  # optional dependency
-    print("SKIP: playwright is not installed. Install with "
-          "'pip install -r requirements-browser.txt && playwright install chromium' "
-          "to verify candidate preservation in the browser.")
-    raise SystemExit(0)
+except ImportError:
+    print(
+        "SKIP: playwright is not installed. Install with "
+        "'pip install -r requirements-browser.txt && playwright install chromium' "
+        "to verify candidate preservation in the browser."
+    )
+    raise SystemExit(SKIP)
 
 ROOT = Path(__file__).resolve().parents[1]
 BRIDGE = ROOT / "scripts" / "mock_nist_bridge.py"
@@ -66,26 +74,36 @@ def wait_up(proc: subprocess.Popen, timeout: float = 15.0) -> None:
     raise SystemExit("mock bridge did not start in time")
 
 
-# Synthetic component records injected directly into the application state.
-# These stand in for deconvolution output so that this test isolates the
-# candidate-preserving stage. Deconvolution itself is covered elsewhere.
-INJECT = """
+INJECT = r"""
 () => {
   const mk = (i, rt, scan) => ({
     rt: rt, scan: scan, tic: 100000 - i * 1000,
-    dc: { mz: [39, 95, 96], i: [210, 999, 610] },
-    cands: [], nistcandidates15: [], nistDone: false
+    rawMZ: [39, 95, 96], rawI: [210, 999, 610],
+    dc: {
+      mz: [39, 95, 96], i: [210, 999, 610], t: [8, 12, 9],
+      nRaw: 3, nBefore: 3, nModelIons: 2
+    },
+    cands: [], nistcandidates15: [], nistDone: false,
+    nistExternalDone: false, aiDone: false, aiSelected: false
   });
   G.results = [
     mk(1, 5.12, 614), mk(2, 6.48, 778), mk(3, 7.10, 852),
-    mk(4, 8.90, 1068), mk(5, 9.55, 1146), mk(6, 10.2, 1224), mk(7, 11.8, 1416)
+    mk(4, 8.90, 1068), mk(5, 9.55, 1146), mk(6, 10.2, 1224),
+    mk(7, 11.8, 1416)
   ];
   G.ok = true;
+  G.rt = Float64Array.from(G.results.map(r => r.rt));
+  G.tic = Float64Array.from(G.results.map(r => r.tic));
+  G.n = G.results.length;
+  G.deconvParams = getDeconvParameterSnapshot();
+  document.getElementById('pSC').value = 0;
+  document.getElementById('nistCandidateCount').value = 15;
+  updateCandidateCount();
   return G.results.length;
 }
 """
 
-FETCH_AND_MERGE = """
+EXERCISE = r"""
 async (port) => {
   const blocks = G.results.map((r, idx) => {
     const id = String(idx + 1).padStart(4, '0');
@@ -95,112 +113,154 @@ async (port) => {
       'Num Peaks: 3',
       '39 210; 95 999; 96 610',
       ''
-    ].join('\\r\\n');
+    ].join('\r\n');
   });
   const resp = await fetch('http://127.0.0.1:' + port + '/search', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ msp: blocks.join('\\r\\n'), max_candidates: 15, index_offset: 0 })
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({msp: blocks.join('\r\n'), max_candidates: 15, index_offset: 0})
   });
+  if (!resp.ok) throw new Error('mock bridge returned HTTP ' + resp.status);
   const data = await resp.json();
   const merged = mergeNISTExternalResults(data.groups);
   const sorted = G.results.slice().sort((a, b) => a.rt - b.rt);
+
+  // I4: exercise the application's real selection function by selecting the
+  // original rank-2 candidate for the near-tie record.
+  selectCandidate(G.results.indexOf(sorted[0]), 1);
+
+  // I5: exercise the deterministic review rule on the all-weak record.
+  const weakResult = curateOneByAIQC(sorted[2]);
+
   return {
     sent: data.groups,
-    merged: merged,
-    stored: sorted.map(r => ({
+    merged,
+    weakResult,
+    post: sorted.map(r => ({
       rt: r.rt,
-      nistDone: !!r.nistDone,
-      cands: (r.cands || []).map(c => ({
-        name: c.name, rank: c.nistRank, mf: c.nistMF, rmf: c.nistRMF,
-        prob: c.nistProb, cas: c.cas, lib: c.nistLib
-      })),
+      selectedName: r.cands && r.cands.length ? r.cands[0].name : '',
+      selectedRank: r.cands && r.cands.length ? r.cands[0].nistRank || '' : '',
+      aiAction: r.aiAction || '',
+      aiAnnotationLevel: r.aiAnnotationLevel || '',
       preserved: (r.nistcandidates15 || []).length
-    }))
+    })),
+    csvText: buildResultsCSVText()
   };
 }
 """
 
 
+def as_text(value: object) -> str:
+    return "" if value is None else str(value)
+
+
+def assert_equal(actual: object, expected: object, label: str) -> None:
+    if as_text(actual) != as_text(expected):
+        raise SystemExit(f"{label} FAILED: expected {expected!r}, got {actual!r}")
+
+
 def main() -> int:
     proc = subprocess.Popen(
         [sys.executable, str(BRIDGE), "--port", str(PORT), "--mode", "adversarial"],
-        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
     )
     try:
         wait_up(proc)
         html = patch_session_storage(INDEX.read_text(encoding="utf-8"))
-
         with sync_playwright() as pw:
             try:
                 browser = pw.chromium.launch()
-            except Exception as exc:  # browser binary not installed
-                print(f"SKIP: chromium is unavailable ({exc.__class__.__name__}). "
-                      "Run 'playwright install chromium' to verify candidate preservation.")
-                return 0
+            except Exception as exc:
+                print(
+                    f"SKIP: chromium is unavailable ({exc.__class__.__name__}). "
+                    "Run 'playwright install chromium' to verify candidate preservation."
+                )
+                return SKIP
             page = browser.new_page()
             errors: list[str] = []
-            page.on("pageerror", lambda e: errors.append(str(e)))
+            page.on("pageerror", lambda exc: errors.append(str(exc)))
             page.set_default_timeout(120000)
             page.set_content(html, wait_until="load")
-            n = page.evaluate(INJECT)
-            if n != 7:
-                raise SystemExit(f"injection failed: {n}")
-            out = page.evaluate(FETCH_AND_MERGE, PORT)
+            if page.evaluate(INJECT) != 7:
+                raise SystemExit("candidate-test state injection failed")
+            out = page.evaluate(EXERCISE, PORT)
             browser.close()
 
         if errors:
             raise SystemExit(f"page errors: {errors}")
+        if out["merged"] != 7:
+            raise SystemExit(f"I1 FAILED: merged {out['merged']} of 7 component groups")
 
-        sent = {g["query_index"]: g["hits"] for g in out["sent"]}
-        stored = out["stored"]
+        sent = {int(group["query_index"]): group["hits"] for group in out["sent"]}
+        rows = list(csv.DictReader(io.StringIO(out["csvText"].lstrip("\ufeff"))))
+        if len(rows) != 7:
+            raise SystemExit(f"I6 FAILED: export contains {len(rows)} rows; expected 7")
 
-        # I1 / I2 / I3 -- every sent candidate survives with rank and scores intact.
-        for qidx, hits in sent.items():
-            rec = stored[qidx - 1]
-            got = rec["cands"]
-            if len(hits) == 0:
-                # I6 -- zero-hit component retained, not deleted.
-                if rec is None:
-                    raise SystemExit(f"I6 FAILED: component {qidx} was deleted on zero hits")
-                if got:
-                    raise SystemExit(f"I6 FAILED: component {qidx} gained fabricated candidates {got}")
-                continue
-            if len(got) != len(hits):
-                raise SystemExit(
-                    f"I1 FAILED: component {qidx} sent {len(hits)} candidates, stored {len(got)}")
-            for h, c in zip(hits, got):
-                if c["rank"] != h["rank"]:
-                    raise SystemExit(f"I2 FAILED: component {qidx} rank {h['rank']} -> {c['rank']}")
-                for field, key in (("mf", "mf"), ("rmf", "rmf"), ("prob", "prob"),
-                                   ("cas", "cas"), ("lib", "lib")):
-                    if c[key] != h[field]:
-                        raise SystemExit(
-                            f"I3 FAILED: component {qidx} rank {h['rank']} field {field}: "
-                            f"{h[field]} -> {c[key]}")
-            if rec["preserved"] != len(hits):
-                raise SystemExit(
-                    f"I4 FAILED: component {qidx} preserved snapshot has {rec['preserved']} "
-                    f"of {len(hits)} candidates")
+        # I1-I3: compare the actual exported candidate columns with every hit
+        # returned by the synthetic bridge. This verifies export, not only import.
+        for qidx in range(1, 8):
+            hits = sent[qidx]
+            row = rows[qidx - 1]
+            for pos, hit in enumerate(hits, start=1):
+                prefix = f"Cand{pos:02d}_"
+                assert_equal(row[prefix + "Name"], hit["name"], f"I1 component {qidx} candidate {pos} name")
+                assert_equal(row[prefix + "Rank"], hit["rank"], f"I2 component {qidx} candidate {pos} rank")
+                for column, key in (
+                    ("MF", "mf"), ("RMF", "rmf"), ("Prob", "prob"),
+                    ("CAS", "cas"), ("Lib", "lib"),
+                ):
+                    assert_equal(
+                        row[prefix + column], hit.get(key, ""),
+                        f"I3 component {qidx} candidate {pos} {column}",
+                    )
+            # The first unused candidate slot must be blank, preventing silent
+            # fabrication or leakage from another component.
+            if len(hits) < 15:
+                blank_prefix = f"Cand{len(hits) + 1:02d}_"
+                if row[blank_prefix + "Name"]:
+                    raise SystemExit(
+                        f"I1 FAILED: component {qidx} has fabricated candidate "
+                        f"{row[blank_prefix + 'Name']!r}"
+                    )
 
-        # Near-tie probe: rank 2 must still be there and must not have been merged away.
-        near = stored[0]["cands"]
-        if len(near) < 2 or near[1]["rank"] != 2:
-            raise SystemExit("I4 FAILED: near-tie rank-2 candidate did not survive")
-        if near[0]["mf"] - near[1]["mf"] > 5:
-            raise SystemExit("near-tie probe was not exercised")
+        # I4: rank 2 is selected in the result row while Cand01-Cand03 retain
+        # the bridge's original order and values.
+        rank2 = sent[1][1]
+        assert_equal(rows[0]["Compound"], rank2["name"], "I4 selected candidate name")
+        assert_equal(rows[0]["NIST_Rank"], 2, "I4 selected original rank")
+        assert_equal(rows[0]["Cand01_Rank"], 1, "I4 archived rank 1")
+        assert_equal(rows[0]["Cand02_Rank"], 2, "I4 archived rank 2")
+        if out["post"][0]["preserved"] != len(sent[1]):
+            raise SystemExit("I4 FAILED: selection changed the preserved snapshot length")
 
-        # Class-conflict probe: both classes must remain available.
-        conflict = [c["name"] for c in stored[1]["cands"]]
-        if not ("Pyridine" in conflict[0] and "Furfural" in conflict[1]):
-            raise SystemExit(f"I4 FAILED: class-conflict alternatives altered: {conflict}")
+        # The class-conflict pair also remains available in original order.
+        assert_equal(rows[1]["Cand01_Name"], "Pyridine", "I4 class-conflict rank 1")
+        assert_equal(rows[1]["Cand02_Name"], "Furfural", "I4 class-conflict rank 2")
 
-        print("PASS: I1 all candidates preserved through import")
-        print("PASS: I2 original ranks preserved")
-        print("PASS: I3 match factors, probabilities, CAS, and library preserved")
-        print("PASS: I4 selection never removed alternatives (near-tie and class-conflict probes)")
-        print("PASS: I6 zero-hit component retained as unidentified without fabricated hits")
-        print("PASS: candidate preservation verified with no NIST software and no licensed data.")
+        # I5: deterministic review rejects all weak candidates but preserves
+        # both in Cand01/Cand02 and records the component as unassigned.
+        if out["weakResult"]["status"] != "rejected-all":
+            raise SystemExit(f"I5 FAILED: all-weak review returned {out['weakResult']}")
+        if not rows[2]["Compound"].startswith("Unidentified"):
+            raise SystemExit(f"I5 FAILED: all-weak component exported as {rows[2]['Compound']!r}")
+        assert_equal(rows[2]["AI_Action"], "rejected-all", "I5 AI action")
+        assert_equal(rows[2]["AI_AnnotationLevel"], "unassigned", "I5 annotation level")
+        assert_equal(rows[2]["Cand01_Name"], sent[3][0]["name"], "I5 preserved weak rank 1")
+        assert_equal(rows[2]["Cand02_Name"], sent[3][1]["name"], "I5 preserved weak rank 2")
+
+        # I6: zero-hit component remains as a row and all candidate fields are blank.
+        assert_equal(rows[3]["Scan"], 1068, "I6 retained zero-hit scan")
+        if rows[3]["Cand01_Name"] or rows[3]["Cand01_MF"] or rows[3]["Cand01_Rank"]:
+            raise SystemExit("I6 FAILED: zero-hit component contains a fabricated candidate")
+
+        print("PASS: I1 every returned top-N candidate is present in the CSV export")
+        print("PASS: I2 original candidate ranks are preserved in the CSV export")
+        print("PASS: I3 MF, RMF, probability, CAS, and library are unmodified")
+        print("PASS: I4 selecting original rank 2 leaves all alternatives intact")
+        print("PASS: I5 all-weak candidates remain archived while the component is unassigned")
+        print("PASS: I6 the zero-hit component remains unidentified without fabricated hits")
+        print("PASS: candidate preservation verified without NIST software or licensed data")
         return 0
     finally:
         proc.terminate()

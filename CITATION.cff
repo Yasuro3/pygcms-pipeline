@@ -1,10 +1,13 @@
-cff-version: 1.3.0
+cff-version: 1.2.0
 message: If you use this software, cite the version-specific Zenodo record and the associated SoftwareX article.
 title: PyGCMS Pipeline
 type: software
 version: 1.3.0
 date-released: '2026-07-15'
 license: MIT
+doi: 10.5281/zenodo.21368118
+repository-code: https://github.com/Yasuro3/pygcms-pipeline
+url: https://doi.org/10.5281/zenodo.21368118
 authors:
   - family-names: Fuse
     given-names: Yasuro
@@ -13,8 +16,8 @@ authors:
   - family-names: Okuda
     given-names: Hiroko
     affiliation: Shimadzu Techno-Research, Inc.; Graduate School of Science and Technology, Kyoto Institute of Technology
-  - family-names: Xue
-    given-names: Chu
+  - family-names: Chu
+    given-names: Xue
     affiliation: Faculty of Molecular Chemistry and Engineering, Kyoto Institute of Technology
 keywords:
   - pyrolysis GC-MS

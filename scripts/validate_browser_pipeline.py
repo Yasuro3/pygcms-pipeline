@@ -8,7 +8,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import platform
+import sys
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -114,18 +118,25 @@ def main() -> None:
     parser.add_argument("--mzml", type=Path, required=True)
     parser.add_argument("--reference-json", type=Path)
     parser.add_argument("--outdir", type=Path, required=True)
-    parser.add_argument("--chromium", default="/usr/bin/chromium")
+    parser.add_argument("--chromium", help="optional Chromium executable; Playwright bundled Chromium is used by default")
     parser.add_argument("--intensity-tolerance", type=float, default=0.01)
     args = parser.parse_args()
     args.outdir.mkdir(parents=True, exist_ok=True)
     html = args.html.read_text(encoding="utf-8")
 
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(
-            headless=True, executable_path=args.chromium,
-            args=["--no-sandbox", "--disable-dev-shm-usage", "--js-flags=--max-old-space-size=8192"],
-        )
-        runs = {name: run_profile(browser, html, args.mzml, name, name == "default") for name in ("default", "permissive", "selective")}
+        launch = {
+            "headless": True,
+            "args": ["--no-sandbox", "--disable-dev-shm-usage", "--js-flags=--max-old-space-size=8192"],
+        }
+        if args.chromium:
+            launch["executable_path"] = args.chromium
+        browser = playwright.chromium.launch(**launch)
+        browser_version = browser.version
+        runs = {
+            name: run_profile(browser, html, args.mzml, name, name == "default")
+            for name in ("default", "permissive", "selective")
+        }
         browser.close()
 
     comparison = None
@@ -134,7 +145,16 @@ def main() -> None:
         reference = archived["runs"]["default"]["run"]["components"]
         comparison = compare_components(reference, runs["default"]["run"]["components"], args.intensity_tolerance)
     status = "PASS" if all(not run["page_errors"] for run in runs.values()) and (comparison is None or comparison["status"] == "PASS") else "FAIL"
-    output = {"status": status, "comparison": comparison, "runs": runs}
+    environment = {
+        "recorded_utc": datetime.now(timezone.utc).isoformat(),
+        "platform": platform.platform(),
+        "python": sys.version.split()[0],
+        "playwright_browser": "Chromium",
+        "browser_version": browser_version,
+        "logical_cpu_count": os.cpu_count(),
+        "chromium_executable": args.chromium or "Playwright bundled Chromium",
+    }
+    output = {"status": status, "environment": environment, "comparison": comparison, "runs": runs}
     (args.outdir / "browser_pipeline_validation.json").write_text(json.dumps(output, indent=2), encoding="utf-8")
 
     counts = {name: run["run"]["component_count"] for name, run in runs.items()}
@@ -145,6 +165,18 @@ def main() -> None:
         f"- Default components: {counts['default']:,}",
         f"- Permissive components: {counts['permissive']:,}",
         f"- Selective components: {counts['selective']:,}",
+        "", "## Single-run diagnostic timings", "",
+        "| Profile | mzML load (s) | Deconvolution (s) |",
+        "|---|---:|---:|",
+        *[f"| {name.capitalize()} | {runs[name]['load_seconds']:.3f} | {runs[name]['run']['elapsed_seconds']:.3f} |" for name in ("default", "permissive", "selective")],
+        "",
+        "These are single-run diagnostic timings for the recorded environment, not a cross-system benchmark.",
+        "", "## Environment", "",
+        f"- Recorded UTC: {environment['recorded_utc']}",
+        f"- Platform: {environment['platform']}",
+        f"- Python: {environment['python']}",
+        f"- Browser: Chromium {environment['browser_version']}",
+        f"- Logical CPUs: {environment['logical_cpu_count']}",
     ]
     if comparison:
         report += [

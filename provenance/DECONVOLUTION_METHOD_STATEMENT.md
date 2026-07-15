@@ -4,4 +4,4 @@ PyGCMS Pipeline uses conventional chromatographic deconvolution operations: TIC 
 
 The software does not claim a new fundamental deconvolution theory. Its analytical contribution is the integration of adjustable processing, parameter capture, top-N candidate preservation, evidence tracking and auditable export in one browser workflow.
 
-The exact distributed implementation is defined by `software/index_en.html` and version 1.2.0 checksums. The manuscript and Supplementary Information describe the algorithm and parameter effects.
+The exact distributed implementation is defined by `software/index.html` and the v1.3.0 archive checksum manifest. The manuscript and Supplementary Information describe the algorithm and parameter effects.

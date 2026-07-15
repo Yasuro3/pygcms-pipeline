@@ -2,7 +2,7 @@
   "metadata": {
     "title": "PyGCMS Pipeline: a configurable and candidate-preserving workflow for nominal-mass pyrolysis GC-MS chromatograms",
     "upload_type": "software",
-    "description": "PyGCMS Pipeline is an archived browser-based workflow for efficient analysis of nominal-mass, full-scan pyrolysis GC-MS chromatograms. It reads a documented mzML subset, performs configurable chromatographic deconvolution with exportable and importable parameter presets, submits component spectra to a separately licensed local NIST MS Search installation, and preserves the returned top-N candidates with their original scores. Results retain alternatives, selected rank, rationale, literature and retention evidence, analysis parameters, software hashes, and run provenance. The archive contains no vendor-native reader, private conversion code, NIST library files, proprietary spectra, or credentials. The Lake Biwa class-composition figure is normalized only within the literature-classified subset and displays TD L1-L5 followed by Py L1-L5; unclassified records are retained for accounting but excluded from compositional axes because they may include siloxanes, other system background, contaminants, low-information spectra, or compounds outside the curated rules. This version adds an offline mock of the licensed-search bridge (scripts/mock_nist_bridge.py) together with an adversarial fixture and automated tests, so that the candidate-preserving workflow can be executed and independently verified without a NIST MS Search licence. The mock returns clearly labelled synthetic candidates from a fictitious library and verifies data handling only; it makes no claim about match-factor accuracy or compound identification. No NIST executable, library, spectrum, or match factor is reproduced.",
+    "description": "PyGCMS Pipeline is an archived browser-based workflow for efficient analysis of nominal-mass, full-scan pyrolysis GC-MS chromatograms. It reads a documented mzML subset, performs configurable chromatographic deconvolution with exportable and importable parameter presets, submits component spectra to a separately licensed local NIST MS Search installation, and preserves the returned top-N candidates with their original scores. Results retain alternatives, selected rank, rationale, literature and retention evidence, analysis parameters, software hashes, and run provenance. The archive contains no vendor-native reader, private conversion code, NIST library files, proprietary spectra, or credentials. The Lake Biwa class-composition figure is normalized only within the literature-classified subset and displays TD L1-L5 followed by Py L1-L5; unclassified records are retained for accounting but excluded from compositional axes because they may include siloxanes, other system background, contaminants, low-information spectra, or compounds outside the curated rules. This version adds an offline mock of the licensed-search bridge, exported-candidate invariants I1-I6, and numerical deconvolution tests D1-D6, so candidate handling and synthetic extraction arithmetic can be independently verified without a NIST MS Search licence. The mock returns clearly labelled synthetic candidates from a fictitious library and verifies data handling only; it makes no claim about match-factor accuracy or compound identification. No NIST executable, library, spectrum, or match factor is reproduced. The archive provides the aggregate Lake Biwa class-summary table used for Figure 4; component- and candidate-level application records and peak-area data are not included. The embedded literature classification database is exported as machine-readable rules and source records, and an archive-relative SHA-256 manifest is supplied.",
     "creators": [
       {
         "name": "Fuse, Yasuro",
@@ -13,7 +13,7 @@
         "affiliation": "Shimadzu Techno-Research, Inc.; Graduate School of Science and Technology, Kyoto Institute of Technology"
       },
       {
-        "name": "Xue, Chu",
+        "name": "Chu, Xue",
         "affiliation": "Faculty of Molecular Chemistry and Engineering, Kyoto Institute of Technology"
       }
     ],
@@ -31,6 +31,14 @@
       "reproducibility",
       "software testing"
     ],
-    "notes": "Fixed archived research release associated with a SoftwareX manuscript. Active feature development is not planned. Funding: JSPS KAKENHI Grant Number JP25K03248. Sediment sample collection was supported by the Lake Biwa Environmental Research Institute."
+    "notes": "Fixed archived research release associated with a SoftwareX manuscript. Active feature development is not planned. Funding: JSPS KAKENHI Grant Number JP25K03248. Sediment sample collection was supported by the Lake Biwa Environmental Research Institute.",
+    "doi": "10.5281/zenodo.21368118",
+    "related_identifiers": [
+      {
+        "identifier": "https://github.com/Yasuro3/pygcms-pipeline",
+        "relation": "isSupplementTo",
+        "scheme": "url"
+      }
+    ]
   }
 }

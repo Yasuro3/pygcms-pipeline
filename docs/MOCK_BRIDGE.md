@@ -20,6 +20,7 @@ from a fictitious library, so the whole workflow can be run offline.
 | Every returned candidate survives selection and export with its original rank | **Yes** |
 | Original match factor, reverse match factor, probability, CAS, and library are preserved unmodified | **Yes** |
 | Selecting one candidate never deletes the alternatives | **Yes** |
+| An all-weak component can remain unassigned while its candidates remain archived | **Yes** |
 | A zero-hit component is retained as unidentified rather than deleted | **Yes** |
 | The application parses the bridge response format correctly | **Yes** |
 | NIST match factors are accurate | **No. Out of scope.** |
@@ -56,8 +57,10 @@ fixture in `--mode adversarial` is built so that a naive or lossy implementation
 | 7 | 20 candidates, top-N = 15 | Truncating from the wrong end, or reordering |
 
 `tests/test_candidate_preservation.py` drives the released `software/index.html`
-against this fixture and asserts invariants I1-I6. It fails loudly if any
-candidate, rank, or score is altered.
+against this fixture, selects original rank 2 for the near-tie record, applies
+deterministic review to the all-weak record, generates the application CSV, and
+asserts invariants I1-I6 against the exported rows. It fails if a candidate,
+rank, score, identifier, component row, or unassigned decision is altered.
 
 ## What this does not replace
 
@@ -85,6 +88,6 @@ python tests/test_candidate_preservation.py   # requires playwright + chromium
 python scripts/run_checks.py                  # everything
 ```
 
-`test_candidate_preservation.py` skips with a clear message if Playwright or
-Chromium is unavailable, so `run_checks.py` remains runnable on a bare Python
-installation.
+`test_candidate_preservation.py` exits with status 77 if Playwright or Chromium
+is unavailable. `run_checks.py` reports this as `PASS WITH SKIPS`; use
+`python scripts/run_checks.py --require-browser` to require both browser tests.

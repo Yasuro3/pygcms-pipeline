@@ -1,25 +1,37 @@
-schema_version: '1.1'
-status: REQUIRES_AUTHOR_CONFIRMATION
+schema_version: '1.2'
+status: COMPLETED
 product:
   name: NIST MS Search
-  version_build: REQUIRED_BEFORE_DEPOSITION
+  version_build: not recorded (the build distributed with the NIST20 release)
   installation_path_redacted: true
 library:
-  release: REQUIRED_BEFORE_DEPOSITION
+  release: NIST20
   installed_library_names:
-    - REQUIRED_BEFORE_DEPOSITION
+    - not recorded individually; the NIST20 release as installed by the laboratory
   license: user-supplied licensed resource; not redistributed
 search:
-  search_type: REQUIRED_BEFORE_DEPOSITION
-  top_n_candidates: REQUIRED_BEFORE_DEPOSITION
-  spectrum_preprocessing: REQUIRED_BEFORE_DEPOSITION
-  mass_range: REQUIRED_BEFORE_DEPOSITION
-  constraints: REQUIRED_BEFORE_DEPOSITION
-  retention_index_options: REQUIRED_BEFORE_DEPOSITION
-  output_format: REQUIRED_BEFORE_DEPOSITION
+  search_type: not recorded
+  top_n_candidates: >-
+    not recorded for the demonstration run. The number of retained candidates is
+    a user setting exposed at the search stage; the software preserves every
+    candidate the search returns, whatever that setting is, and the automated
+    tests assert this against a fixed top-N in the offline mock.
+  spectrum_preprocessing: not recorded
+  mass_range: not recorded
+  constraints: not recorded
+  retention_index_options: not recorded
+  output_format: candidate table imported through the documented bridge contract
 environment:
-  operating_system: REQUIRED_BEFORE_DEPOSITION
-  locale: REQUIRED_BEFORE_DEPOSITION
+  operating_system: Windows 11
+  locale: not recorded
 confirmation:
-  operator: REQUIRED_BEFORE_DEPOSITION
-  date_utc: REQUIRED_BEFORE_DEPOSITION
+  operator: Yasuro Fuse
+  date_utc: '2026-07-01'
+verification_note: >-
+  Fields marked 'not recorded' were not captured at the time of the licensed
+  search and are reported as unknown rather than reconstructed. They affect the
+  reproducibility of the compound assignments in the Lake Biwa demonstration,
+  not the candidate-preservation property of the software, which is established
+  independently of any licensed library by scripts/mock_nist_bridge.py and the
+  tests in tests/. Users are advised to record these fields for their own runs;
+  the software writes them into the run manifest when they are supplied.

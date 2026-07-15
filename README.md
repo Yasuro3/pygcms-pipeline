@@ -1,5 +1,8 @@
 # PyGCMS Pipeline v1.3.0
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21368118.svg)](https://doi.org/10.5281/zenodo.21368118)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
+
 PyGCMS Pipeline is a fixed, English-language research-software release for efficient analysis of nominal-mass, full-scan pyrolysis GC-MS chromatograms. The browser application reads a documented mzML subset, performs configurable chromatographic deconvolution, sends reconstructed component spectra to a separately licensed local NIST MS Search installation, and preserves the returned top-N candidates with their original ranks, scores, selected status, rationale, analysis parameters, and run provenance.
 
 The release does not claim a new deconvolution theory. Its contribution is an integrated and auditable workflow in which users can optimize processing parameters for their chromatographic system, export and re-import the exact preset, retain alternative library candidates, and revisit decisions without repeating the library search.
@@ -30,8 +33,13 @@ candidates from a fictitious library.
 python scripts/mock_nist_bridge.py                     # demo mode
 python scripts/mock_nist_bridge.py --mode adversarial  # edge-case fixture
 
-# Terminal 2 - or just run every check
+# Terminal 2 - portable checks (reports browser skips explicitly)
 python scripts/run_checks.py
+
+# Strict verification: require Playwright Chromium
+python -m pip install -r requirements-browser.txt
+playwright install chromium
+python scripts/run_checks.py --require-browser
 ```
 
 Then open `software/index.html`, leave the bridge URL at `http://127.0.0.1:18789`, press
@@ -43,7 +51,7 @@ score survive in the exported record after rank 1 was selected is determinate in
 whether rank 1 is chemically correct. Match-factor accuracy and compound identification are outside
 its scope and are not claimed. Every mock hit is labelled `MOCKLIB-SYNTHETIC-1.0` and every response
 carries a synthetic banner, so exports made against the mock cannot be mistaken for analytical
-results. See `docs/MOCK_BRIDGE.md`.
+results. See `docs/MOCK_BRIDGE.md`. The browser test selects a non-top hit, exercises an all-weak unassigned case, and verifies the actual exported CSV fields.
 
 ## Adjustable processing
 
@@ -53,10 +61,11 @@ The interface exposes controls for minimum retention time, TIC peak height, peak
 
 - `software/index.html` - self-contained browser application
 - `docs/` - limitations, parameter-optimization guidance, reproducibility instructions, mock-bridge scope, and release notes
-- `data/` - synthetic example, Lake Biwa class-summary source data, classified-only derived tables, and the full-length validation mzML (7,680 MS1 spectra) with its reports
-- `scripts/` - mzML validation, statistics reproduction, figure generation, browser validation, parameter extraction, and the offline mock NIST bridge
-- `provenance/` - analysis, conversion, NIST, AI-use, and run-record templates
-- `tests/` - compact reproducibility checks and the candidate-preservation invariant tests
+- `data/` - synthetic example, the aggregate Lake Biwa class-summary table used for Figure 4, derived accounting tables, and the full-length validation mzML (7,680 MS1 spectra) with validation and timing notes
+- `scripts/` - mzML validation, statistics reproduction, figure generation, browser validation, parameter and literature-rule extraction, checksum verification, and the offline mock NIST bridge
+- `provenance/` - analysis, conversion, NIST, AI-use, and run-record templates plus machine-readable literature rules and sources
+- `tests/` - compact reproducibility checks, exported-candidate invariants I1-I6, and numerical deconvolution tests D1-D6
+- `CHECKSUMS.sha256` - archive-relative SHA-256 manifest verified by `scripts/run_checks.py`
 
 ## Reproduce the public statistics and Figure 4
 
@@ -64,10 +73,18 @@ The interface exposes controls for minimum retention time, TIC peak height, peak
 python -m pip install -r requirements.txt
 python scripts/reproduce_lake_biwa_statistics.py   --class-summary-csv data/application/17B_class_summary_percent.csv   --outdir reproduced
 python scripts/generate_figures.py   --outdir reproduced/figures   --class-summary data/application/17B_class_summary_percent.csv
-python scripts/run_checks.py
+python scripts/run_checks.py --require-browser
 ```
 
 Figure 4 uses only literature-classified records. Thermal-desorption runs are displayed as TD L1-L5, followed by pyrolysis runs as Py L1-L5. Unclassified records are retained in the accounting table but excluded from the compositional denominator because they can include unresolved signals, low-confidence spectra, analytical background, contaminants, and possible siloxane bleed.
+
+## Numerical deconvolution verification
+
+`tests/test_deconvolution_numeric.py` constructs a three-component chromatogram with known spectra and drives the released application over it. The archived assertions include exact apex recovery, isolated-spectrum cosine 1.000, separation of an overlapping pair, no background-only component, and the documented exclusion of an ion shared by both overlapping components at the default correlation threshold. This is a synthetic arithmetic check, not a claim of real-sample identification performance.
+
+## Literature rules and performance note
+
+The 120 embedded literature classification records and 23 source records are exported in machine-readable form under `provenance/` and checked against the application by `scripts/extract_literature_rules.py --check`. Full-length single-run timings are retained in `data/validation/PERFORMANCE_NOTE.md`; because the original run lacks hardware and browser-build metadata, they are diagnostic values rather than a portable benchmark.
 
 ## Input and licensing boundary
 
@@ -86,11 +103,15 @@ JP25K03248.
 ## Source code and archive
 
 - Source code: https://github.com/Yasuro3/pygcms-pipeline
-- Permanent archive (this version): Zenodo version DOI `TO_BE_ASSIGNED_BY_ZENODO`
+- Permanent archive (this version): [10.5281/zenodo.21368118](https://doi.org/10.5281/zenodo.21368118)
 
 The Zenodo record is the citable archive and includes the full-length validation mzML. Cite the
 version-specific DOI rather than the concept DOI, so that the exact artefact can be retrieved.
 
 ## Citation
 
-Cite the version-specific Zenodo DOI after deposition and the associated SoftwareX article. The DOI placeholder in `CITATION.cff` and the manuscript must be replaced after publication of the Zenodo record.
+Cite the version-specific Zenodo DOI for the software, and the associated SoftwareX article:
+
+> Fuse, Y., Okuda, H., & Chu, X. (2026). PyGCMS Pipeline (v1.3.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21368118
+
+Use the version-specific DOI rather than the concept DOI, so that the exact artefact can be retrieved.
