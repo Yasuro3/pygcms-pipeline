@@ -1,0 +1,17 @@
+{
+  "file": "data/validation/full_length/17B_L1_PY_full_length_validation.mzML",
+  "status": "PASS",
+  "spectra": 7680,
+  "ms1_spectra": 7680,
+  "profile_spectra": 0,
+  "centroid_spectra": 7680,
+  "errors": [],
+  "warnings": [],
+  "retention_time_units": {
+    "UO:0000031": 7680
+  },
+  "array_precisions": {
+    "32": 15360
+  },
+  "zlib_arrays": 0
+}

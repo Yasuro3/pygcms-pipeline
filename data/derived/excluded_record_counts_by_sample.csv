@@ -1,0 +1,11 @@
+Layer,Depth_cm,Fraction,Group,Components,Classified,Excluded_or_unclassified,Interpretive_use
+L1,0–1 cm,TD,L1 | 0–1 cm | TD,437,178,259,Retained for audit; excluded from class-composition normalization
+L2,1–2 cm,TD,L2 | 1–2 cm | TD,440,170,270,Retained for audit; excluded from class-composition normalization
+L3,2–4 cm,TD,L3 | 2–4 cm | TD,443,166,277,Retained for audit; excluded from class-composition normalization
+L4,4–10 cm,TD,L4 | 4–10 cm | TD,433,174,259,Retained for audit; excluded from class-composition normalization
+L5,10–20 cm,TD,L5 | 10–20 cm | TD,466,200,266,Retained for audit; excluded from class-composition normalization
+L1,0–1 cm,PY,L1 | 0–1 cm | PY,450,204,246,Retained for audit; excluded from class-composition normalization
+L2,1–2 cm,PY,L2 | 1–2 cm | PY,459,198,261,Retained for audit; excluded from class-composition normalization
+L3,2–4 cm,PY,L3 | 2–4 cm | PY,463,203,260,Retained for audit; excluded from class-composition normalization
+L4,4–10 cm,PY,L4 | 4–10 cm | PY,465,203,262,Retained for audit; excluded from class-composition normalization
+L5,10–20 cm,PY,L5 | 10–20 cm | PY,454,200,254,Retained for audit; excluded from class-composition normalization

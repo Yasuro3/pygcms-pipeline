@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "mzml_sha256": "1555e0c6d30720a61bb8e6127e8a8dad547894378d0489b1a350ca53f2914632",
+  "expected_spectra": 7680,
+  "decoded_spectra": 7680,
+  "mismatch_count": 0,
+  "mismatch_examples": [],
+  "maximum_absolute_rt_difference_min": 3.33386651618639e-11,
+  "maximum_absolute_tic_difference": 0,
+  "maximum_absolute_mz_difference_after_nominal_rounding": 0,
+  "maximum_absolute_intensity_difference": 0,
+  "interpretation": "The processed mzML round trip preserved every decoded scan array used by the public nominal-mass workflow."
+}

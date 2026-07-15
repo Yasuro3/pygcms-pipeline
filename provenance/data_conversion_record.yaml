@@ -1,0 +1,43 @@
+schema_version: '1.2'
+status: PARTIALLY_COMPLETED_REQUIRES_AUTHOR_CONFIRMATION
+scope: full-length processed mzML used for software validation
+source:
+  instrument_vendor: REQUIRED_BEFORE_DEPOSITION
+  instrument_model: REQUIRED_BEFORE_DEPOSITION
+  native_format: vendor-native; not distributed
+  source_file_sha256: 8573c52aaf52228b6b6ac141d41a89e50e3f8a995751370ffebeef271e92f0dd
+public_processed_file:
+  path: data/validation/full_length/17B_L1_PY_full_length_validation.mzML
+  sha256: 1555e0c6d30720a61bb8e6127e8a8dad547894378d0489b1a350ca53f2914632
+  size_bytes: 47809073
+  spectra: 7680
+  retention_time_min: [2.0000, 33.9958333333]
+  representation: centroided nominal-mass MS1 full scan; 32-bit uncompressed binary arrays
+conversion_route_for_final_deposition:
+  authorized_source_software: REQUIRED_BEFORE_DEPOSITION
+  version_build: REQUIRED_BEFORE_DEPOSITION
+  exported_or_intermediate_format: REQUIRED_BEFORE_DEPOSITION
+  mzml_converter: REQUIRED_BEFORE_DEPOSITION
+  converter_version_build: REQUIRED_BEFORE_DEPOSITION
+  command_or_gui_options: REQUIRED_BEFORE_DEPOSITION
+  compression: REQUIRED_BEFORE_DEPOSITION
+  binary_precision: REQUIRED_BEFORE_DEPOSITION
+  filters: no unreported smoothing, intensity thresholding, peak picking, or scan reduction
+  operator: REQUIRED_BEFORE_DEPOSITION
+  conversion_utc: REQUIRED_BEFORE_DEPOSITION
+private_sandbox_validation:
+  purpose: test the public mzML reader and downstream component processing
+  native_reader_distributed: false
+  private_conversion_code_distributed: false
+  binary_array_roundtrip: PASS
+  structural_validation: PASS
+  component_level_comparison: PASS
+  default_component_count: 450
+  default_accepted_ions: 6706
+  maximum_absolute_reconstructed_intensity_difference: 0.00390625
+  diagnostic_raw_ion_count_differences: 2
+  interpretation: diagnostic differences arose only from exclusion of nonphysical nominal m/z 0 bins and did not alter reconstructed components
+publication_confirmation:
+  processed_mzml_public_release_authorized: REQUIRED_BEFORE_DEPOSITION
+  source_data_ownership_confirmed: REQUIRED_BEFORE_DEPOSITION
+  final_converter_record_matches_deposited_file: REQUIRED_BEFORE_DEPOSITION

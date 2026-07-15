@@ -1,0 +1,152 @@
+{
+  "status": "PASS",
+  "current_app_vs_prepatch_validated_output": {
+    "status": "PASS",
+    "reference_count": 450,
+    "current_count": 450,
+    "mismatch_count": 0,
+    "max_rt_difference_min": 0,
+    "max_tic_difference": 0,
+    "max_intensity_difference": 0.00390625,
+    "examples": []
+  },
+  "private_reference_vs_public_mzml_scientific_equivalence": {
+    "status": "PASS",
+    "component_count": 450,
+    "scientific_mismatch_count": 0,
+    "diagnostic_nRaw_difference_count": 2,
+    "source_report": "browser_equivalence_full_raw.json"
+  },
+  "runs": {
+    "default": {
+      "load_seconds": 3.254479169845581,
+      "loaded": {
+        "n": 7680,
+        "nMZ": 564,
+        "rt0": 2,
+        "rt1": 33.9958333333,
+        "tic0": 2305104,
+        "tic1": 2358139
+      },
+      "run": {
+        "elapsed_seconds": 1.4622999999998136,
+        "nf": 0.7932377279579444,
+        "component_count": 450,
+        "total_deconvolved_ions": 6706,
+        "parameters": {
+          "schema": "PyGCMS-deconvolution-parameters-v1",
+          "softwareVersion": "1.2.0",
+          "minRT": 2,
+          "ticHeight": 5000,
+          "peakSeparation": 5,
+          "halfWindow": 6,
+          "shapeCorrelation": 0.85,
+          "ionCutoffPctBP": 1,
+          "minIonApexIntensity": 500,
+          "minTraceIntensity": 200,
+          "sharpnessMinimum": 5,
+          "modelIonFraction": 0.5,
+          "maxModelIons": 15,
+          "removeBleed": true,
+          "exportedUTC": "2026-07-14T16:03:37.342Z"
+        }
+      },
+      "page_errors": [],
+      "profile": {
+        "pRT": 2,
+        "pTH": 5000,
+        "pCT": 1,
+        "pHW": 6,
+        "pCorr": 0.85,
+        "pBleed": true
+      }
+    },
+    "permissive": {
+      "load_seconds": 2.4680144786834717,
+      "loaded": {
+        "n": 7680,
+        "nMZ": 564,
+        "rt0": 2,
+        "rt1": 33.9958333333,
+        "tic0": 2305104,
+        "tic1": 2358139
+      },
+      "run": {
+        "elapsed_seconds": 1.0875,
+        "nf": 0.7932377279579444,
+        "component_count": 543,
+        "total_deconvolved_ions": 19923,
+        "parameters": {
+          "schema": "PyGCMS-deconvolution-parameters-v1",
+          "softwareVersion": "1.2.0",
+          "minRT": 2,
+          "ticHeight": 5000,
+          "peakSeparation": 5,
+          "halfWindow": 4,
+          "shapeCorrelation": 0.7,
+          "ionCutoffPctBP": 0.5,
+          "minIonApexIntensity": 500,
+          "minTraceIntensity": 200,
+          "sharpnessMinimum": 5,
+          "modelIonFraction": 0.5,
+          "maxModelIons": 15,
+          "removeBleed": false,
+          "exportedUTC": "2026-07-14T16:03:41.694Z"
+        }
+      },
+      "page_errors": [],
+      "profile": {
+        "pRT": 2,
+        "pTH": 5000,
+        "pCT": 0.5,
+        "pHW": 4,
+        "pCorr": 0.7,
+        "pBleed": false
+      }
+    },
+    "selective": {
+      "load_seconds": 2.5373616218566895,
+      "loaded": {
+        "n": 7680,
+        "nMZ": 564,
+        "rt0": 2,
+        "rt1": 33.9958333333,
+        "tic0": 2305104,
+        "tic1": 2358139
+      },
+      "run": {
+        "elapsed_seconds": 1.0945999999996274,
+        "nf": 0.7932377279579444,
+        "component_count": 278,
+        "total_deconvolved_ions": 3144,
+        "parameters": {
+          "schema": "PyGCMS-deconvolution-parameters-v1",
+          "softwareVersion": "1.2.0",
+          "minRT": 2,
+          "ticHeight": 5000,
+          "peakSeparation": 5,
+          "halfWindow": 6,
+          "shapeCorrelation": 0.95,
+          "ionCutoffPctBP": 2,
+          "minIonApexIntensity": 500,
+          "minTraceIntensity": 200,
+          "sharpnessMinimum": 5,
+          "modelIonFraction": 0.5,
+          "maxModelIons": 15,
+          "removeBleed": true,
+          "exportedUTC": "2026-07-14T16:03:46.158Z"
+        }
+      },
+      "page_errors": [],
+      "profile": {
+        "pRT": 2,
+        "pTH": 5000,
+        "pCT": 2,
+        "pHW": 6,
+        "pCorr": 0.95,
+        "pBleed": true
+      }
+    }
+  },
+  "note": "Default component outputs from the strengthened public reader are numerically equivalent to the previously validated mzML output within an absolute intensity tolerance of 0.01. The previous private-reference/mzML comparison found no scientific component differences; two diagnostic nRaw counts differed only because m/z 0 bins were excluded."
+}

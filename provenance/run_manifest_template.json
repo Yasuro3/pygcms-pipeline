@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "run_id": "",
+  "software_version": "1.2.0",
+  "software_archive_sha256": "",
+  "input_mzml": {
+    "filename": "",
+    "sha256": ""
+  },
+  "conversion_record": "provenance/data_conversion_record.yaml",
+  "nist_configuration": "provenance/nist_configuration.yaml",
+  "analysis_parameters": "provenance/analysis_parameters.yaml",
+  "ai_records": [],
+  "output_files": [],
+  "created_utc": ""
+}

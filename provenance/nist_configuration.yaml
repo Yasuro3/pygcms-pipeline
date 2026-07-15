@@ -1,0 +1,25 @@
+schema_version: '1.1'
+status: REQUIRES_AUTHOR_CONFIRMATION
+product:
+  name: NIST MS Search
+  version_build: REQUIRED_BEFORE_DEPOSITION
+  installation_path_redacted: true
+library:
+  release: REQUIRED_BEFORE_DEPOSITION
+  installed_library_names:
+    - REQUIRED_BEFORE_DEPOSITION
+  license: user-supplied licensed resource; not redistributed
+search:
+  search_type: REQUIRED_BEFORE_DEPOSITION
+  top_n_candidates: REQUIRED_BEFORE_DEPOSITION
+  spectrum_preprocessing: REQUIRED_BEFORE_DEPOSITION
+  mass_range: REQUIRED_BEFORE_DEPOSITION
+  constraints: REQUIRED_BEFORE_DEPOSITION
+  retention_index_options: REQUIRED_BEFORE_DEPOSITION
+  output_format: REQUIRED_BEFORE_DEPOSITION
+environment:
+  operating_system: REQUIRED_BEFORE_DEPOSITION
+  locale: REQUIRED_BEFORE_DEPOSITION
+confirmation:
+  operator: REQUIRED_BEFORE_DEPOSITION
+  date_utc: REQUIRED_BEFORE_DEPOSITION

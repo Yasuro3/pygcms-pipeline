@@ -1,0 +1,4 @@
+No,RT_min,Scan,TIC,RawIons,PureIons,TotalIntensity,Compound,Formula,MW,CosineScore,Category,PaperClass9,LiteratureMarkerClass,LiteratureConfidence,LiteratureSourceIDs,Source,Reason
+1,3.25,512,100000,52,12,250000,Furfural,C5H4O2,96,820,C,Furans,carbohydrate_polysaccharide,A,PY001;PY003,NIST,licensed NIST result import + literature DB annotation
+2,5.73,901,120000,60,14,310000,Phenol,C6H6O,94,790,O,O-aromatics,lignin_tannin_phenolic,B,PY003;HR001,NIST,generic phenolic marker; multi-origin warning retained
+3,8.25,1300,90000,47,10,160000,Indole,C8H7N,117,760,P,N-containing aromatics,protein_microbial_N,A,PY004;PY006,NIST,N-containing aromatic marker

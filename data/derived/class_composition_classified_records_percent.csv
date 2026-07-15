@@ -1,0 +1,51 @@
+Layer,Depth_cm,Fraction,Group,Classified_records,Category,Source_percent_within_classified,Normalized_percent_within_classified,Source_precision_note
+L1,0–1 cm,TD,L1 | 0–1 cm | TD,178,Aliphatics,24.2,24.2,Source percentage rounded to one decimal; row renormalized to 100%
+L1,0–1 cm,TD,L1 | 0–1 cm | TD,178,Furans / carbohydrate products,10.1,10.1,Source percentage rounded to one decimal; row renormalized to 100%
+L1,0–1 cm,TD,L1 | 0–1 cm | TD,178,Oxygenated aromatics,3.9,3.9,Source percentage rounded to one decimal; row renormalized to 100%
+L1,0–1 cm,TD,L1 | 0–1 cm | TD,178,N-containing compounds,36.5,36.5,Source percentage rounded to one decimal; row renormalized to 100%
+L1,0–1 cm,TD,L1 | 0–1 cm | TD,178,Aromatic carbonyls / oxygenates,25.3,25.3,Source percentage rounded to one decimal; row renormalized to 100%
+L2,1–2 cm,TD,L2 | 1–2 cm | TD,170,Aliphatics,25.3,25.3,Source percentage rounded to one decimal; row renormalized to 100%
+L2,1–2 cm,TD,L2 | 1–2 cm | TD,170,Furans / carbohydrate products,9.4,9.4,Source percentage rounded to one decimal; row renormalized to 100%
+L2,1–2 cm,TD,L2 | 1–2 cm | TD,170,Oxygenated aromatics,4.7,4.7,Source percentage rounded to one decimal; row renormalized to 100%
+L2,1–2 cm,TD,L2 | 1–2 cm | TD,170,N-containing compounds,37.1,37.1,Source percentage rounded to one decimal; row renormalized to 100%
+L2,1–2 cm,TD,L2 | 1–2 cm | TD,170,Aromatic carbonyls / oxygenates,23.5,23.5,Source percentage rounded to one decimal; row renormalized to 100%
+L3,2–4 cm,TD,L3 | 2–4 cm | TD,166,Aliphatics,24.1,24.124124124124123,Source percentage rounded to one decimal; row renormalized to 100%
+L3,2–4 cm,TD,L3 | 2–4 cm | TD,166,Furans / carbohydrate products,7.8,7.807807807807808,Source percentage rounded to one decimal; row renormalized to 100%
+L3,2–4 cm,TD,L3 | 2–4 cm | TD,166,Oxygenated aromatics,2.4,2.4024024024024024,Source percentage rounded to one decimal; row renormalized to 100%
+L3,2–4 cm,TD,L3 | 2–4 cm | TD,166,N-containing compounds,32.5,32.53253253253253,Source percentage rounded to one decimal; row renormalized to 100%
+L3,2–4 cm,TD,L3 | 2–4 cm | TD,166,Aromatic carbonyls / oxygenates,33.1,33.13313313313313,Source percentage rounded to one decimal; row renormalized to 100%
+L4,4–10 cm,TD,L4 | 4–10 cm | TD,174,Aliphatics,20.7,20.7,Source percentage rounded to one decimal; row renormalized to 100%
+L4,4–10 cm,TD,L4 | 4–10 cm | TD,174,Furans / carbohydrate products,7.5,7.5,Source percentage rounded to one decimal; row renormalized to 100%
+L4,4–10 cm,TD,L4 | 4–10 cm | TD,174,Oxygenated aromatics,5.7,5.7,Source percentage rounded to one decimal; row renormalized to 100%
+L4,4–10 cm,TD,L4 | 4–10 cm | TD,174,N-containing compounds,37.4,37.4,Source percentage rounded to one decimal; row renormalized to 100%
+L4,4–10 cm,TD,L4 | 4–10 cm | TD,174,Aromatic carbonyls / oxygenates,28.7,28.7,Source percentage rounded to one decimal; row renormalized to 100%
+L5,10–20 cm,TD,L5 | 10–20 cm | TD,200,Aliphatics,21.5,21.5,Source percentage rounded to one decimal; row renormalized to 100%
+L5,10–20 cm,TD,L5 | 10–20 cm | TD,200,Furans / carbohydrate products,7.5,7.5,Source percentage rounded to one decimal; row renormalized to 100%
+L5,10–20 cm,TD,L5 | 10–20 cm | TD,200,Oxygenated aromatics,6.0,6.0,Source percentage rounded to one decimal; row renormalized to 100%
+L5,10–20 cm,TD,L5 | 10–20 cm | TD,200,N-containing compounds,34.5,34.5,Source percentage rounded to one decimal; row renormalized to 100%
+L5,10–20 cm,TD,L5 | 10–20 cm | TD,200,Aromatic carbonyls / oxygenates,30.5,30.5,Source percentage rounded to one decimal; row renormalized to 100%
+L1,0–1 cm,PY,L1 | 0–1 cm | PY,204,Aliphatics,17.2,17.2,Source percentage rounded to one decimal; row renormalized to 100%
+L1,0–1 cm,PY,L1 | 0–1 cm | PY,204,Furans / carbohydrate products,4.4,4.4,Source percentage rounded to one decimal; row renormalized to 100%
+L1,0–1 cm,PY,L1 | 0–1 cm | PY,204,Oxygenated aromatics,3.4,3.4,Source percentage rounded to one decimal; row renormalized to 100%
+L1,0–1 cm,PY,L1 | 0–1 cm | PY,204,N-containing compounds,35.8,35.8,Source percentage rounded to one decimal; row renormalized to 100%
+L1,0–1 cm,PY,L1 | 0–1 cm | PY,204,Aromatic carbonyls / oxygenates,39.2,39.2,Source percentage rounded to one decimal; row renormalized to 100%
+L2,1–2 cm,PY,L2 | 1–2 cm | PY,198,Aliphatics,21.7,21.7,Source percentage rounded to one decimal; row renormalized to 100%
+L2,1–2 cm,PY,L2 | 1–2 cm | PY,198,Furans / carbohydrate products,6.1,6.1,Source percentage rounded to one decimal; row renormalized to 100%
+L2,1–2 cm,PY,L2 | 1–2 cm | PY,198,Oxygenated aromatics,4.0,4.0,Source percentage rounded to one decimal; row renormalized to 100%
+L2,1–2 cm,PY,L2 | 1–2 cm | PY,198,N-containing compounds,29.8,29.8,Source percentage rounded to one decimal; row renormalized to 100%
+L2,1–2 cm,PY,L2 | 1–2 cm | PY,198,Aromatic carbonyls / oxygenates,38.4,38.4,Source percentage rounded to one decimal; row renormalized to 100%
+L3,2–4 cm,PY,L3 | 2–4 cm | PY,203,Aliphatics,19.2,19.2,Source percentage rounded to one decimal; row renormalized to 100%
+L3,2–4 cm,PY,L3 | 2–4 cm | PY,203,Furans / carbohydrate products,4.9,4.9,Source percentage rounded to one decimal; row renormalized to 100%
+L3,2–4 cm,PY,L3 | 2–4 cm | PY,203,Oxygenated aromatics,3.0,3.0,Source percentage rounded to one decimal; row renormalized to 100%
+L3,2–4 cm,PY,L3 | 2–4 cm | PY,203,N-containing compounds,34.5,34.5,Source percentage rounded to one decimal; row renormalized to 100%
+L3,2–4 cm,PY,L3 | 2–4 cm | PY,203,Aromatic carbonyls / oxygenates,38.4,38.4,Source percentage rounded to one decimal; row renormalized to 100%
+L4,4–10 cm,PY,L4 | 4–10 cm | PY,203,Aliphatics,18.2,18.181818181818183,Source percentage rounded to one decimal; row renormalized to 100%
+L4,4–10 cm,PY,L4 | 4–10 cm | PY,203,Furans / carbohydrate products,3.0,2.997002997002997,Source percentage rounded to one decimal; row renormalized to 100%
+L4,4–10 cm,PY,L4 | 4–10 cm | PY,203,Oxygenated aromatics,3.0,2.997002997002997,Source percentage rounded to one decimal; row renormalized to 100%
+L4,4–10 cm,PY,L4 | 4–10 cm | PY,203,N-containing compounds,29.6,29.57042957042957,Source percentage rounded to one decimal; row renormalized to 100%
+L4,4–10 cm,PY,L4 | 4–10 cm | PY,203,Aromatic carbonyls / oxygenates,46.3,46.25374625374626,Source percentage rounded to one decimal; row renormalized to 100%
+L5,10–20 cm,PY,L5 | 10–20 cm | PY,200,Aliphatics,16.0,16.0,Source percentage rounded to one decimal; row renormalized to 100%
+L5,10–20 cm,PY,L5 | 10–20 cm | PY,200,Furans / carbohydrate products,3.5,3.5,Source percentage rounded to one decimal; row renormalized to 100%
+L5,10–20 cm,PY,L5 | 10–20 cm | PY,200,Oxygenated aromatics,4.0,4.0,Source percentage rounded to one decimal; row renormalized to 100%
+L5,10–20 cm,PY,L5 | 10–20 cm | PY,200,N-containing compounds,34.5,34.5,Source percentage rounded to one decimal; row renormalized to 100%
+L5,10–20 cm,PY,L5 | 10–20 cm | PY,200,Aromatic carbonyls / oxygenates,42.0,42.0,Source percentage rounded to one decimal; row renormalized to 100%

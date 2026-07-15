@@ -1,0 +1,27 @@
+cff-version: 1.3.0
+message: If you use this software, cite the version-specific Zenodo record and the associated SoftwareX article.
+title: PyGCMS Pipeline
+type: software
+version: 1.3.0
+date-released: '2026-07-15'
+license: MIT
+authors:
+  - family-names: Fuse
+    given-names: Yasuro
+    affiliation: Faculty of Molecular Chemistry and Engineering, Kyoto Institute of Technology
+    email: fuse@environ.kit.ac.jp
+  - family-names: Okuda
+    given-names: Hiroko
+    affiliation: Shimadzu Techno-Research, Inc.; Graduate School of Science and Technology, Kyoto Institute of Technology
+  - family-names: Xue
+    given-names: Chu
+    affiliation: Faculty of Molecular Chemistry and Engineering, Kyoto Institute of Technology
+keywords:
+  - pyrolysis GC-MS
+  - chromatographic deconvolution
+  - candidate preservation
+  - mzML
+  - NIST MS Search
+  - provenance
+  - reproducibility
+  - test double

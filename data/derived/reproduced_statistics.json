@@ -1,0 +1,15 @@
+{
+  "class_summary": {
+    "source": "data/application/17B_class_summary_percent.csv",
+    "runs": 10,
+    "selected_component_records": 4510,
+    "classified_records": 1896,
+    "excluded_or_unclassified_records": 2614,
+    "classified_fraction_for_accounting": 42.03991130820399,
+    "class_percentage_precision": "one decimal within the classified subset"
+  },
+  "candidate_metrics": {
+    "available": false,
+    "reason": "Candidate-level source file was not supplied."
+  }
+}
