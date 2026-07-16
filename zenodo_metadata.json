@@ -32,7 +32,7 @@
       "software testing"
     ],
     "notes": "Fixed archived research release associated with a SoftwareX manuscript. Active feature development is not planned. Funding: JSPS KAKENHI Grant Number JP25K03248. Sediment sample collection was supported by the Lake Biwa Environmental Research Institute.",
-    "doi": "10.5281/zenodo.21368118",
+    "doi": "10.5281/zenodo.21369547",
     "related_identifiers": [
       {
         "identifier": "https://github.com/Yasuro3/pygcms-pipeline",

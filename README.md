@@ -1,6 +1,6 @@
 # PyGCMS Pipeline v1.3.0
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21368118.svg)](https://doi.org/10.5281/zenodo.21368118)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21369547.svg)](https://doi.org/10.5281/zenodo.21369547)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
 
 PyGCMS Pipeline is a fixed, English-language research-software release for efficient analysis of nominal-mass, full-scan pyrolysis GC-MS chromatograms. The browser application reads a documented mzML subset, performs configurable chromatographic deconvolution, sends reconstructed component spectra to a separately licensed local NIST MS Search installation, and preserves the returned top-N candidates with their original ranks, scores, selected status, rationale, analysis parameters, and run provenance.
@@ -126,7 +126,7 @@ JP25K03248.
 ## Source code and archive
 
 - Source code: https://github.com/Yasuro3/pygcms-pipeline
-- Permanent archive (this version): [10.5281/zenodo.21368118](https://doi.org/10.5281/zenodo.21368118)
+- Permanent archive (this version): [10.5281/zenodo.21369547](https://doi.org/10.5281/zenodo.21369547)
 
 The Zenodo record is the citable archive and includes the full-length validation mzML. Cite the
 version-specific DOI rather than the concept DOI, so that the exact artefact can be retrieved.
@@ -135,6 +135,6 @@ version-specific DOI rather than the concept DOI, so that the exact artefact can
 
 Cite the version-specific Zenodo DOI for the software, and the associated SoftwareX article:
 
-> Fuse, Y., Okuda, H., & Chu, X. (2026). PyGCMS Pipeline (v1.3.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21368118
+> Fuse, Y., Okuda, H., & Chu, X. (2026). PyGCMS Pipeline (v1.3.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21369547
 
 Use the version-specific DOI rather than the concept DOI, so that the exact artefact can be retrieved.
