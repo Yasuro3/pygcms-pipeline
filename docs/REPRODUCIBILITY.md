@@ -53,3 +53,18 @@ python scripts/validate_browser_pipeline.py \
 By default this uses Playwright's bundled Chromium. `--chromium PATH` may be
 supplied when a particular executable must be tested. New reports record the
 browser and host environment together with single-run timings.
+
+## Licensed NIST bridge verification
+
+The production bridge is distributed in `scripts/nist_mssearch_bridge_server.py`
+and `scripts/nist_mssearch_bridge.py`; Windows startup and diagnostic commands
+are at the archive root. `tests/test_nist_bridge_contract.py` starts the released
+HTTP bridge with a stub search backend and verifies application serving, response
+fields and propagation of the configured top-N candidate count. This confirms
+the public interface without redistributing or launching licensed software.
+
+A real NIST automation search can only be verified on a Windows machine with a
+licensed installation and licensed libraries. On such a machine, follow
+`docs/NIST_BRIDGE_SETUP.md` and run `05_NIST_BACKGROUND_SELFTEST.cmd`. Preserve
+the local NIST build, library configuration, search settings and test log with
+the run provenance.

@@ -16,10 +16,33 @@ The release does not claim a new deconvolution theory. Its contribution is an in
    python scripts/validate_mzml_structure.py your_file.mzML --output validation.json
    ```
 
-3. Open `software/index.html` in a Chromium-based desktop browser.
-4. Load the mzML, inspect the TIC and representative spectra, and optimize the adjustable deconvolution controls.
+3. Open `software/index.html` in a Chromium-based desktop browser, or use
+   `00_START_EN.cmd` on Windows to start the production localhost bridge and
+   open the application.
+4. Load the mzML, inspect the TIC and representative spectra, and optimize the
+   adjustable deconvolution controls.
 5. Export the accepted parameter preset and retain it with the run record.
-6. Use a locally licensed NIST MS Search installation, preserve the returned candidates, and export the component, candidate, and provenance records.
+6. Use a locally licensed NIST MS Search installation through the production
+   bridge, or use the clearly labelled mock bridge for licence-free software
+   verification. Preserve the returned candidates and export the component,
+   candidate, and provenance records.
+
+## Licensed NIST MS Search bridge on Windows
+
+The archive includes the production localhost bridge that was present in the
+original optimized distribution and has been adapted to the released
+`software/index.html` interface:
+
+- `scripts/nist_mssearch_bridge_server.py` - HTTP bridge used by the browser
+- `scripts/nist_mssearch_bridge.py` - NIST file-automation and result parser
+- `scripts/nist_dll_backend.py` - optional DLL backend
+- `00_START_EN.cmd` and diagnostic launchers - Windows startup and checks
+
+Copy `nistms_path.example.txt` to `nistms_path.txt`, enter the full path to the
+user's licensed `NISTMS$.EXE`, configure NIST Automation and the number of hits
+to print, and then run `00_START_EN.cmd`. No NIST executable, library, licence,
+or reference spectrum is included. Detailed instructions are in
+`docs/NIST_BRIDGE_SETUP.md`.
 
 ## Verify without a NIST licence
 
@@ -62,9 +85,9 @@ The interface exposes controls for minimum retention time, TIC peak height, peak
 - `software/index.html` - self-contained browser application
 - `docs/` - limitations, parameter-optimization guidance, reproducibility instructions, mock-bridge scope, and release notes
 - `data/` - synthetic example, the aggregate Lake Biwa class-summary table used for Figure 4, derived accounting tables, and the full-length validation mzML (7,680 MS1 spectra) with validation and timing notes
-- `scripts/` - mzML validation, statistics reproduction, figure generation, browser validation, parameter and literature-rule extraction, checksum verification, and the offline mock NIST bridge
+- `scripts/` - the licensed-NIST production bridge and result parser, the offline mock bridge, mzML validation, statistics reproduction, figure generation, browser validation, parameter and literature-rule extraction, and checksum verification
 - `provenance/` - analysis, conversion, NIST, AI-use, and run-record templates plus machine-readable literature rules and sources
-- `tests/` - compact reproducibility checks, exported-candidate invariants I1-I6, and numerical deconvolution tests D1-D6
+- `tests/` - compact reproducibility checks, the production-bridge HTTP contract test, exported-candidate invariants I1-I6, and numerical deconvolution tests D1-D6
 - `CHECKSUMS.sha256` - archive-relative SHA-256 manifest verified by `scripts/run_checks.py`
 
 ## Reproduce the public statistics and Figure 4
@@ -88,7 +111,7 @@ The 120 embedded literature classification records and 23 source records are exp
 
 ## Input and licensing boundary
 
-The public release is mzML-only. It contains no vendor-native reader, vendor SDK, proprietary raw-data specification, private conversion code, NIST software, NIST library, protected spectrum collection, or API credential. Users are responsible for lawful access to conversion and search software and for verifying the conversion route used for their data.
+The public release is mzML-only. It contains the localhost bridge code needed to communicate with a user-supplied licensed NIST installation, but it contains no vendor-native reader, vendor SDK, proprietary raw-data specification, private conversion code, NIST executable, NIST library, protected spectrum collection, licence key, or API credential. Users are responsible for lawful access to conversion and search software and for verifying the conversion route used for their data.
 
 ## Maintenance
 

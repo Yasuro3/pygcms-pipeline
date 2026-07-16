@@ -65,10 +65,12 @@ rank, score, identifier, component row, or unassigned decision is altered.
 ## What this does not replace
 
 The mock does not substitute for validation against real NIST MS Search. Users
-with a licence should run the real bridge; the archived run manifest records the
-NIST build, library release, and search options for exactly that reason. The
-mock's role is to make the *software's* contribution independently checkable by
-someone who has no licence at all.
+with a licence should run the production bridge in
+`scripts/nist_mssearch_bridge_server.py`; setup and diagnostic instructions are
+in `docs/NIST_BRIDGE_SETUP.md`. The archived run manifest records the NIST build,
+library release, and search options for exactly that reason. The mock's role is
+to make the *software's* contribution independently checkable by someone who
+has no licence at all.
 
 ## Usage
 

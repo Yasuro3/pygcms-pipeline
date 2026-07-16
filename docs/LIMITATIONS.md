@@ -13,6 +13,7 @@
 - Literature-guided classes are matrix- and context-dependent and should remain traceable to reviewed sources.
 - Optional external-model output is advisory, version-dependent, and subject to data-governance requirements.
 - NIST software, libraries, vendor converters, vendor-native files, licensed spectra, and credentials are not distributed.
+- The production NIST bridge is Windows-specific and depends on the file-automation behaviour of the user's NIST MS Search build. The included contract test does not replace a licensed-installation self-test.
 - The release is an archived research output; active maintenance is not guaranteed.
 
 ## Shared fragments between co-eluting components

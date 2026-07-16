@@ -16,3 +16,8 @@ Thumbs.db
 *.swp
 .idea/
 .vscode/
+
+# Local licensed-NIST bridge configuration and outputs
+nistms_path.txt
+bridge_work/
+bridge_startup_log.txt
