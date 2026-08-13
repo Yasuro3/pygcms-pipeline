@@ -25,6 +25,7 @@ strict flag so a missing browser is reported as a failure rather than a skip:
 ```bash
 python -m pip install -r requirements-browser.txt
 playwright install chromium
+# or set PYGCMS_CHROMIUM to a system Chromium executable
 python scripts/run_checks.py --require-browser
 ```
 
@@ -68,3 +69,15 @@ licensed installation and licensed libraries. On such a machine, follow
 `docs/NIST_BRIDGE_SETUP.md` and run `05_NIST_BACKGROUND_SELFTEST.cmd`. Preserve
 the local NIST build, library configuration, search settings and test log with
 the run provenance.
+
+## Reviewer-driven profile comparison
+
+`data/validation/profile_sensitivity/` contains the full-length accepted-ion distribution and matched-apex spectral comparison for default, permissive, and selective presets. To compare real licensed-NIST results across those profiles, run each profile with an identical NIST build, library, and search configuration, export the three result CSV files, and use `scripts/compare_profile_nist_exports.py`. The public archive does not claim chemical-identification agreement without those licensed outputs.
+
+## Classification reproducibility
+
+Record both the software version and `ClassificationModelVersion`. In v1.3.1 the latter is `2.0.0`. The results CSV and candidate-audit CSV retain the final rule ID, confidence, interpretation, warning, source IDs and lock state for every selected or retained candidate. Reclassification can therefore be audited without altering original NIST ranks or scores.
+
+## Classification model
+
+Reproducibility requires recording both `SoftwareVersion` and `ClassificationModelVersion`. Version 1.3.1 uses classification model 2.0.0. Run `tests/test_classification_model_v2.py` or the full strict suite to verify exact-name/CAS invariants, final audit fields, and long-format candidate preservation.

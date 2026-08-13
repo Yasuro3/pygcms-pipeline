@@ -1,51 +1,138 @@
 schema_version: '1.2'
 software:
   name: PyGCMS Pipeline
-  version: 1.3.0
+  version: 1.3.1
   release_type: archived research release
 input:
   format: mzML
   scope: nominal-mass, MS1, full scan
   profile_handling: mapped to nominal-mass bins
   unsupported_features:
-    - MS-Numpress
-    - unresolved or unsupported mzML parameter references
-    - MSn acquisition
-    - accurate-mass preservation
-    - ion mobility
-    - GCxGC-specific structures
+  - MS-Numpress
+  - unresolved or unsupported mzML parameter references
+  - MSn acquisition
+  - accurate-mass preservation
+  - ion mobility
+  - GCxGC-specific structures
 deconvolution:
   method_family: configurable conventional chromatographic deconvolution
   novelty_claimed: false
-  optimization_rule: optimize on representative chromatograms, export the accepted preset, and use one fixed preset for samples that will be compared
+  optimization_rule: optimize on representative chromatograms, export the accepted
+    preset, and use one fixed preset for samples that will be compared
   preset_schema: PyGCMS-deconvolution-parameters-v1
   controls:
-    minimum_retention_time_min: {id: pRT, default: 2.0, min: 0.0, max: 25.0, step: 0.5}
-    tic_height: {id: pTH, default: 5000, min: 1000, max: 50000, step: 1000}
-    peak_separation_scans: {id: pDist, default: 5, min: 1, max: 30, step: 1}
-    half_window_scans: {id: pHW, default: 6, min: 4, max: 30, step: 2}
-    minimum_shape_correlation: {id: pCorr, default: 0.85, min: 0.50, max: 0.98, step: 0.01}
-    ion_cutoff_percent_base_peak: {id: pCT, default: 1.0, min: 0.5, max: 10.0, step: 0.5}
-    minimum_ion_apex_intensity: {id: pIonApex, default: 500, min: 50, max: 10000, step: 50}
-    minimum_trace_intensity: {id: pTrace, default: 200, min: 10, max: 5000, step: 10}
-    minimum_sharpness: {id: pSharp, default: 5.0, min: 1.0, max: 20.0, step: 0.5}
-    model_ion_fraction: {id: pModelFrac, default: 0.50, min: 0.10, max: 1.00, step: 0.05}
-    maximum_model_ions: {id: pModelMax, default: 15, min: 3, max: 30, step: 1}
-    exclude_common_column_bleed: {id: pBleed, default: true}
+    minimum_retention_time_min:
+      id: pRT
+      default: 2.0
+      min: 0.0
+      max: 25.0
+      step: 0.5
+    tic_height:
+      id: pTH
+      default: 5000
+      min: 1000
+      max: 50000
+      step: 1000
+    peak_separation_scans:
+      id: pDist
+      default: 5
+      min: 1
+      max: 30
+      step: 1
+    half_window_scans:
+      id: pHW
+      default: 6
+      min: 4
+      max: 30
+      step: 2
+    minimum_shape_correlation:
+      id: pCorr
+      default: 0.85
+      min: 0.5
+      max: 0.98
+      step: 0.01
+    ion_cutoff_percent_base_peak:
+      id: pCT
+      default: 1.0
+      min: 0.5
+      max: 10.0
+      step: 0.5
+    minimum_ion_apex_intensity:
+      id: pIonApex
+      default: 500
+      min: 50
+      max: 10000
+      step: 50
+    minimum_trace_intensity:
+      id: pTrace
+      default: 200
+      min: 10
+      max: 5000
+      step: 10
+    minimum_sharpness:
+      id: pSharp
+      default: 5.0
+      min: 1.0
+      max: 20.0
+      step: 0.5
+    model_ion_fraction:
+      id: pModelFrac
+      default: 0.5
+      min: 0.1
+      max: 1.0
+      step: 0.05
+    maximum_model_ions:
+      id: pModelMax
+      default: 15
+      min: 3
+      max: 30
+      step: 1
+    exclude_common_column_bleed:
+      id: pBleed
+      default: true
   non_analytical_display_control:
-    display_minimum_score: {id: pSC, default: 0, min: 0, max: 900, step: 10, analytical_effect: none}
-  confirmed_run_values: >-
-    The archived defaults listed above are the values extracted directly from the
-    released interface by scripts/extract_ui_parameters.py and are the preset used
-    for the 450-component reference run reported in the article. The permissive
-    and selective profiles quoted in the article differ only in the fields named
-    there.
+    display_minimum_score:
+      id: pSC
+      default: 0
+      min: 0
+      max: 900
+      step: 10
+      analytical_effect: none
+  confirmed_run_values: The archived defaults listed above are the values extracted
+    directly from the released interface by scripts/extract_ui_parameters.py and are
+    the preset used for the 450-component reference run reported in the article. The
+    permissive and selective profiles quoted in the article differ only in the fields
+    named there.
 library_search:
   engine: local licensed NIST MS Search
   configuration_file: nist_configuration.yaml
   candidate_policy: retain top-N candidates and original scores
+  minimum_reconstructed_ions_for_automatic_submission: 3
+  low_ion_component_policy: retain component and export explicit eligibility reason;
+    do not submit automatically unless overridden
+  unique_species_key: CAS when available, otherwise normalized candidate name
+  near_tie_mf_gap_default: 30
+  raw_ranked_hits_preserved: true
 selection:
   deterministic_qc: true
   optional_model_review: true
   raw_candidates_deleted: false
   human_review_required: true
+retention_index:
+  status: optional orthogonal evidence
+  reference_table: user-supplied phase/program-specific values preferred; built-in
+    approximate values are starting points only
+  manual_anchor_formats:
+  - compound,RT_min
+  - RT_min,RI
+  minimum_anchor_count: 3
+  default_minimum_anchor_mf: 700
+  record_template: provenance/ri_calibration_record_template.yaml
+classification_layers:
+  five_nom_marker_groups: application-specific literature-guided L/P/C/F/O groups
+    used for the Lake Biwa example; not universal
+  nine_structural_product_classes: separate neutral descriptive view; not used for
+    Figure 4
+  core_deconvolution_dependency: false
+
+classification_model_version: "2.0.0"

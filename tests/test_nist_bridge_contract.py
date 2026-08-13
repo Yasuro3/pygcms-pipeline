@@ -92,13 +92,13 @@ def main() -> int:
             health = request_json(base + "/health")
             assert health["ok"] is True
             assert health["service"] == "PyGCMS Pipeline"
-            assert health["version"] == "1.3.0"
+            assert health["version"] == "1.3.1"
             assert health["nistms_exists"] is True
 
             with urllib.request.urlopen(base + "/app", timeout=15) as response:
                 html = response.read().decode("utf-8")
             assert "PyGCMS Pipeline" in html
-            assert "softwareVersion:'1.3.0'" in html
+            assert "softwareVersion:'1.3.1'" in html
 
             data = request_json(base + "/search", {
                 "msp": MSP,

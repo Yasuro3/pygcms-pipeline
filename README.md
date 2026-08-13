@@ -1,140 +1,121 @@
-# PyGCMS Pipeline v1.3.0
+# PyGCMS Pipeline v1.3.1
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21369547.svg)](https://doi.org/10.5281/zenodo.21369547)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21912995.svg)](https://doi.org/10.5281/zenodo.21912995)
 
-PyGCMS Pipeline is a fixed, English-language research-software release for efficient analysis of nominal-mass, full-scan pyrolysis GC-MS chromatograms. The browser application reads a documented mzML subset, performs configurable chromatographic deconvolution, sends reconstructed component spectra to a separately licensed local NIST MS Search installation, and preserves the returned top-N candidates with their original ranks, scores, selected status, rationale, analysis parameters, and run provenance.
+PyGCMS Pipeline is a fixed, English-language research-software release for nominal-mass, MS1, full-scan GC-MS chromatograms, with development and real-data validation centered on pyrolysis GC-MS. The browser application reads a documented mzML subset, performs configurable chromatographic deconvolution, sends search-eligible reconstructed spectra to a separately licensed local NIST MS Search installation, and preserves the complete returned top-N candidate list with original ranks, scores, identifiers, selected status, rationale, analysis parameters, and run provenance.
 
-The release does not claim a new deconvolution theory. Its contribution is an integrated and auditable workflow in which users can optimize processing parameters for their chromatographic system, export and re-import the exact preset, retain alternative library candidates, and revisit decisions without repeating the library search.
+The release does **not** call, wrap, or depend on PyMassSpec/PyMS for deconvolution. The extraction code is an independent JavaScript implementation of established chromatographic concepts. PyMassSpec/PyMS is cited in the associated manuscript only as an established programmable GC-MS framework. The release does not claim a new deconvolution theory or definitive compound identification.
 
-## Quick start
+> **Version-specific Zenodo DOI:** [10.5281/zenodo.21912995](https://doi.org/10.5281/zenodo.21912995)
 
-1. Convert authorized vendor-native full-scan data to mzML outside this archive.
-2. Validate the mzML structure:
+## What changed in v1.3.1
 
-   ```bash
-   python scripts/validate_mzml_structure.py your_file.mzML --output validation.json
-   ```
+- Replaced the public quick-start mzML with a synthetic file that produces three components at the documented defaults.
+- Added a configurable minimum spectral-ion count for automatic NIST submission. Low-ion components remain in the component table and CSV with an explicit search-eligibility reason.
+- Added a configurable match-factor gap between the first two **unique chemical species** and a `near-tie` filter. The full raw top-N list is always retained.
+- Added a CAS-based duplicate-species view. Repeated NIST entries are collapsed only on screen; their original ranks and values remain in the CSV.
+- Added an optional compact ambiguity/QC CSV.
+- Fixed repeated candidate selection so it is idempotent and no static NIST notice or reason text grows with repeated clicks.
+- Clarified the two optional classification layers: five application-specific, literature-guided NOM marker groups used in the paper; and a separate neutral nine-class structural-product summary. Neither is a universal taxonomy.
+- Expanded NIST setup, NIST-search-record, retention-index, candidate-review, and walkthrough documentation.
+- Added a short silent walkthrough video at `walkthrough/PyGCMS_Pipeline_v1_3_1_walkthrough.webm`.
+- Added browser regression tests for the public example, candidate-text idempotence, match-gap metrics, CAS grouping, and raw-candidate preservation.
+- Added public summaries of spectral-ion distributions and profile sensitivity for the full-length validation mzML.
 
-3. Open `software/index.html` in a Chromium-based desktop browser, or use
-   `00_START_EN.cmd` on Windows to start the production localhost bridge and
-   open the application.
-4. Load the mzML, inspect the TIC and representative spectra, and optimize the
-   adjustable deconvolution controls.
-5. Export the accepted parameter preset and retain it with the run record.
-6. Use a locally licensed NIST MS Search installation through the production
-   bridge, or use the clearly labelled mock bridge for licence-free software
-   verification. Preserve the returned candidates and export the component,
-   candidate, and provenance records.
-
-## Licensed NIST MS Search bridge on Windows
-
-The archive includes the production localhost bridge that was present in the
-original optimized distribution and has been adapted to the released
-`software/index.html` interface:
-
-- `scripts/nist_mssearch_bridge_server.py` - HTTP bridge used by the browser
-- `scripts/nist_mssearch_bridge.py` - NIST file-automation and result parser
-- `scripts/nist_dll_backend.py` - optional DLL backend
-- `00_START_EN.cmd` and diagnostic launchers - Windows startup and checks
-
-Copy `nistms_path.example.txt` to `nistms_path.txt`, enter the full path to the
-user's licensed `NISTMS$.EXE`, configure NIST Automation and the number of hits
-to print, and then run `00_START_EN.cmd`. No NIST executable, library, licence,
-or reference spectrum is included. Detailed instructions are in
-`docs/NIST_BRIDGE_SETUP.md`.
-
-## Verify without a NIST licence
-
-NIST MS Search is a separately licensed dependency and is not distributed here. So that the
-candidate-preserving stage remains checkable by a reader who has no licence, the archive includes an
-offline **mock** of the bridge. It re-implements the bridge interface contract and returns synthetic
-candidates from a fictitious library.
+## Quick start without a NIST licence
 
 ```bash
-# Terminal 1 - start the mock
-python scripts/mock_nist_bridge.py                     # demo mode
-python scripts/mock_nist_bridge.py --mode adversarial  # edge-case fixture
-
-# Terminal 2 - portable checks (reports browser skips explicitly)
-python scripts/run_checks.py
-
-# Strict verification: require Playwright Chromium
 python -m pip install -r requirements-browser.txt
-playwright install chromium
 python scripts/run_checks.py --require-browser
 ```
 
-Then open `software/index.html`, leave the bridge URL at `http://127.0.0.1:18789`, press
-**Check bridge**, load `data/example/synthetic_gc_ms.mzML`, run the analysis, and press
-**Run NIST search**.
+1. Start the synthetic bridge in one terminal:
 
-The mock verifies **software behaviour, not chemistry**. Whether a rank-2 candidate and its original
-score survive in the exported record after rank 1 was selected is determinate independently of
-whether rank 1 is chemically correct. Match-factor accuracy and compound identification are outside
-its scope and are not claimed. Every mock hit is labelled `MOCKLIB-SYNTHETIC-1.0` and every response
-carries a synthetic banner, so exports made against the mock cannot be mistaken for analytical
-results. See `docs/MOCK_BRIDGE.md`. The browser test selects a non-top hit, exercises an all-weak unassigned case, and verifies the actual exported CSV fields.
+   ```bash
+   python scripts/mock_nist_bridge.py
+   ```
 
-## Adjustable processing
+2. Open `software/index.html` in a Chromium-based desktop browser.
+3. Keep the bridge URL at `http://127.0.0.1:18789` and press **Check connection**.
+4. Load `data/example/synthetic_gc_ms.mzML`.
+5. Run deconvolution with the defaults. The example is regression-tested to produce three NIST-eligible components.
+6. Run the mock NIST search, inspect candidates, select an alternative if desired, and export the results CSV.
 
-The interface exposes controls for minimum retention time, TIC peak height, peak separation, local half-window, ion-shape correlation, spectral cutoff, ion-apex intensity, trace intensity, local sharpness, model-ion fraction, maximum model ions, and common column-bleed exclusion. Presets can be exported, imported, and reset.
+The mock verifies software behaviour, not chemistry. Every mock hit is labelled `MOCKLIB-SYNTHETIC-1.0`.
+
+## Licensed NIST MS Search on Windows
+
+1. Install and license NIST MS Search locally. No NIST file is included here.
+2. Copy `nistms_path.example.txt` to `nistms_path.txt` and enter the full path to `NISTMS$.EXE`.
+3. In NIST MS Search, enable Automation and set the number of hits printed to at least the candidate count requested by the browser.
+4. Start `00_START_EN.cmd`.
+5. In the browser, press **Check connection**, then **Run NIST search**.
+6. Record the NIST MS Search build, library release, library names, search type/options, mass range, constraints, preprocessing, top-N, and output configuration in `provenance/nist_configuration.yaml`.
+
+See `docs/NIST_BRIDGE_SETUP.md` for the detailed procedure and troubleshooting.
+
+## Search eligibility, ambiguity, and repeated library entries
+
+The default automatic-search threshold is three reconstructed spectral ions. This is a workflow QC flag, not a claim that three ions guarantee a reliable identification. Analysts may raise the threshold for their application or explicitly include low-ion components. In all cases, deconvoluted components are retained and exported.
+
+The interface computes `MF(rank 1 unique species) - MF(rank 2 unique species)`. Species are grouped by CAS when available and otherwise by normalized name. A user-set threshold flags narrow gaps. The raw NIST hit list is never reduced: grouping and near-tie filtering are presentation/QC layers only.
+
+## Retention index
+
+Retention-index evidence is optional and independent of the NIST scores. The application supports documented RT-to-RI calibration using manual anchors or an n-alkane ladder and retains calculated RI, external reference RI, and their difference separately. See `docs/RETENTION_INDEX_GUIDE.md`, the in-app RI controls, and `data/example/ri_calibration_example.csv`.
+
+## Optional review layers
+
+The stages are deliberately separated:
+
+1. **NIST candidate snapshot**: immutable original ranks/scores/identifiers.
+2. **Deterministic QC**: optional rules for low scores, artefact names, formula plausibility, ion support, RI, and literature markers.
+3. **External-model advice**: optional and constrained to the supplied candidates or an unassigned outcome.
+4. **Human disposition**: final selection or unassigned result, stored separately from the raw candidate snapshot.
+
+No review stage invents a candidate, deletes the archived alternatives, or overwrites original NIST scores.
+
+## Conventional GC-MS scope
+
+Nothing in the core mzML reader, chromatographic deconvolution, candidate-preservation, or provenance model requires a pyrolysis-specific input. The software can therefore be applied to conventional nominal-mass, MS1, full-scan GC-MS profiles such as complex extracts or headspace chromatograms after dataset-specific parameter optimization. The public real-data validation and application example are Py-GC/MS datasets; performance for other matrices and chromatographic modes has not been systematically benchmarked.
+
+## Classification layers
+
+The five L/P/C/F/O groups used for Figure 4 are application-specific, literature-guided marker groups for a Lake Biwa natural-organic-matter example. They are not proposed as universally accepted organic-matter classes. The separate nine-class view describes product structure more neutrally. Both layers are optional downstream annotations and are independent of deconvolution and candidate preservation.
 
 ## Archive contents
 
-- `software/index.html` - self-contained browser application
-- `docs/` - limitations, parameter-optimization guidance, reproducibility instructions, mock-bridge scope, and release notes
-- `data/` - synthetic example, the aggregate Lake Biwa class-summary table used for Figure 4, derived accounting tables, and the full-length validation mzML (7,680 MS1 spectra) with validation and timing notes
-- `scripts/` - the licensed-NIST production bridge and result parser, the offline mock bridge, mzML validation, statistics reproduction, figure generation, browser validation, parameter and literature-rule extraction, and checksum verification
-- `provenance/` - analysis, conversion, NIST, AI-use, and run-record templates plus machine-readable literature rules and sources
-- `tests/` - compact reproducibility checks, the production-bridge HTTP contract test, exported-candidate invariants I1-I6, and numerical deconvolution tests D1-D6
-- `CHECKSUMS.sha256` - archive-relative SHA-256 manifest verified by `scripts/run_checks.py`
+- `software/index.html`: self-contained browser application.
+- `docs/`: setup, RI, classification-layer, candidate-review, walkthrough, limitations, release-note, and reproducibility guidance.
+- `data/example/`: working synthetic quick-start mzML and RI example.
+- `data/validation/`: full-length validation mzML, accepted-ion distributions, and profile-sensitivity summaries.
+- `scripts/`: bridge, mock, validation, statistics, comparison utilities, and checksum verification.
+- `tests/`: numerical extraction, bridge contracts, public-example regression, candidate-preservation invariants I1-I8, and browser tests.
+- `provenance/`: parameter, conversion, NIST, literature-rule, AI-use, and run-record templates.
+- `CHECKSUMS.sha256`: archive-relative SHA-256 manifest. Python cache files are excluded.
 
-## Reproduce the public statistics and Figure 4
+## Reproducibility checks
 
 ```bash
 python -m pip install -r requirements.txt
-python scripts/reproduce_lake_biwa_statistics.py   --class-summary-csv data/application/17B_class_summary_percent.csv   --outdir reproduced
-python scripts/generate_figures.py   --outdir reproduced/figures   --class-summary data/application/17B_class_summary_percent.csv
+python -m pip install -r requirements-browser.txt
+playwright install chromium  # optional when a system Chromium is available
 python scripts/run_checks.py --require-browser
 ```
 
-Figure 4 uses only literature-classified records. Thermal-desorption runs are displayed as TD L1-L5, followed by pyrolysis runs as Py L1-L5. Unclassified records are retained in the accounting table but excluded from the compositional denominator because they can include unresolved signals, low-confidence spectra, analytical background, contaminants, and possible siloxane bleed.
+Browser helpers use `PYGCMS_CHROMIUM`, system Chromium, or Playwright Chromium in that order.
 
-## Numerical deconvolution verification
+## Source and citation
 
-`tests/test_deconvolution_numeric.py` constructs a three-component chromatogram with known spectra and drives the released application over it. The archived assertions include exact apex recovery, isolated-spectrum cosine 1.000, separation of an overlapping pair, no background-only component, and the documented exclusion of an ion shared by both overlapping components at the default correlation threshold. This is a synthetic arithmetic check, not a claim of real-sample identification performance.
+- Source: `https://github.com/Yasuro3/pygcms-pipeline`
+- Version-specific archive: **[10.5281/zenodo.21912995](https://doi.org/10.5281/zenodo.21912995)**.
 
-## Literature rules and performance note
+Suggested citation:
 
-The 120 embedded literature classification records and 23 source records are exported in machine-readable form under `provenance/` and checked against the application by `scripts/extract_literature_rules.py --check`. Full-length single-run timings are retained in `data/validation/PERFORMANCE_NOTE.md`; because the original run lacks hardware and browser-build metadata, they are diagnostic values rather than a portable benchmark.
+> Fuse, Y., Okuda, H., & Chu, X. (2026). PyGCMS Pipeline (v1.3.1) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21912995
 
-## Input and licensing boundary
+## Classification model 2.0.0 backport
 
-The public release is mzML-only. It contains the localhost bridge code needed to communicate with a user-supplied licensed NIST installation, but it contains no vendor-native reader, vendor SDK, proprietary raw-data specification, private conversion code, NIST executable, NIST library, protected spectrum collection, licence key, or API credential. Users are responsible for lawful access to conversion and search software and for verifying the conversion route used for their data.
+Software version 1.3.1 uses **ClassificationModelVersion 2.0.0**, backported from the independently tested v1.4.1 classification branch. The backport does not change chromatographic deconvolution or raw candidate preservation. It adds a single final classification writer, exact-name/CAS invariants, auditable rule/confidence/warning fields, and a long-format candidate-audit CSV.
 
-## Maintenance
-
-This is an archived research release associated with a SoftwareX manuscript. Active feature development and continuous support are not planned. Critical corrections affecting reproducibility may be released if necessary.
-
-## Acknowledgements and funding
-
-We thank Dr. Kazuhide Hayakawa (Lake Biwa Environmental Research Institute, Shiga, Japan) for his
-participation in sediment sample collection. This work was supported by JSPS KAKENHI Grant Number
-JP25K03248.
-
-## Source code and archive
-
-- Source code: https://github.com/Yasuro3/pygcms-pipeline
-- Permanent archive (this version): [10.5281/zenodo.21369547](https://doi.org/10.5281/zenodo.21369547)
-
-The Zenodo record is the citable archive and includes the full-length validation mzML. Cite the
-version-specific DOI rather than the concept DOI, so that the exact artefact can be retrieved.
-
-## Citation
-
-Cite the version-specific Zenodo DOI for the software, and the associated SoftwareX article:
-
-> Fuse, Y., Okuda, H., & Chu, X. (2026). PyGCMS Pipeline (v1.3.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21369547
-
-Use the version-specific DOI rather than the concept DOI, so that the exact artefact can be retrieved.
+Exact toluene aliases and CAS 108-88-3 are locked to category L and the structural class `Aromatic hydrocarbons`; they cannot be overwritten by a later literature, matrix or optional model-review step. This is an operational multi-origin group, not a unique lignin or fulvic-acid assignment. In the Lake Biwa double-shot experiment, toluene was the solvent of the added internal-standard solution and must not be interpreted as an environmental source marker. Figure 4 is an archived structural-product aggregate; the P-to-L origin-category correction does not change toluene's structural assignment as an aromatic hydrocarbon. See `docs/CLASSIFICATION_LAYERS.md` and `provenance/origin_classification_model_v2.json`.

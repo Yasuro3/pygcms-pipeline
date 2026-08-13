@@ -50,6 +50,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+from browser_utils import launch_chromium
+
 try:
     from playwright.sync_api import sync_playwright
 except ImportError:
@@ -194,7 +196,7 @@ def main() -> int:
     html = patch_session_storage(INDEX.read_text(encoding="utf-8"))
     with sync_playwright() as pw:
         try:
-            browser = pw.chromium.launch()
+            browser = launch_chromium(pw)
         except Exception as exc:
             print(f"SKIP: chromium is unavailable ({exc.__class__.__name__}). "
                   "Run 'playwright install chromium' to verify the deconvolution arithmetic.")

@@ -1,0 +1,68 @@
+{
+  "schema": "PyGCMS-origin-classification-model-v1",
+  "software_version": "1.3.1",
+  "classification_model_version": "2.0.0",
+  "status": "backported from the independently tested v1.4.1 classification branch",
+  "principles": [
+    "classification is downstream of candidate preservation",
+    "raw NIST candidates, ranks and scores are never deleted or changed",
+    "exact-name or CAS invariants are applied after all optional evidence layers",
+    "AI/model review may select a candidate but cannot override a locked final classification",
+    "C/H-only and non-N aromatic hydrocarbons cannot be assigned to the protein/microbial group",
+    "source labels are operational marker groups, not confirmed source apportionment"
+  ],
+  "priority_rules": [
+    {
+      "rule_id": "EXACT_TOLUENE",
+      "match": "Toluene, toluene, Methylbenzene, Benzene, methyl-, or CAS 108-88-3/108883",
+      "final_category": "L",
+      "final_category_label": "Aromatic / fulvic-acid-like / lignin-derived / humic-like",
+      "paper_class_9": "Aromatic hydrocarbons",
+      "confidence": "C",
+      "locked": true,
+      "warning": "Operational group only: toluene is multi-origin and may also arise from charred material, proteins, petrogenic inputs, or secondary pyrolysis; it is not a unique lignin or fulvic-acid tracer."
+    },
+    {
+      "rule_id": "CONTAMINANT_OR_ARTIFACT",
+      "final_category": "O",
+      "confidence": "A",
+      "locked": true
+    },
+    {
+      "rule_id": "L_AROMATIC_HYDROCARBON",
+      "final_category": "L",
+      "paper_class_9": "Aromatic hydrocarbons",
+      "confidence": "C",
+      "locked": false
+    },
+    {
+      "rule_id": "P_N_CONTAINING / P_NITRILE",
+      "final_category": "P",
+      "confidence": "C",
+      "locked": false
+    },
+    {
+      "rule_id": "C_FURAN_CARBOHYDRATE",
+      "final_category": "C",
+      "paper_class_9": "Furans",
+      "confidence": "B",
+      "locked": false
+    },
+    {
+      "rule_id": "F_ALIPHATIC_HYDROCARBON / F_LONG_CHAIN_N_ALIPHATIC",
+      "final_category": "F",
+      "confidence": "B-C",
+      "locked": false
+    },
+    {
+      "rule_id": "O_GENERAL_CARBONYL",
+      "final_category": "O",
+      "paper_class_9": "Carbonyls",
+      "confidence": "C",
+      "locked": false
+    }
+  ],
+  "application_specific_note": {
+    "Lake_Biwa_Figure_4": "The Lake Biwa double-shot experiment used toluene as the solvent of the added internal-standard solution; it must not be interpreted as an environmental source marker. Figure 4 is an archived structural-product aggregate. The origin-category correction P to L leaves the structural product class 'Aromatic hydrocarbons' unchanged. Component-level rows underlying the archived aggregate are not deposited, so the figure is not numerically reconstructed from a different data version."
+  }
+}

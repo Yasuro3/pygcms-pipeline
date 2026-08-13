@@ -1,0 +1,4 @@
+profile,components,accepted_ions_total,mean_ions_per_component,median_ions_per_component,components_1_ions,components_2_ions,components_3-4_ions,components_5-9_ions,components_>=10_ions
+default,450,6706,14.902222222222223,12.0,63,47,45,52,243
+permissive,543,19923,36.69060773480663,36,1,0,2,4,536
+selective,278,3144,11.309352517985612,9.0,37,15,23,66,137

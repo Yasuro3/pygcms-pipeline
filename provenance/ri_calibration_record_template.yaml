@@ -1,0 +1,29 @@
+schema_version: '1.0'
+record_type: retention-index calibration
+column:
+  stationary_phase: ''
+  dimensions: ''
+  film_thickness: ''
+gc_program:
+  initial_temperature: ''
+  ramps_and_holds: ''
+  carrier_gas_and_flow: ''
+calibration:
+  model_type: ''
+  coefficients: []
+  fit_r_squared: ''
+  interpolation_rt_range_min: []
+  extrapolation_used: false
+  anchor_minimum_nist_mf: 700
+  anchors:
+    - compound: ''
+      rt_min: ''
+      reference_ri: ''
+      reference_source: ''
+      identification_basis: ''
+operator:
+  name: ''
+  date_utc: ''
+notes: >-
+  Calculated RI, reference RI, and Delta RI must remain separate from MF/RMF.
+  A literature RI from an incompatible stationary phase is not confirmation.

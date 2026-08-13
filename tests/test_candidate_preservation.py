@@ -18,6 +18,10 @@ Invariants:
       its original candidates remain in the export.
   I6  A zero-hit component remains in the export as unidentified and receives
       no fabricated candidate.
+  I7  Repeated manual selection is idempotent and does not append text to the
+      immutable candidate description.
+  I8  CAS-based duplicate grouping and the top-two unique-species MF-gap flag
+      affect only the view/QC fields; raw ranked hits remain preserved.
 
 Requires: ``pip install -r requirements-browser.txt`` and Playwright Chromium.
 A missing browser dependency exits with status 77, which ``run_checks.py``
@@ -33,6 +37,8 @@ import time
 import urllib.error
 import urllib.request
 from pathlib import Path
+
+from browser_utils import launch_chromium
 
 SKIP = 77
 try:
@@ -127,12 +133,25 @@ async (port) => {
 
   // I4: exercise the application's real selection function by selecting the
   // original rank-2 candidate for the near-tie record.
+  const beforeReason = sorted[0].cands[1].reason || '';
   selectCandidate(G.results.indexOf(sorted[0]), 1);
+  const afterFirstReason = sorted[0].cands[0].reason || '';
+  // Select the already-selected row again. This must be idempotent.
+  selectCandidate(G.results.indexOf(sorted[0]), 0);
+  const afterSecondReason = sorted[0].cands[0].reason || '';
+  detail(G.results.indexOf(sorted[0]), null);
+  const detailText = document.getElementById('dP').innerText;
 
   // I5: exercise the deterministic review rule on the all-weak record.
   const weakResult = curateOneByAIQC(sorted[2]);
 
   return {
+    idempotence: {beforeReason, afterFirstReason, afterSecondReason,
+      licensedNoticeCount: (document.getElementById('dP').innerHTML.match(/Licensed NIST:<\/b>/g) || []).length},
+    nearTie: candidateAmbiguityMetrics(sorted[0]),
+    duplicateSpecies: {metrics: candidateAmbiguityMetrics(sorted[5]),
+      displayed: candidateDisplayEntries(sorted[5]).length,
+      raw: sorted[5].cands.length},
     sent: data.groups,
     merged,
     weakResult,
@@ -170,7 +189,7 @@ def main() -> int:
         html = patch_session_storage(INDEX.read_text(encoding="utf-8"))
         with sync_playwright() as pw:
             try:
-                browser = pw.chromium.launch()
+                browser = launch_chromium(pw)
             except Exception as exc:
                 print(
                     f"SKIP: chromium is unavailable ({exc.__class__.__name__}). "
@@ -254,12 +273,35 @@ def main() -> int:
         if rows[3]["Cand01_Name"] or rows[3]["Cand01_MF"] or rows[3]["Cand01_Rank"]:
             raise SystemExit("I6 FAILED: zero-hit component contains a fabricated candidate")
 
+
+        # I7: selecting the same candidate again must not modify its imported
+        # description or duplicate the static licensed-NIST notice.
+        idem = out["idempotence"]
+        assert_equal(idem["afterFirstReason"], idem["beforeReason"], "I7 first manual selection reason")
+        assert_equal(idem["afterSecondReason"], idem["beforeReason"], "I7 repeated manual selection reason")
+        if idem["licensedNoticeCount"] != 1:
+            raise SystemExit(f"I7 FAILED: detail panel contains {idem['licensedNoticeCount']} licensed-NIST notices")
+
+        # I8: the near-tie uses the first two unique species (912-909 = 3),
+        # while duplicate CAS entries collapse only in the on-screen view.
+        assert_equal(out["nearTie"]["gap"], 3, "I8 near-tie MF gap")
+        if not out["nearTie"]["nearTie"]:
+            raise SystemExit("I8 FAILED: near-tie fixture was not flagged")
+        assert_equal(out["duplicateSpecies"]["metrics"]["unique"], 1, "I8 duplicate unique species count")
+        assert_equal(out["duplicateSpecies"]["displayed"], 1, "I8 grouped candidate view count")
+        assert_equal(out["duplicateSpecies"]["raw"], 2, "I8 raw duplicate candidate count")
+        assert_equal(rows[5]["NIST_UniqueSpeciesCount"], 1, "I8 exported unique species count")
+        assert_equal(rows[0]["NIST_MFGap_Top2Unique"], 3, "I8 exported near-tie gap")
+        assert_equal(rows[0]["NIST_NearTie"], "yes", "I8 exported near-tie flag")
+
         print("PASS: I1 every returned top-N candidate is present in the CSV export")
         print("PASS: I2 original candidate ranks are preserved in the CSV export")
         print("PASS: I3 MF, RMF, probability, CAS, and library are unmodified")
         print("PASS: I4 selecting original rank 2 leaves all alternatives intact")
         print("PASS: I5 all-weak candidates remain archived while the component is unassigned")
         print("PASS: I6 the zero-hit component remains unidentified without fabricated hits")
+        print("PASS: I7 repeated manual selection is idempotent and does not grow candidate text")
+        print("PASS: I8 CAS grouping and MF-gap flags preserve the complete raw hit list")
         print("PASS: candidate preservation verified without NIST software or licensed data")
         return 0
     finally:

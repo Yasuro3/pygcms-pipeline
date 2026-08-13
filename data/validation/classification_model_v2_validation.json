@@ -1,0 +1,86 @@
+{
+  "schema": "PyGCMS-classification-backport-validation-v1",
+  "software_version": "1.3.1",
+  "classification_model_version": "2.0.0",
+  "date": "2026-08-12",
+  "status": "PASS",
+  "scope": [
+    "downstream candidate classification and audit export",
+    "exact-name/CAS invariants",
+    "post-selection reclassification",
+    "candidate preservation and non-destructive audit"
+  ],
+  "unchanged": [
+    "mzML decoding",
+    "peak detection",
+    "deconvolution",
+    "reconstructed spectra",
+    "NIST query spectra",
+    "raw NIST candidate names/ranks/scores",
+    "Figure 4 archived structural-product aggregate"
+  ],
+  "toluene_expected": {
+    "aliases": [
+      "Toluene",
+      "toluene",
+      "Methylbenzene",
+      "Benzene, methyl-"
+    ],
+    "cas": [
+      "108-88-3",
+      "108883"
+    ],
+    "FinalCategory": "L",
+    "FinalCategoryLabel": "Aromatic / fulvic-acid-like / lignin-derived / humic-like",
+    "FinalPaperClass9": "Aromatic hydrocarbons",
+    "FinalOriginRuleID": "EXACT_TOLUENE",
+    "FinalOriginConfidence": "C",
+    "FinalOriginLocked": true,
+    "warning": "multi-origin operational marker; not a unique lignin, fulvic-acid or source-organism tracer"
+  },
+  "browser_regression_cases": [
+    {
+      "name": "Toluene aliases/CAS",
+      "expected": "L / EXACT_TOLUENE / locked",
+      "result": "PASS"
+    },
+    {
+      "name": "Benzene and naphthalene",
+      "expected": "L / L_AROMATIC_HYDROCARBON",
+      "result": "PASS"
+    },
+    {
+      "name": "Pyridine",
+      "expected": "P",
+      "result": "PASS"
+    },
+    {
+      "name": "Furfural",
+      "expected": "C",
+      "result": "PASS"
+    },
+    {
+      "name": "Hexadecane",
+      "expected": "F",
+      "result": "PASS"
+    },
+    {
+      "name": "Siloxane background",
+      "expected": "O / locked",
+      "result": "PASS"
+    },
+    {
+      "name": "Results CSV visibility",
+      "expected": "classification model and Final* audit fields",
+      "result": "PASS"
+    },
+    {
+      "name": "Long candidate audit",
+      "expected": "one row per retained candidate, original ranks preserved",
+      "result": "PASS"
+    }
+  ],
+  "strict_public_suite": "python scripts/run_checks.py --require-browser",
+  "strict_public_suite_result": "PASS: all public reproducibility checks completed; browser tests executed; 106-file SHA-256 manifest verified",
+  "figure4_note": "Figure 4 uses the archived structural-product aggregate. The origin-category P-to-L correction does not change the structural class Aromatic hydrocarbons. No numerical reconstruction from a different export was fabricated."
+}

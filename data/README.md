@@ -1,18 +1,14 @@
 # Data files
 
-- `application/17B_class_summary_percent.csv`: aggregate ten-run source summary used for the Lake Biwa class-composition example.
-- `derived/class_composition_classified_records_percent.csv`: long-form classified-only composition, ordered TD L1-L5 then Py L1-L5.
-- `derived/excluded_record_counts_by_sample.csv`: accounting table for records excluded from the compositional denominator.
-- `example/`: synthetic mzML and selected-component example for format testing only.
-- `validation/full_length/17B_L1_PY_full_length_validation.mzML`: full-length processed mzML used for reader and parameter-responsiveness validation.
-- `validation/`: structural, round-trip, browser-level equivalence, and single-run timing notes.
+- `application/17B_class_summary_percent.csv`: aggregate ten-run Lake Biwa summary used for Figure 4.
+- `derived/`: classified-composition and excluded-record accounting tables.
+- `example/synthetic_gc_ms.mzML`: synthetic quick-start fixture. At v1.3.1 defaults it produces three NIST-eligible components; `tests/test_example_workflow.py` enforces this.
+- `example/ri_calibration_example.csv`: retention-index documentation example.
+- `validation/full_length/17B_L1_PY_full_length_validation.mzML`: full-length Py-GC/MS validation mzML (7,680 MS1 spectra).
+- `validation/profile_sensitivity/`: accepted-ion distributions and spectrum-sensitivity summaries for default, permissive, and selective deconvolution profiles.
 
-The release does **not** contain component-level or candidate-level Lake Biwa
-application records, nor component peak areas. Figure 4's component-count
-proportions can be reproduced from the aggregate summary; an abundance-weighted
-analysis cannot be reconstructed from this deposit.
+The release does not include component/candidate-level Lake Biwa application records or licensed NIST outputs. Therefore the public package can reproduce extraction/profile statistics and candidate-handling invariants, but it does not claim to reproduce chemical identification changes across NIST libraries or search configurations.
 
-Unclassified records are not used as a natural-organic-matter class or as an
-analytical-performance axis. They remain accounted for separately because the
-pool may include unresolved products, weak or mixed spectra, contaminants,
-analytical background, and possible siloxane bleed.
+## Classification-model backport
+
+`data/validation/classification_model_v2_validation.json` and `CLASSIFICATION_MODEL_V2_VALIDATION.md` record the browser-tested origin-classification model 2.0.0 backported into software v1.3.1. `data/application/FIGURE4_CLASSIFICATION_MODEL_NOTE.md` explains why the archived Figure 4 structural-product aggregate is retained without an unsupported reconstruction from a different export.

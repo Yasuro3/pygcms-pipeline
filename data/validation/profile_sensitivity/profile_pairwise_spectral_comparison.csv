@@ -1,0 +1,4 @@
+comparison,shared_apex_count,left_only,right_only,median_spectrum_cosine,p10_spectrum_cosine,mean_spectrum_cosine
+default_vs_permissive,450,0,93,0.8834766106554532,0.11576229634423128,0.6934601705271938
+default_vs_selective,278,172,0,0.9680032743622828,0.27501326543119303,0.8014883694216594
+permissive_vs_selective,278,265,0,0.9292094227462188,0.17609691598874253,0.7517141983055159

@@ -7,9 +7,12 @@ The default result can be compared with the archived component reference JSON.
 from __future__ import annotations
 
 import argparse
+import csv
 import json
+import math
 import os
 import platform
+import statistics
 import sys
 import time
 from datetime import datetime, timezone
@@ -112,6 +115,50 @@ def compare_components(reference: list[dict[str, Any]], current: list[dict[str, 
     return report
 
 
+def _ion_bins(components: list[dict[str, Any]], minimum_search_ions: int = 3) -> dict[str, int]:
+    bins = {"1": 0, "2": 0, "3-4": 0, "5-9": 0, ">=10": 0, "search_eligible": 0}
+    for comp in components:
+        n = len(comp.get("mz", []))
+        if n == 1:
+            bins["1"] += 1
+        elif n == 2:
+            bins["2"] += 1
+        elif n <= 4:
+            bins["3-4"] += 1
+        elif n <= 9:
+            bins["5-9"] += 1
+        else:
+            bins[">=10"] += 1
+        if n >= minimum_search_ions:
+            bins["search_eligible"] += 1
+    return bins
+
+
+def _cosine(a: dict[str, Any], b: dict[str, Any]) -> float:
+    ma = {int(m): float(i) for m, i in zip(a.get("mz", []), a.get("i", []))}
+    mb = {int(m): float(i) for m, i in zip(b.get("mz", []), b.get("i", []))}
+    keys = set(ma) | set(mb)
+    dot = sum(ma.get(k, 0.0) * mb.get(k, 0.0) for k in keys)
+    na = math.sqrt(sum(v * v for v in ma.values()))
+    nb = math.sqrt(sum(v * v for v in mb.values()))
+    return dot / (na * nb) if na and nb else 0.0
+
+
+def _profile_pair(left: list[dict[str, Any]], right: list[dict[str, Any]]) -> dict[str, Any]:
+    lmap = {int(c["scan"]): c for c in left}
+    rmap = {int(c["scan"]): c for c in right}
+    scans = sorted(set(lmap) & set(rmap))
+    cosines = [_cosine(lmap[scan], rmap[scan]) for scan in scans]
+    return {
+        "shared_apex_count": len(scans),
+        "left_only": len(lmap) - len(scans),
+        "right_only": len(rmap) - len(scans),
+        "median_spectrum_cosine": statistics.median(cosines) if cosines else None,
+        "p10_spectrum_cosine": sorted(cosines)[max(0, int(0.10 * (len(cosines) - 1)))] if cosines else None,
+        "mean_spectrum_cosine": statistics.fmean(cosines) if cosines else None,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--html", type=Path, required=True)
@@ -134,10 +181,18 @@ def main() -> None:
         browser = playwright.chromium.launch(**launch)
         browser_version = browser.version
         runs = {
-            name: run_profile(browser, html, args.mzml, name, name == "default")
+            name: run_profile(browser, html, args.mzml, name, True)
             for name in ("default", "permissive", "selective")
         }
         browser.close()
+
+    minimum_search_ions = 3
+    ion_qc = {name: _ion_bins(run["run"]["components"], minimum_search_ions) for name, run in runs.items()}
+    pair_qc = {
+        "default_vs_permissive": _profile_pair(runs["default"]["run"]["components"], runs["permissive"]["run"]["components"]),
+        "default_vs_selective": _profile_pair(runs["default"]["run"]["components"], runs["selective"]["run"]["components"]),
+        "permissive_vs_selective": _profile_pair(runs["permissive"]["run"]["components"], runs["selective"]["run"]["components"]),
+    }
 
     comparison = None
     if args.reference_json:
@@ -154,8 +209,19 @@ def main() -> None:
         "logical_cpu_count": os.cpu_count(),
         "chromium_executable": args.chromium or "Playwright bundled Chromium",
     }
-    output = {"status": status, "environment": environment, "comparison": comparison, "runs": runs}
+    output = {"status": status, "environment": environment, "comparison": comparison, "minimum_search_ions": minimum_search_ions, "ion_count_qc": ion_qc, "profile_pairwise_qc": pair_qc, "runs": runs}
     (args.outdir / "browser_pipeline_validation.json").write_text(json.dumps(output, indent=2), encoding="utf-8")
+    with (args.outdir / "profile_component_ion_counts.csv").open("w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(["profile", "components", "one_ion", "two_ions", "three_to_four", "five_to_nine", "ten_or_more", "search_eligible_min3"])
+        for name in ("default", "permissive", "selective"):
+            q = ion_qc[name]
+            w.writerow([name, runs[name]["run"]["component_count"], q["1"], q["2"], q["3-4"], q["5-9"], q[">=10"], q["search_eligible"]])
+    with (args.outdir / "profile_pairwise_spectral_comparison.csv").open("w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(["comparison", "shared_apex_count", "left_only", "right_only", "median_spectrum_cosine", "p10_spectrum_cosine", "mean_spectrum_cosine"])
+        for name, q in pair_qc.items():
+            w.writerow([name, q["shared_apex_count"], q["left_only"], q["right_only"], q["median_spectrum_cosine"], q["p10_spectrum_cosine"], q["mean_spectrum_cosine"]])
 
     counts = {name: run["run"]["component_count"] for name, run in runs.items()}
     report = [
@@ -171,6 +237,16 @@ def main() -> None:
         *[f"| {name.capitalize()} | {runs[name]['load_seconds']:.3f} | {runs[name]['run']['elapsed_seconds']:.3f} |" for name in ("default", "permissive", "selective")],
         "",
         "These are single-run diagnostic timings for the recorded environment, not a cross-system benchmark.",
+        "", "## Reconstructed-ion count QC", "",
+        "Automatic NIST submission uses a non-destructive minimum of three reconstructed spectral ions in v1.3.1. Components below this threshold remain in the component export and can be included manually.",
+        "", "| Profile | 1 ion | 2 ions | 3-4 | 5-9 | >=10 | Eligible (>=3) |",
+        "|---|---:|---:|---:|---:|---:|---:|",
+        *[f"| {name.capitalize()} | {ion_qc[name]['1']} | {ion_qc[name]['2']} | {ion_qc[name]['3-4']} | {ion_qc[name]['5-9']} | {ion_qc[name]['>=10']} | {ion_qc[name]['search_eligible']} |" for name in ("default", "permissive", "selective")],
+        "", "## Parameter-profile spectral comparison", "",
+        "The profiles are matched by component-apex scan. Cosine statistics describe changes in reconstructed spectra; they are not library-identification accuracy measurements.",
+        "", "| Comparison | Shared apices | Left only | Right only | Median cosine | 10th percentile |",
+        "|---|---:|---:|---:|---:|---:|",
+        *[f"| {name.replace('_',' ')} | {q['shared_apex_count']} | {q['left_only']} | {q['right_only']} | {q['median_spectrum_cosine']:.3f} | {q['p10_spectrum_cosine']:.3f} |" for name, q in pair_qc.items()],
         "", "## Environment", "",
         f"- Recorded UTC: {environment['recorded_utc']}",
         f"- Platform: {environment['platform']}",

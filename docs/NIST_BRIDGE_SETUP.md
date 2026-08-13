@@ -1,111 +1,44 @@
-# Licensed NIST MS Search bridge
+# Licensed NIST MS Search bridge: setup and recording guide
 
-## Scope and licensing boundary
+## Boundary
 
-PyGCMS Pipeline can submit reconstructed component spectra to a **locally installed,
-separately licensed** copy of NIST MS Search on Windows. The archive provides only
-the localhost bridge and launch/diagnostic scripts. It does **not** contain a NIST
-executable, library, reference spectrum, licence key, or NIST-derived spectral index.
+PyGCMS Pipeline communicates only with a user-supplied, locally licensed NIST MS Search installation on Windows. The archive contains the localhost bridge, not the NIST executable, library, spectra, licence, or keys.
 
-The production bridge:
+## Step-by-step setup
 
-1. receives user-generated MSP spectra from `software/index.html`;
-2. invokes the user's local `NISTMS$.EXE` through its file-automation route;
-3. parses the resulting `SRCRESLT.TXT`; and
-4. returns candidate names, ranks, MF/RMF, probability and related identifiers to
-   the browser application.
+1. **Locate NIST MS Search.** Find the full path to `NISTMS$.EXE` in the licensed installation. NIST20-era and newer installations may use different folders.
+2. **Configure the path.** Copy `nistms_path.example.txt` to `nistms_path.txt`; enter one absolute executable path and save it.
+3. **Open NIST MS Search once.** Confirm that the intended EI library or libraries are visible and that a manual spectrum search succeeds.
+4. **Set Automation output.** Enable NIST Automation and set “number of hits to print” to at least the browser's candidate-count setting. The software cannot preserve hits that NIST did not print.
+5. **Record search options.** Before analytical searching, complete `provenance/nist_configuration.yaml`: product build, library release and names, search type, preprocessing, mass range, constraints, RI use, top-N, output format, operating system, and date.
+6. **Start the bridge.** Run `00_START_EN.cmd`. The terminal should report the NIST path and bridge URL.
+7. **Connect the browser.** Open `software/index.html`; keep `http://127.0.0.1:18789` unless changed; press **Check connection**.
+8. **Run a diagnostic.** Use `05_NIST_BACKGROUND_SELFTEST.cmd` or the synthetic quick-start workflow before an analytical batch.
+9. **Run the search.** Deconvolute an mzML file, choose candidate count and minimum spectral-ion count, and press **Run NIST search**.
+10. **Archive the record.** Save the results CSV, candidate columns, parameter JSON, run manifest, NIST configuration, input hash, and bridge log.
 
-The server binds to `127.0.0.1` by default. Do not expose it to an external network.
+## Search-eligible spectra
 
-## Requirements
+Version 1.3.1 defaults to withholding reconstructed spectra with fewer than three accepted ions from automatic NIST submission. These components remain in the table and CSV with `NIST_SearchEligible=no` and an explicit reason. This prevents the software from silently treating a sparse spectrum as an identification, while preserving the measured/extracted record. The threshold is configurable, and the analyst remains responsible for judging whether a spectrum is adequate for the intended identification level.
 
-- Windows 10 or 11
-- Python 3.9 or later
-- a legitimately licensed local NIST MS Search installation
-- at least one licensed search library selected in NIST MS Search
+## NIST search settings are not inferred
 
-The standard file-automation backend uses only the Python standard library. The
-optional DLL backend in `scripts/nist_dll_backend.py` is not required.
+NIST match factors depend on library release, search type, mass range, constraints, preprocessing, and software build. The bridge imports what NIST reports; it does not reconstruct missing settings. If a historical run lacks a setting, record it as `not recorded` rather than guessing.
 
-## Configure the NIST executable path
+## NIST20, NIST23, NIST26 and MS Search versions
 
-1. Copy `nistms_path.example.txt` to `nistms_path.txt`.
-2. Replace the example with the full path to the installed `NISTMS$.EXE`, for
-   example:
+The interface relies on the documented text/automation exchange and preserves returned fields. Version 1.3.1 includes a regression fix for repeated candidate selection and does not append the static licensing notice to candidate text. A contract test verifies the public bridge with a stub backend. Real NIST builds must still be checked locally because licensed software is not distributed or launched by the public test suite.
 
-   ```text
-   C:\NIST20\MSSEARCH\NISTMS$.EXE
-   ```
+## Troubleshooting
 
-`nistms_path.txt` is intentionally excluded from version control because it is a
-machine-specific path.
+- **Bridge not connected:** check that the bridge terminal is still open, the URL/port match, and a firewall is not blocking localhost.
+- **NIST path missing:** verify `nistms_path.txt`; paths containing spaces are supported when entered as one full line.
+- **Fewer hits than requested:** increase NIST Automation's printed-hit count, then rerun the search.
+- **0 hits:** retain the component as unidentified; do not fabricate a candidate. Use “continue on 0-hit/error” for batch completion.
+- **Sparse spectrum:** inspect `PureIons` and the eligibility reason; optimize deconvolution or raise/lower the workflow threshold only with analytical justification.
+- **Repeated names:** enable “group duplicate CAS in view.” Raw ranks remain in the CSV.
+- **Candidate display grows after repeated clicking:** this was fixed in v1.3.1 and is covered by browser invariant I7.
 
-## Configure NIST MS Search
+## Licence-free interface verification
 
-In NIST MS Search, open:
-
-```text
-Options > Library Search Options > Automation
-```
-
-Then:
-
-1. enable Automation;
-2. set **Number of hits to print** to the same value as the candidate count in
-   PyGCMS Pipeline, or higher;
-3. select at least one licensed library; and
-4. leave NIST MS Search running while a batch is searched.
-
-## Start the application and production bridge
-
-Run:
-
-```text
-00_START_EN.cmd
-```
-
-This starts `scripts/nist_mssearch_bridge_server.py` on
-`http://127.0.0.1:18789`, waits for its health endpoint, and opens the released
-application at `http://127.0.0.1:18789/app`.
-
-The same server can be started manually:
-
-```bash
-python scripts/nist_mssearch_bridge_server.py \
-  --nistms "C:\NIST20\MSSEARCH\NISTMS$.EXE" \
-  --port 18789 \
-  --workdir bridge_work
-```
-
-In the application, press **Check bridge** before running the licensed search.
-
-## Diagnostics
-
-- `02_CHECK_BRIDGE.cmd` - open bridge and NIST-path status
-- `04_LAUNCH_NIST.cmd` - start NIST MS Search only
-- `05_NIST_BACKGROUND_SELFTEST.cmd` - submit a tiny test spectrum through the
-  NIST automation route
-- `06_NIST_DOCTOR.cmd` - report executable, work-directory and result-file paths
-- `07_NIST_PROBE.cmd` - test supported NIST command-switch combinations
-- `03_STOP_BRIDGE.cmd` - stop the localhost bridge
-
-If the bridge is connected but `SRCREADY.TXT` or `SRCRESLT.TXT` is not produced,
-confirm that Automation is enabled, the printed-hit count is greater than zero,
-a licensed library is selected, and the NIST work directory is writable.
-
-## Production bridge versus mock bridge
-
-`scripts/nist_mssearch_bridge_server.py` is the production bridge for a licensed
-NIST installation. `scripts/mock_nist_bridge.py` is a licence-free test double
-that returns clearly labelled synthetic candidates. The mock verifies candidate
-handling and export invariants; it does not validate NIST match factors or
-compound identifications. See `docs/MOCK_BRIDGE.md`.
-
-## Verification included in this archive
-
-`tests/test_nist_bridge_contract.py` checks the production bridge's public HTTP
-contract, candidate-count propagation and result parser without launching NIST.
-A real NIST search cannot be executed on a machine that lacks the licensed
-software and libraries; users with a licence should run
-`05_NIST_BACKGROUND_SELFTEST.cmd` and retain the resulting local log with their
-run provenance.
+`tests/test_nist_bridge_contract.py` starts the real HTTP bridge with a stub search backend and verifies field mapping and top-N propagation. `scripts/mock_nist_bridge.py` verifies candidate handling with clearly synthetic data. Neither test validates licensed NIST match factors or chemical identification.

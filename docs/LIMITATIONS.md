@@ -51,3 +51,21 @@ from this release.
 The archived full-length loading and deconvolution times are single-run
 diagnostics. Hardware, memory, operating-system build, and browser build were
 not captured for that original run, so the values are not a portable benchmark.
+
+
+## v1.3.1 reviewer-driven clarifications
+
+- Components with few reconstructed ions can be chromatographically real but inadequate for reliable EI library interpretation. Automatic-search eligibility is therefore separated from component retention. The default of three ions is a workflow flag, not an identification threshold or guarantee.
+- Match-gap and CAS grouping are presentation/QC layers. Duplicate library records and every original rank remain in the candidate export.
+- The full-length default extraction contains sparse and rich spectra; accepted-ion distributions are reported under `data/validation/profile_sensitivity/`. Parameter responsiveness does not by itself establish identification superiority.
+- Licensed NIST identification changes across deconvolution profiles are not claimed by the public, licence-free validation. `scripts/compare_profile_nist_exports.py` is provided for laboratories that run all profiles with the same licensed library/search configuration.
+- The five NOM marker groups are application-specific literature-guided annotations, not a universal organic-matter taxonomy. The separate nine-class structural-product scheme is descriptive.
+- Conventional GC-MS use is technically supported within the documented mzML scope, but real-data validation outside Py-GC/MS remains limited.
+
+## Operational classification limitations
+
+ClassificationModelVersion 2.0.0 assigns operational marker groups after candidate selection; it does not convert a library candidate into a confirmed molecular identity or unique precursor source. Aromatic hydrocarbons, phenols, nitriles and other pyrolysis products can have several natural, anthropogenic or secondary thermal origins. Exact rules prevent known logical misclassification, but they do not remove this chemical ambiguity. Sample-specific analytical additions (for example toluene used as an internal-standard solvent) must be excluded from environmental-composition denominators separately and documented.
+
+## Classification-model boundary
+
+Model 2.0.0 provides operational marker groups and structural-product labels, not confirmed source apportionment. Exact-name/CAS rules prevent known overwrite errors, but a correct class label does not establish a unique precursor. The archived Figure 4 table is an aggregate from the analysis version used for the manuscript; its underlying component-level rows are not deposited, so it is not retrospectively reconstructed from a different export.

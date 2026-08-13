@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "run_id": "",
-  "software_version": "1.3.0",
+  "software_version": "1.3.1",
   "software_archive_sha256": "",
   "input_mzml": {
     "filename": "",
@@ -12,5 +12,15 @@
   "analysis_parameters": "provenance/analysis_parameters.yaml",
   "ai_records": [],
   "output_files": [],
-  "created_utc": ""
+  "created_utc": "",
+  "candidate_review_settings": {
+    "minimum_reconstructed_ions_for_automatic_nist_submission": 3,
+    "include_low_ion_override": false,
+    "unique_species_grouping": "CAS, otherwise normalized name",
+    "near_tie_mf_gap_threshold": 30,
+    "group_duplicate_cas_in_view": true
+  },
+  "retention_index_record": "provenance/ri_calibration_record_template.yaml",
+  "classification_layers_used": [],
+  "classification_model_version": "2.0.0"
 }

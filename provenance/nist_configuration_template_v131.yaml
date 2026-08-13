@@ -1,0 +1,31 @@
+schema_version: '1.3.1'
+status: TO_BE_COMPLETED_FOR_EACH_LICENSED_RUN
+product:
+  name: NIST MS Search
+  version_build:
+  executable_path_or_redacted_identifier:
+library:
+  release:
+  installed_library_names: []
+  license: user-supplied licensed resource; not redistributed
+search:
+  search_type:
+  top_n_candidates:
+  number_of_hits_to_print:
+  mass_range:
+  spectrum_preprocessing:
+  constraints:
+  retention_index_options:
+  other_search_options:
+  output_format: candidate table imported through the documented bridge contract
+workflow_qc:
+  minimum_reconstructed_ions_for_automatic_submission: 3
+  include_low_ion_components: false
+  near_tie_mf_gap_threshold: 30
+  duplicate_species_view: CAS when available, normalized name otherwise
+  note: These settings do not delete components or raw NIST candidates.
+environment:
+  operating_system:
+  locale:
+operator:
+date_utc:
