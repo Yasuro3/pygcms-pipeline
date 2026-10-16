@@ -1,14 +1,17 @@
-# PyGCMS Pipeline v1.3.1
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21912995.svg)](https://doi.org/10.5281/zenodo.21912995)
+# PyGCMS Pipeline v1.3.2
 
 PyGCMS Pipeline is a fixed, English-language research-software release for nominal-mass, MS1, full-scan GC-MS chromatograms, with development and real-data validation centered on pyrolysis GC-MS. The browser application reads a documented mzML subset, performs configurable chromatographic deconvolution, sends search-eligible reconstructed spectra to a separately licensed local NIST MS Search installation, and preserves the complete returned top-N candidate list with original ranks, scores, identifiers, selected status, rationale, analysis parameters, and run provenance.
 
 The release does **not** call, wrap, or depend on PyMassSpec/PyMS for deconvolution. The extraction code is an independent JavaScript implementation of established chromatographic concepts. PyMassSpec/PyMS is cited in the associated manuscript only as an established programmable GC-MS framework. The release does not claim a new deconvolution theory or definitive compound identification.
 
-> **Version-specific Zenodo DOI:** [10.5281/zenodo.21912995](https://doi.org/10.5281/zenodo.21912995)
+> **Zenodo note for this peer-review revision:** upload this directory as version 1.3.2, then insert the new version-specific Zenodo DOI into `CITATION.cff`, this README, and the revised manuscript. The previous v1.3.0 DOI must not be presented as the v1.3.2 archive DOI.
 
-## What changed in v1.3.1
+## What changed in v1.3.2
+
+- Added a sixth operational class, **S — sulfur-containing / sulfurization-associated products**, so sulfur-bearing pyrolysis products are no longer merged into P.
+- Added explicit thiophene, benzothiophene, dibenzothiophene, reduced-S, mixed N/S and oxidized-S rules plus a sulfur-aware formula fallback.
+- Added sulfur-specific literature provenance and cautions: S is a compositional/process-associated class, not a stand-alone diagnosis of anoxia or sulfate reduction, and alkylthiophenes can form during pyrolysis in the presence of elemental sulfur.
+- Bumped `ClassificationModelVersion` from 2.0.0 to **2.1.0** while leaving chromatographic deconvolution and candidate preservation unchanged.
 
 - Replaced the public quick-start mzML with a synthetic file that produces three components at the documented defaults.
 - Added a configurable minimum spectral-ion count for automatic NIST submission. Low-ion components remain in the component table and CSV with an explicit search-eligibility reason.
@@ -16,7 +19,7 @@ The release does **not** call, wrap, or depend on PyMassSpec/PyMS for deconvolut
 - Added a CAS-based duplicate-species view. Repeated NIST entries are collapsed only on screen; their original ranks and values remain in the CSV.
 - Added an optional compact ambiguity/QC CSV.
 - Fixed repeated candidate selection so it is idempotent and no static NIST notice or reason text grows with repeated clicks.
-- Clarified the two optional classification layers: five application-specific, literature-guided NOM marker groups used in the paper; and a separate neutral nine-class structural-product summary. Neither is a universal taxonomy.
+- Clarified the optional classification layers. New analyses use six application-specific L/P/C/F/S/O marker groups, while the archived paper figure remains a historical five-group L/P/C/F/O aggregate; the separate nine-class structural-product summary is unchanged.
 - Expanded NIST setup, NIST-search-record, retention-index, candidate-review, and walkthrough documentation.
 - Added a short silent walkthrough video at `walkthrough/PyGCMS_Pipeline_v1_3_1_walkthrough.webm`.
 - Added browser regression tests for the public example, candidate-text idempotence, match-gap metrics, CAS grouping, and raw-candidate preservation.
@@ -81,7 +84,7 @@ Nothing in the core mzML reader, chromatographic deconvolution, candidate-preser
 
 ## Classification layers
 
-The five L/P/C/F/O groups used for Figure 4 are application-specific, literature-guided marker groups for a Lake Biwa natural-organic-matter example. They are not proposed as universally accepted organic-matter classes. The separate nine-class view describes product structure more neutrally. Both layers are optional downstream annotations and are independent of deconvolution and candidate preservation.
+The current L/P/C/F/S/O groups are application-specific, literature-guided marker groups; S separately reports sulfur-containing / sulfurization-associated products. The archived Figure 4 was produced with the earlier five-group L/P/C/F/O scheme and is preserved as a historical result rather than numerically reconstructed. They are not proposed as universally accepted organic-matter classes. The separate nine-class view describes product structure more neutrally. Both layers are optional downstream annotations and are independent of deconvolution and candidate preservation.
 
 ## Archive contents
 
@@ -108,14 +111,14 @@ Browser helpers use `PYGCMS_CHROMIUM`, system Chromium, or Playwright Chromium i
 ## Source and citation
 
 - Source: `https://github.com/Yasuro3/pygcms-pipeline`
-- Version-specific archive: **[10.5281/zenodo.21912995](https://doi.org/10.5281/zenodo.21912995)**.
+- Version-specific archive: **insert the Zenodo DOI assigned to v1.3.2 after upload**.
 
-Suggested citation:
+Suggested citation after the DOI has been assigned:
 
-> Fuse, Y., Okuda, H., & Chu, X. (2026). PyGCMS Pipeline (v1.3.1) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21912995
+> Fuse, Y., Okuda, H., & Chu, X. (2026). PyGCMS Pipeline (v1.3.2) [Software]. Zenodo. https://doi.org/[VERSION-SPECIFIC-DOI]
 
-## Classification model 2.0.0 backport
+## Classification model 2.1.0
 
-Software version 1.3.1 uses **ClassificationModelVersion 2.0.0**, backported from the independently tested v1.4.1 classification branch. The backport does not change chromatographic deconvolution or raw candidate preservation. It adds a single final classification writer, exact-name/CAS invariants, auditable rule/confidence/warning fields, and a long-format candidate-audit CSV.
+Software version 1.3.2 uses **ClassificationModelVersion 2.1.0**. It retains the final-writer, exact-name/CAS invariants, auditable rule/confidence/warning fields, and long-format candidate-audit design from model 2.0.0, and adds a separate S category so sulfur-bearing products are not merged into P. Chromatographic deconvolution and raw candidate preservation are unchanged.
 
 Exact toluene aliases and CAS 108-88-3 are locked to category L and the structural class `Aromatic hydrocarbons`; they cannot be overwritten by a later literature, matrix or optional model-review step. This is an operational multi-origin group, not a unique lignin or fulvic-acid assignment. In the Lake Biwa double-shot experiment, toluene was the solvent of the added internal-standard solution and must not be interpreted as an environmental source marker. Figure 4 is an archived structural-product aggregate; the P-to-L origin-category correction does not change toluene's structural assignment as an aromatic hydrocarbon. See `docs/CLASSIFICATION_LAYERS.md` and `provenance/origin_classification_model_v2.json`.

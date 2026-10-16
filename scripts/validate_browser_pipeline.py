@@ -238,7 +238,7 @@ def main() -> None:
         "",
         "These are single-run diagnostic timings for the recorded environment, not a cross-system benchmark.",
         "", "## Reconstructed-ion count QC", "",
-        "Automatic NIST submission uses a non-destructive minimum of three reconstructed spectral ions in v1.3.1. Components below this threshold remain in the component export and can be included manually.",
+        "Automatic NIST submission uses a non-destructive minimum of three reconstructed spectral ions in v1.3.2. Components below this threshold remain in the component export and can be included manually.",
         "", "| Profile | 1 ion | 2 ions | 3-4 | 5-9 | >=10 | Eligible (>=3) |",
         "|---|---:|---:|---:|---:|---:|---:|",
         *[f"| {name.capitalize()} | {ion_qc[name]['1']} | {ion_qc[name]['2']} | {ion_qc[name]['3-4']} | {ion_qc[name]['5-9']} | {ion_qc[name]['>=10']} | {ion_qc[name]['search_eligible']} |" for name in ("default", "permissive", "selective")],

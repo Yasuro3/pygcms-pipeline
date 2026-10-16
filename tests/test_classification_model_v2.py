@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression checks for classification model 2.0.0 backported to software v1.3.1."""
+"""Regression checks for classification model 2.1.0 in software v1.3.2."""
 from __future__ import annotations
 
 import json
@@ -11,7 +11,7 @@ HTML = ROOT / "software" / "index.html"
 text = HTML.read_text(encoding="utf-8")
 
 required = [
-    "CLASSIFICATION_MODEL_VERSION='2.0.0'",
+    "CLASSIFICATION_MODEL_VERSION='2.1.0'",
     "EXACT_TOLUENE",
     "L_AROMATIC_HYDROCARBON",
     "FORMULA_AROMATIC_HC_L",
@@ -46,6 +46,11 @@ with sync_playwright() as pw:
             {name:'Benzene',formula:'C6H6',cas:'71-43-2'},
             {name:'Naphthalene',formula:'C10H8',cas:'91-20-3'},
             {name:'Pyridine',formula:'C5H5N',cas:'110-86-1'},
+            {name:'Thiophene',formula:'C4H4S',cas:'110-02-1'},
+            {name:'2-Methylthiophene',formula:'C5H6S',cas:'554-14-3'},
+            {name:'Benzothiophene',formula:'C8H6S',cas:'95-15-8'},
+            {name:'Benzothiazole',formula:'C7H5NS',cas:'95-16-9'},
+            {name:'Unlisted sulfur compound',formula:'C6H6S',cas:''},
             {name:'Furfural',formula:'C5H4O2',cas:'98-01-1'},
             {name:'Hexadecane',formula:'C16H34',cas:'544-76-3'},
             {name:'Cyclomethicone siloxane',formula:'C6H18OSi2',cas:''}
@@ -68,17 +73,20 @@ for c in cases[:5]:
     assert c["cat"] == "L", c
     assert c["rule"] == "EXACT_TOLUENE", c
     assert c["locked"] is True, c
-    assert c["model"] == "2.0.0", c
+    assert c["model"] == "2.1.0", c
     assert c["paper"] == "Aromatic hydrocarbons", c
 assert cases[5]["cat"] == "L" and cases[5]["rule"] == "L_AROMATIC_HYDROCARBON", cases[5]
 assert cases[6]["cat"] == "L" and cases[6]["rule"] == "L_AROMATIC_HYDROCARBON", cases[6]
 assert cases[7]["cat"] == "P", cases[7]
-assert cases[8]["cat"] == "C", cases[8]
-assert cases[9]["cat"] == "F", cases[9]
-assert cases[10]["cat"] == "O" and cases[10]["locked"] is True, cases[10]
+for c in cases[8:13]:
+    assert c["cat"] == "S", c
+    assert c["rule"] in {"S_ORGANOSULFUR_NAME", "FORMULA_S_S"}, c
+assert cases[13]["cat"] == "C", cases[13]
+assert cases[14]["cat"] == "F", cases[14]
+assert cases[15]["cat"] == "O" and cases[15]["locked"] is True, cases[15]
 assert result["t"] == {"cat": "L", "rule": "EXACT_TOLUENE", "locked": True}, result["t"]
 assert "EXACT_TOLUENE" in result["audit"]
-assert "2.0.0" in result["audit"]
+assert "2.1.0" in result["audit"]
 assert "ClassificationModelVersion" in result["results"]
 assert "FinalOriginRuleID" in result["results"]
 

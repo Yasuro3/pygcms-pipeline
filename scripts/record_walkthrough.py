@@ -109,9 +109,9 @@ def main() -> int:
             browser.close()
             webm_path = Path(video.path())
 
-        target_webm = args.outdir / "PyGCMS_Pipeline_v1.3.1_mock_walkthrough.webm"
+        target_webm = args.outdir / "PyGCMS_Pipeline_v1.3.2_mock_walkthrough.webm"
         shutil.copy2(webm_path, target_webm)
-        target_mp4 = args.outdir / "PyGCMS_Pipeline_v1.3.1_mock_walkthrough.mp4"
+        target_mp4 = args.outdir / "PyGCMS_Pipeline_v1.3.2_mock_walkthrough.mp4"
         subprocess.run([
             "ffmpeg", "-y", "-i", str(target_webm), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-crf", "24", str(target_mp4)
         ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

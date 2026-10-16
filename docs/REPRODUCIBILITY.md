@@ -76,8 +76,8 @@ the run provenance.
 
 ## Classification reproducibility
 
-Record both the software version and `ClassificationModelVersion`. In v1.3.1 the latter is `2.0.0`. The results CSV and candidate-audit CSV retain the final rule ID, confidence, interpretation, warning, source IDs and lock state for every selected or retained candidate. Reclassification can therefore be audited without altering original NIST ranks or scores.
+Record both the software version and `ClassificationModelVersion`. In v1.3.2 the latter is `2.1.0`. The results CSV and candidate-audit CSV retain the final rule ID, confidence, interpretation, warning, source IDs and lock state for every selected or retained candidate. Reclassification can therefore be audited without altering original NIST ranks or scores.
 
 ## Classification model
 
-Reproducibility requires recording both `SoftwareVersion` and `ClassificationModelVersion`. Version 1.3.1 uses classification model 2.0.0. Run `tests/test_classification_model_v2.py` or the full strict suite to verify exact-name/CAS invariants, final audit fields, and long-format candidate preservation.
+Reproducibility requires recording both `SoftwareVersion` and `ClassificationModelVersion`. Version 1.3.2 uses classification model 2.1.0. Run `tests/test_classification_model_v2.py` or the full strict suite to verify exact-name/CAS invariants, final audit fields, and long-format candidate preservation.

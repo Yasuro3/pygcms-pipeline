@@ -19,7 +19,7 @@ PyGCMS Pipeline communicates only with a user-supplied, locally licensed NIST MS
 
 ## Search-eligible spectra
 
-Version 1.3.1 defaults to withholding reconstructed spectra with fewer than three accepted ions from automatic NIST submission. These components remain in the table and CSV with `NIST_SearchEligible=no` and an explicit reason. This prevents the software from silently treating a sparse spectrum as an identification, while preserving the measured/extracted record. The threshold is configurable, and the analyst remains responsible for judging whether a spectrum is adequate for the intended identification level.
+Version 1.3.2 defaults to withholding reconstructed spectra with fewer than three accepted ions from automatic NIST submission. These components remain in the table and CSV with `NIST_SearchEligible=no` and an explicit reason. This prevents the software from silently treating a sparse spectrum as an identification, while preserving the measured/extracted record. The threshold is configurable, and the analyst remains responsible for judging whether a spectrum is adequate for the intended identification level.
 
 ## NIST search settings are not inferred
 
@@ -27,7 +27,7 @@ NIST match factors depend on library release, search type, mass range, constrain
 
 ## NIST20, NIST23, NIST26 and MS Search versions
 
-The interface relies on the documented text/automation exchange and preserves returned fields. Version 1.3.1 includes a regression fix for repeated candidate selection and does not append the static licensing notice to candidate text. A contract test verifies the public bridge with a stub backend. Real NIST builds must still be checked locally because licensed software is not distributed or launched by the public test suite.
+The interface relies on the documented text/automation exchange and preserves returned fields. Version 1.3.2 includes a regression fix for repeated candidate selection and does not append the static licensing notice to candidate text. A contract test verifies the public bridge with a stub backend. Real NIST builds must still be checked locally because licensed software is not distributed or launched by the public test suite.
 
 ## Troubleshooting
 
@@ -37,7 +37,7 @@ The interface relies on the documented text/automation exchange and preserves re
 - **0 hits:** retain the component as unidentified; do not fabricate a candidate. Use “continue on 0-hit/error” for batch completion.
 - **Sparse spectrum:** inspect `PureIons` and the eligibility reason; optimize deconvolution or raise/lower the workflow threshold only with analytical justification.
 - **Repeated names:** enable “group duplicate CAS in view.” Raw ranks remain in the CSV.
-- **Candidate display grows after repeated clicking:** this was fixed in v1.3.1 and is covered by browser invariant I7.
+- **Candidate display grows after repeated clicking:** this was fixed in v1.3.2 and is covered by browser invariant I7.
 
 ## Licence-free interface verification
 

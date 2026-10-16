@@ -361,7 +361,7 @@ STATE: Optional[AppState] = None
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "PyGCMS-Pipeline/1.3.1"
+    server_version = "PyGCMS-Pipeline/1.3.2"
 
     def log_message(self, fmt: str, *args: Any) -> None:
         sys.stderr.write("[%s] %s\n" % (self.log_date_time_string(), fmt % args))
@@ -429,7 +429,7 @@ class Handler(BaseHTTPRequestHandler):
         return {
             "ok": True,
             "service": "PyGCMS Pipeline",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "host": STATE.host,
             "port": STATE.port,
             "nistms": nistms,
