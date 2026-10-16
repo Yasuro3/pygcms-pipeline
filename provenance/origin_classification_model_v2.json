@@ -1,15 +1,18 @@
 {
   "schema": "PyGCMS-origin-classification-model-v1",
-  "software_version": "1.3.1",
-  "classification_model_version": "2.0.0",
-  "status": "backported from the independently tested v1.4.1 classification branch",
+  "software_version": "1.3.2",
+  "classification_model_version": "2.1.0",
+  "status": "v1.3.2 sulfur-class extension of the v1.3.1 / model 2.0.0 final-writer design",
   "principles": [
     "classification is downstream of candidate preservation",
     "raw NIST candidates, ranks and scores are never deleted or changed",
     "exact-name or CAS invariants are applied after all optional evidence layers",
     "AI/model review may select a candidate but cannot override a locked final classification",
-    "C/H-only and non-N aromatic hydrocarbons cannot be assigned to the protein/microbial group",
-    "source labels are operational marker groups, not confirmed source apportionment"
+    "source labels are operational marker groups, not confirmed source apportionment",
+    "sulfur-containing products are reported separately as S instead of being merged into the protein/microbial P class",
+    "formula-only N+S candidates are retained in S for sulfur accounting while mixed N/S ambiguity is preserved in warning fields",
+    "S is an operational compositional/process-associated class and does not by itself prove anoxia, sulfate reduction, or in-situ sulfurization",
+    "thiophene interpretation is explicitly cautioned because elemental sulfur can generate alkylthiophenes during pyrolysis"
   ],
   "priority_rules": [
     {
@@ -27,6 +30,16 @@
       "final_category": "O",
       "confidence": "A",
       "locked": true
+    },
+    {
+      "rule_id": "S_ORGANOSULFUR_NAME",
+      "match": "thiophene/alkylthiophene, benzothiophene, dibenzothiophene, thiol/mercaptan, sulfide/disulfide/polysulfide, thiazole/benzothiazole, isothiocyanate/thiocyanate, sulfoxide/sulfone families",
+      "final_category": "S",
+      "final_category_label": "Sulfur-containing / sulfurization-associated",
+      "paper_class_9": "preserved from structural layer (commonly Others or N-containing aromatics)",
+      "confidence": "B-C",
+      "locked": false,
+      "warning": "Operational sulfur class only. Presence is not proof of a unique precursor or redox pathway; alkylthiophenes can form during pyrolysis in the presence of elemental sulfur."
     },
     {
       "rule_id": "L_AROMATIC_HYDROCARBON",
@@ -64,5 +77,32 @@
   ],
   "application_specific_note": {
     "Lake_Biwa_Figure_4": "The Lake Biwa double-shot experiment used toluene as the solvent of the added internal-standard solution; it must not be interpreted as an environmental source marker. Figure 4 is an archived structural-product aggregate. The origin-category correction P to L leaves the structural product class 'Aromatic hydrocarbons' unchanged. Component-level rows underlying the archived aggregate are not deposited, so the figure is not numerically reconstructed from a different data version."
+  },
+  "sulfur_class": {
+    "code": "S",
+    "label": "Sulfur-containing / sulfurization-associated",
+    "purpose": "separate accounting of sulfur-bearing pyrolysis products, especially useful in anoxic/sulfidic sediments and sludge",
+    "name_families": [
+      "thiophenes",
+      "benzothiophenes",
+      "dibenzothiophenes",
+      "thiols/mercaptans",
+      "sulfides/disulfides/polysulfides",
+      "thiazoles/benzothiazoles (mixed N/S)",
+      "isothiocyanates/thiocyanates",
+      "sulfoxides/sulfones"
+    ],
+    "formula_fallback": "any S-bearing candidate not caught by a higher-priority contaminant invariant is assigned S at low confidence; N+S is flagged mixed N/S",
+    "interpretive_limit": "S is not a direct redox diagnosis. Use with porewater sulfide/sulfate, Fe speciation, total/organic S, and sample context where available.",
+    "source_ids": [
+      "PY024",
+      "PY027",
+      "PY028",
+      "PY029",
+      "PY030",
+      "PY031",
+      "PY032",
+      "PY033"
+    ]
   }
 }

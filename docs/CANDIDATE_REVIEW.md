@@ -6,6 +6,6 @@ The candidate-review stages are deliberately non-destructive.
 2. **Deterministic QC (optional)** - flags sparse spectra, low scores, likely analytical background, formula concerns, diagnostic-ion issues, RI disagreement, and literature-rule context.
 3. **External-model advice (optional)** - may recommend one of the supplied candidates or unassigned. It cannot introduce a new library hit or change original scores.
 4. **Human disposition** - a user may select an alternative candidate or leave the component unassigned. Manual selection metadata are stored separately; imported candidate text is not edited.
-5. **Final classification writer (model 2.0.0)** - recomputes the optional operational class from the finally selected candidate, applies exact-name/CAS invariants last, records rule/confidence/warning/lock fields, and cannot alter the immutable NIST snapshot. Optional model advice cannot overwrite a locked final class.
+5. **Final classification writer (model 2.1.0)** - recomputes the optional operational class from the finally selected candidate, applies exact-name/CAS invariants last, records rule/confidence/warning/lock fields, and cannot alter the immutable NIST snapshot. Optional model advice cannot overwrite a locked final class.
 
-The five NOM marker groups and the nine structural-product groups are optional application annotations. They do not affect deconvolution or the immutable NIST hit list.
+The six NOM / diagenetic marker groups and the nine structural-product groups are optional application annotations. They do not affect deconvolution or the immutable NIST hit list.

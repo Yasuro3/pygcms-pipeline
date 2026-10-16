@@ -1,12 +1,14 @@
 RuleID,Priority,MatchSummary,FinalCategory,FinalCategoryLabel,PaperClass9,Confidence,Locked,Warning
-EXACT_TOLUENE,1,"Toluene aliases or CAS 108-88-3/108883",L,"Aromatic / fulvic-acid-like / lignin-derived / humic-like",Aromatic hydrocarbons,C,true,"Multi-origin operational group; not a unique lignin or fulvic-acid tracer"
-CONTAMINANT_OR_ARTIFACT,2,"Siloxane, analytical background, exclusion rule",O,"Secondary / ambiguous / contaminant / other",,A,true,"Retain in audit; exclude from forced NOM source classification"
-F_LONG_CHAIN_N_ALIPHATIC,3,"Long-chain low-unsaturation mono-N aliphatic amide/nitrile",F,"Lipid / fatty-acyl / aliphatic",Aliphatics (HC),C,false,"Mixed fatty-acid/nitrogenous precursor interpretation"
-P_NITRILE,4,"Nitriles except long-chain fatty-acid-derived case",P,"N-containing / protein- or microbial-related",Nitriles,C,false,"Multi-origin nitrogenous product"
-P_N_CONTAINING,4,"N heterocycles and amides",P,"N-containing / protein- or microbial-related",N-containing aromatics,C,false,"Multi-origin nitrogenous product"
-C_FURAN_CARBOHYDRATE,5,"Furans, furfurals, anhydrosugars",C,"Polysaccharide / carbohydrate-related",Furans,B,false,"Operational carbohydrate-associated marker"
-L_O_AROMATIC_PHENOLIC,6,"Phenols, methoxyphenols and oxygenated aromatics",L,"Aromatic / fulvic-acid-like / lignin-derived / humic-like",O-aromatics,C,false,"Multi-origin phenolic product"
-L_AROMATIC_HYDROCARBON,7,"Aromatic hydrocarbon name/structure",L,"Aromatic / fulvic-acid-like / lignin-derived / humic-like",Aromatic hydrocarbons,C,false,"May include char, combustion, petroleum, resin, protein-derived or secondary pyrolysis products"
-F_ALIPHATIC_HYDROCARBON,8,"Alkanes, alkenes, fatty-acyl and wax products",F,"Lipid / fatty-acyl / aliphatic",Aliphatics (HC),B,false,"Biological versus petrogenic origin may be unresolved"
-O_GENERAL_CARBONYL,9,"General aldehydes, ketones and carbonyls",O,"Secondary / ambiguous / contaminant / other",Carbonyls,C,false,"Several precursor classes possible"
-FORMULA_FALLBACKS,10,"Formula-only low-specificity fallback",L/P/C/F/O,"Operational group selected from formula",,D,false,"Formula-only assignment is low specificity"
+EXACT_TOLUENE,1,Toluene aliases or CAS 108-88-3/108883,L,Aromatic / fulvic-acid-like / lignin-derived / humic-like,Aromatic hydrocarbons,C,true,Multi-origin operational group; not a unique lignin or fulvic-acid tracer
+CONTAMINANT_OR_ARTIFACT,2,"Siloxane, analytical background, exclusion rule",O,Secondary / ambiguous / contaminant / other,,A,true,Retain in audit; exclude from forced NOM source classification
+F_LONG_CHAIN_N_ALIPHATIC,3,Long-chain low-unsaturation mono-N aliphatic amide/nitrile,F,Lipid / fatty-acyl / aliphatic,Aliphatics (HC),C,false,Mixed fatty-acid/nitrogenous precursor interpretation
+P_NITRILE,4,Nitriles except long-chain fatty-acid-derived case,P,N-containing / protein- or microbial-related,Nitriles,C,false,Multi-origin nitrogenous product
+P_N_CONTAINING,4,N heterocycles and amides,P,N-containing / protein- or microbial-related,N-containing aromatics,C,false,Multi-origin nitrogenous product
+C_FURAN_CARBOHYDRATE,5,"Furans, furfurals, anhydrosugars",C,Polysaccharide / carbohydrate-related,Furans,B,false,Operational carbohydrate-associated marker
+L_O_AROMATIC_PHENOLIC,6,"Phenols, methoxyphenols and oxygenated aromatics",L,Aromatic / fulvic-acid-like / lignin-derived / humic-like,O-aromatics,C,false,Multi-origin phenolic product
+L_AROMATIC_HYDROCARBON,7,Aromatic hydrocarbon name/structure,L,Aromatic / fulvic-acid-like / lignin-derived / humic-like,Aromatic hydrocarbons,C,false,"May include char, combustion, petroleum, resin, protein-derived or secondary pyrolysis products"
+F_ALIPHATIC_HYDROCARBON,8,"Alkanes, alkenes, fatty-acyl and wax products",F,Lipid / fatty-acyl / aliphatic,Aliphatics (HC),B,false,Biological versus petrogenic origin may be unresolved
+O_GENERAL_CARBONYL,9,"General aldehydes, ketones and carbonyls",O,Secondary / ambiguous / contaminant / other,Carbonyls,C,false,Several precursor classes possible
+FORMULA_FALLBACKS,10,Formula-only low-specificity fallback,L/P/C/F/S/O,Operational group selected from formula,,D,false,Formula-only assignment is low specificity
+S_ORGANOSULFUR_NAME,3,"Sulfur-containing names: thiophenes, benzothiophenes, sulfides, mixed N/S and related sulfur functional classes",S,Sulfur-containing / sulfurization-associated,Preserved from structural layer,B-C,false,Operational compositional/process-associated class; not proof of a unique redox pathway; alkylthiophenes may form during pyrolysis with elemental sulfur
+FORMULA_S_S,10,Formula-only fallback for candidates containing S,S,Sulfur-containing / sulfurization-associated,,D,false,Formula-only sulfur assignment is low specificity; N+S is flagged as mixed N/S

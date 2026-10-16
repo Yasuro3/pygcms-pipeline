@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static reviewer-driven feature checks for v1.3.1."""
+"""Static reviewer-driven feature checks for v1.3.2."""
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,9 +28,10 @@ for phrase in [
     "neutral nine-class structural-product summary",
     "immutable snapshot",
     "conventional nominal-mass, MS1 full-scan GC-MS",
-    "ClassificationModelVersion 2.0.0",
+    "ClassificationModelVersion 2.1.0",
+    "Sulfur-containing / sulfurization-associated",
 ]:
     if phrase not in text:
         raise SystemExit(f"Missing clarification in interface: {phrase}")
 
-print("PASS: v1.3.1 reviewer-driven controls and clarifications are present")
+print("PASS: v1.3.2 reviewer-driven controls, sulfur class, and clarifications are present")

@@ -47,7 +47,7 @@ def main() -> None:
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<mzML xmlns="http://psi.hupo.org/ms/mzml" version="1.1.0">',
-        f'  <run id="synthetic_gc_ms_v131"><spectrumList count="{len(scans)}">',
+        f'  <run id="synthetic_gc_ms_v132"><spectrumList count="{len(scans)}">',
     ]
     for idx, (rt, mzs, vals) in enumerate(scans):
         tic = sum(vals)

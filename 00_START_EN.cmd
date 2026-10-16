@@ -16,7 +16,7 @@ for /f "tokens=5" %%a in ('netstat -ano ^| findstr /R /C:":%PORT% .*LISTENING"')
 where py >nul 2>nul
 if %ERRORLEVEL%==0 ( set "PYCMD=py -3" ) else ( set "PYCMD=python" )
 
-echo Starting PyGCMS Pipeline v1.3.1
+echo Starting PyGCMS Pipeline v1.3.2
 echo App URL: http://127.0.0.1:%PORT%/app
 echo Bridge output: %WORK%
 echo.

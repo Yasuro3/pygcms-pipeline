@@ -1,10 +1,9 @@
 cff-version: 1.2.0
-message: If you use this software, cite the version-specific Zenodo record for v1.3.1 and the associated SoftwareX article.
+message: If you use this software, cite the version-specific Zenodo record for v1.3.2 and the associated SoftwareX article. Version 1.3.2 adds separate sulfur-product classification (ClassificationModelVersion 2.1.0).
 title: PyGCMS Pipeline
 type: software
-version: 1.3.1
-doi: 10.5281/zenodo.21912995
-date-released: '2026-08-13'
+version: 1.3.2
+date-released: '2026-10-16'
 license: MIT
 repository-code: https://github.com/Yasuro3/pygcms-pipeline
 url: https://github.com/Yasuro3/pygcms-pipeline

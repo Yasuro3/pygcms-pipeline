@@ -1,7 +1,7 @@
 schema_version: '1.2'
 software:
   name: PyGCMS Pipeline
-  version: 1.3.1
+  version: 1.3.2
   release_type: archived research release
 input:
   format: mzML
@@ -129,10 +129,10 @@ retention_index:
   default_minimum_anchor_mf: 700
   record_template: provenance/ri_calibration_record_template.yaml
 classification_layers:
-  five_nom_marker_groups: application-specific literature-guided L/P/C/F/O groups
+  five_nom_marker_groups: application-specific literature-guided L/P/C/F/S/O groups
     used for the Lake Biwa example; not universal
   nine_structural_product_classes: separate neutral descriptive view; not used for
     Figure 4
   core_deconvolution_dependency: false
 
-classification_model_version: "2.0.0"
+classification_model_version: "2.1.0"
