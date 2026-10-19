@@ -3,7 +3,7 @@ message: Cite PyGCMS Pipeline v1.4.0 and the associated SoftwareX article. Publi
 title: PyGCMS Pipeline
 type: software
 version: 1.4.0
-date-released: '2026-10-18'
+date-released: '2026-10-19'
 license: MIT
 repository-code: https://github.com/Yasuro3/pygcms-pipeline
 url: https://github.com/Yasuro3/pygcms-pipeline
