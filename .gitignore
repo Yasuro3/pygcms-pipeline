@@ -21,3 +21,10 @@ Thumbs.db
 nistms_path.txt
 bridge_work/
 bridge_startup_log.txt
+
+# Private runtime secrets and generated v1.4.0 reports
+.env
+.env.*
+*recovery*codes*
+*_QC_Reports.zip
+QC140_results/

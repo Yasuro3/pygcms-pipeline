@@ -1,65 +1,63 @@
-# Classification layers and model version 2.1.0
+# Classification model 2.2.0 and reporting model JAAP-7-v1.0.0
 
-Classification is **not** part of chromatographic deconvolution or candidate preservation. It is an optional downstream annotation layer. All raw NIST candidates, original ranks, match scores, CAS identifiers and library identifiers remain in the candidate record whether or not a final operational class is assigned.
+PyGCMS Pipeline 1.4.0 retains the prior candidate archive and native six-category UI.
+The final writer now applies model 2.2.0 after the inherited 2.1.0 annotation logic.
+Saved input columns are never replaced during CSV reprocessing. Fresh native candidate
+objects store their originalClassification210 alongside their corrected final fields.
+Manual or model-assisted re-selection recomputes the final classification.
 
-## Software version and classification-model version
+## Distinct layers
 
-The reviewer-response release remains **PyGCMS Pipeline v1.3.2**. It retains the prior final-writer design and extends it as **ClassificationModelVersion 2.1.0** by separating sulfur-bearing products into an S class. Keeping these versions separate makes clear that chromatographic deconvolution and candidate-preservation behaviour were not replaced.
+1. Original NIST candidate name, formula, rank, MF/RMF, CAS and library remain evidence.
+2. Native L/P/C/F/S/O is a broad operational marker partition.
+3. Structural classes describe product structure; nitriles/amides are not hydrocarbons,
+   and cyclopentenones are carbonyls rather than furans.
+4. The seven report groups A/OAr/C/N/F/S/R use the corrected writer and explicit
+   formula guards. They do not correspond to seven mutually exclusive biological sources.
+5. Identification QC controls reporting eligibility and name specificity independently.
 
-## Final-writer design
+## Priority and corrections
 
-Earlier builds could allow a late matrix-specific rule to overwrite a more appropriate structural assignment. Model 2.1.0 uses one final writer after sediment-reference, literature, aliphatic and optional review layers. The final writer:
+Exact name/CAS corrections are listed in `provenance/classification_corrections_2_2_0.json`.
+An available contradictory formula sends the assignment to unresolved R; the formula
+is not silently edited. Toluene aliases/CAS retain L / aromatic-hydrocarbon status
+unless their identifiers contradict each other. JAAP's solvent exclusion is a separate
+reporting setting, not a structural classification of toluene as non-aromatic.
 
-- applies exact-name/CAS invariants after all other evidence;
-- prevents C/H-only and non-N aromatic hydrocarbons from being written to the protein/microbial group;
-- preserves warnings where a product has several possible precursors;
-- recomputes the final class after manual or model-assisted candidate selection;
-- prevents optional AI/model advice from overwriting a locked final class;
-- exports rule ID, confidence, interpretation, warning, source IDs, lock status and model version.
+Sulfur has priority over N in the mutually exclusive report. Independent formula flags
+remain available conceptually; this is not total-N quantification. Specified long-chain
+nitriles and amides remain in the broad F marker group but receive the proper structural
+class. Named cyclopentenones retain the C precursor convention with carbonyl structure.
 
-## Toluene invariant
+Formula-only low H/C or low O/C cannot establish an aromatic ring. Such unsupported
+aromatic assignments are put in R. A low DBE can contradict some asserted aromatic
+classes, but a high DBE is never used alone to prove aromaticity. Exact corrections
+cover the diagnosed non-aromatic examples rather than claiming a universal name-to-
+structure parser. Other inherited name-based annotations remain tentative.
 
-`Toluene`, `toluene`, `Methylbenzene`, `Benzene, methyl-`, and CAS `108-88-3`/`108883` are written as:
+## One computation, two explicit summaries
 
-- Category: **L**
-- Category label: **Aromatic / fulvic-acid-like / lignin-derived / humic-like**
-- Structural product class: **Aromatic hydrocarbons**
-- Rule: **EXACT_TOLUENE**
-- Confidence: **C**
-- Locked: **true**
+The corrected-candidate-conditional summary uses the new group for passing records.
+The identity-conservative summary moves exact-name-withheld records to R, not out of
+the response balance. Both outputs include all seven groups and identify their mode.
+No small RSD or desired station/depth trend is used in assigning a class.
 
-This is an operational grouping, not a unique source assignment. Toluene can also arise from charred material, proteins, petrogenic inputs or secondary pyrolysis. In the Lake Biwa double-shot experiment, exact toluene was the solvent of the added internal-standard solution and must not be interpreted as an environmental source marker. Figure 4 uses an archived structural-product aggregate, so the corrected P-to-L origin category does not change its structural assignment as `Aromatic hydrocarbons`. The component-level rows underlying the archived Figure 4 aggregate are not part of this software deposit, and no unsupported numerical reconstruction is made.
+The native six-group GUI summary is a legacy preview, not the screened report.
+Use the v1.4.0 QC outputs for quantitative comparisons under the stated settings.
 
-## Six NOM / diagenetic marker groups
+## Chemical references
 
-The current L/P/C/F/S/O labels are application-specific operational marker groups. The archived Lake Biwa Figure 4 used the earlier L/P/C/F/O scheme and remains unchanged:
+The inherited literature database and original source IDs remain intact. Specific
+non-aromatic structure checks can be independently inspected in the NIST Chemistry
+WebBook records for CAS 592-57-4, 628-41-1, 4505-38-8 and 123-91-1.
+These public structure records support a rule conditional on a name, not confirmation
+that a chromatographic signal is that compound. NIST references are links only;
+licensed EI reference spectra are not bundled.
 
-- **L** - aromatic, lignin/tannin-related, phenolic or humic-/fulvic-like operational markers;
-- **P** - N-containing, protein/amino-acid/microbial-related operational markers;
-- **C** - carbohydrate/polysaccharide-associated markers;
-- **F** - lipid/fatty-acyl/aliphatic/wax-associated markers;
-- **S** - sulfur-containing / sulfurization-associated products, including thiophenes and related sulfur-bearing compounds;
-- **O** - secondary, ambiguous, contaminant or other retained products.
+- https://webbook.nist.gov/cgi/cbook.cgi?ID=C592574
+- https://webbook.nist.gov/cgi/cbook.cgi?ID=C628411
+- https://webbook.nist.gov/cgi/cbook.cgi?ID=C4505388
+- https://webbook.nist.gov/cgi/cbook.cgi?ID=C123911
+- Sumner et al. (2007), https://doi.org/10.1007/s11306-007-0082-2
 
-They are not a universal taxonomy or confirmed source apportionment. In particular, S is not by itself a diagnosis of anoxia, sulfate reduction, or in-situ sulfurization. The audit warning preserves the known possibility of thiophene formation during pyrolysis in the presence of elemental sulfur.
-
-## Neutral nine-class structural-product summary
-
-A separate view describes product structure (aliphatics, furans, N-containing aromatics, amides, O-aromatics, aromatic hydrocarbons, carbonyls, nitriles and others). It is independent of the six NOM / diagenetic marker groups.
-
-## Export fields
-
-Component and candidate exports include:
-
-- `ClassificationModelVersion`
-- `FinalCategory` and `FinalCategoryLabel`
-- `FinalPaperClass9` and `FinalDetailedClass`
-- `FinalOriginRuleID`
-- `FinalOriginConfidence`
-- `FinalOriginMarkerClass`
-- `FinalOriginInterpretation`
-- `FinalOriginWarning`
-- `FinalOriginSourceIDs`
-- `FinalOriginLocked`
-
-The separate long-format candidate-audit CSV contains one row per retained candidate and retains the original candidate rank alongside these fields.
+See `docs/IDENTIFICATION_QC_V140.md` for reporting rules and limitations.

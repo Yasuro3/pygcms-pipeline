@@ -1,0 +1,37 @@
+{
+  "software": "1.4.0",
+  "prepared": "2026-10-18",
+  "automated_test_programs": 15,
+  "new_qc_assertion_groups": 41,
+  "all_public_checks_passed": true,
+  "browser_tests_skipped": false,
+  "environment": "Linux / Python 3.13.5",
+  "chromium": "Chromium 144.0.7559.96 built on Debian GNU/Linux 13 (trixie)",
+  "private_saved_data_checks": {
+    "environmental_runs": 60,
+    "source_records": 26987,
+    "retained_records": 20613,
+    "qualifying_component_records": 6281,
+    "candidate_label_keys": 638,
+    "complete_TD_PY_pairs": 30,
+    "original_column_union": 311,
+    "original_value_mismatches": 0,
+    "same_MF800_qualifying_record_set_as_prior_audit": true,
+    "independent_frequency_mismatches": 0,
+    "independent_group_sum_mismatches": 0
+  },
+  "measured_response_modified": false,
+  "public_source_bundle_contains_private_study_rows": false,
+  "not_verified": [
+    "Windows licensed NIST execution",
+    "live analytical instrument operation",
+    "every proprietary QGD variant",
+    "authentic-standard identification of all compounds",
+    "new alignment or correction of original deconvolution"
+  ],
+  "source_sha256": {
+    "software/index.html": "c346ea1e089bc47f5af1b9220e7bf744be61668c0b26c24f045622833d4aa673",
+    "software/qc140.js": "b962b94334fd630ab4ea935e09765ecd10996988cfc8405d7810c0a58d73dd5d",
+    "software/qc140_ui.js": "bb6ed997a262398704879eb455b81ed8c885776fe67b0c7e9a22f6d7c1cd5963"
+  }
+}

@@ -1,9 +1,9 @@
 cff-version: 1.2.0
-message: If you use this software, cite the version-specific Zenodo record for v1.3.2 and the associated SoftwareX article. Version 1.3.2 adds separate sulfur-product classification (ClassificationModelVersion 2.1.0).
+message: Cite PyGCMS Pipeline v1.4.0 and the associated SoftwareX article. Publication of this build on GitHub/Zenodo is pending; no v1.4.0 DOI has been issued.
 title: PyGCMS Pipeline
 type: software
-version: 1.3.2
-date-released: '2026-10-16'
+version: 1.4.0
+date-released: '2026-10-18'
 license: MIT
 repository-code: https://github.com/Yasuro3/pygcms-pipeline
 url: https://github.com/Yasuro3/pygcms-pipeline
@@ -24,6 +24,8 @@ keywords:
   - chromatographic deconvolution
   - candidate preservation
   - mzML
+  - Shimadzu QGD
+  - GCMSsolution
   - NIST MS Search
   - provenance
   - reproducibility

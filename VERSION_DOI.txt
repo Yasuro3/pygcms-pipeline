@@ -1,4 +1,9 @@
-PyGCMS Pipeline v1.3.1
-Version-specific Zenodo DOI: 10.5281/zenodo.21912995
-URL: https://doi.org/10.5281/zenodo.21912995
-Reserved for the v1.3.1 Zenodo version on 2026-08-13.
+PyGCMS Pipeline
+Software version: 1.4.0
+Classification model: 2.2.0
+Identification QC rules: 1.0.0
+Reporting model: JAAP-7-v1.0.0
+Prepared: 2026-10-18
+Version-specific DOI: not issued for this build
+GitHub release/tag: not created by this package generation
+Do not substitute a v1.3.x version-specific DOI.

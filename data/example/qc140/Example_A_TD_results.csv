@@ -1,0 +1,6 @@
+﻿No,RT_min,PureIons,TotalIntensity,Compound,Formula,NIST_MF,NIST_CAS,Category,PaperClass9,AI_Action
+1,7.1,8,100000,Phenol,C6H6O,900,108-95-2,L,O-aromatics,accepted
+2,8.6,10,30000,p-Cresol,C7H8O,890,106-44-5,L,O-aromatics,accepted
+3,3.5,9,80000,Pyrrole,C4H5N,920,109-97-7,P,N-containing aromatics,accepted
+4,10,4,3000,"1,4-Dioxane",C4H8O2,880,123-91-1,L,O-aromatics,accepted
+5,26,1,12,Synthetic ambiguous one-ion candidate,C10H10FNO,999,,P,Others,reselected

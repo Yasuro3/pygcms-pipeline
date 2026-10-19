@@ -4,12 +4,17 @@ software:
   version: 1.3.2
   release_type: archived research release
 input:
-  format: mzML
+  accepted_formats:
+  - mzML
+  - Shimadzu GCMSsolution QGD (supported validated variants)
   scope: nominal-mass, MS1, full scan
   profile_handling: mapped to nominal-mass bins
+  qgd_mixed_acquisition_policy: auto-select acquisition channel with largest median spectral point count; exclude secondary records from deconvolution
+  qgd_integrity_check: sum decoded raw intensities and compare with native TIC stream for every source record
   unsupported_features:
   - MS-Numpress
   - unresolved or unsupported mzML parameter references
+  - unsupported QGD stream layouts or native record encodings
   - MSn acquisition
   - accurate-mass preservation
   - ion mobility

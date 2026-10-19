@@ -1,0 +1,22 @@
+{
+  "readQGD": {
+    "unchanged": true,
+    "sha256": "25992c17bc673961310d805513dbf960a12222875517e3ea10daac2a43652fd9"
+  },
+  "readRawFile": {
+    "unchanged": true,
+    "sha256": "b1878f006a61f83f62ccb3d6e12b255f571173acbeff5bfcafe3b632299524c7"
+  },
+  "decodeSpec": {
+    "unchanged": true,
+    "sha256": "beffc1ac9ae54015ed44fec48ac391324300bbd0e9c46307933ec6039267071f"
+  },
+  "buildEIC": {
+    "unchanged": true,
+    "sha256": "e94e04720082abbe7f81a834572d80afb084ae2bab6c9fa11a3da6ebcf7e2ee3"
+  },
+  "deconvolveAt": {
+    "unchanged": true,
+    "sha256": "cef3a1d1c9ed9bec1f8bb84e36b11300d2e7ffde7e0c4228cb2e053d3dd82022"
+  }
+}

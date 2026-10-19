@@ -1,0 +1,12 @@
+{
+  "build_version": "1.4.0",
+  "prepared_date": "2026-10-18",
+  "base_archive": "PyGCMS_Pipeline_Zenodo_v1_3_2_classification_model_2_1_0_direct_Shimadzu_QGD_upload_ready.zip",
+  "base_archive_sha256": "818ad7ae9e269899612338d9e37cf2c99b1e98a2c78710932f50f76bbdbd1648",
+  "base_index_sha256": "523005bb71dbca29276112a67d6e2b2103730cbef329e3dd2215058ee505030c",
+  "public_v132_commit": "b80df88e00378655d6c1d4cc1647df1fe085a6fb",
+  "source_identity_note": "Uses supplied direct-QGD v1.3.2; not asserted byte-identical to public main or prior analytical snapshot.",
+  "github_written": false,
+  "zenodo_published": false,
+  "private_study_records_included": false
+}

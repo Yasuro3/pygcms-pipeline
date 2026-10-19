@@ -1,6 +1,42 @@
+# Release notes
+
+## 1.4.0 — prepared 18 October 2026
+
+New offline saved-CSV QC/reporting engine (1.0.0), classification model 2.2.0,
+JAAP-7-v1.0.0, configurable screening, conservative names, RT review flags,
+frequency/coverage aggregation and original-to-corrected transitions.
+Raw input preservation is tested. The full existing application is included, not
+only an index.html patch. Unsupported QGD formats and exact isomers are not newly
+claimed to be solved.
+
+The former render-time aliphatic/dehalogenation assignment override is no longer
+allowed to replace the final classification writer. Historical code/evidence is
+retained, but the v1.4.0 report does not change a fluorinated formula into an
+invented non-fluorinated identity. Exact-name withholding and R are used instead.
+
+The native results CSV keeps its prior fields with added QC columns; its schema
+identifier is advanced to PyGCMS-results-v2.2. Existing scripts should select fields
+by header rather than fixed column position. Native group values can intentionally
+change where classification bugs were corrected. Prior release data are not rewritten.
+
+The citation, launchers, metadata, tests and checksum manifest are updated together.
+Public release/DOI issuance remains a repository owner action.
+
+## Historical release notes (retained)
+
 # Release notes - v1.3.2
 
 Peer-review revision of v1.3.0.
+
+## v1.3.2 direct Shimadzu QGD input revision
+
+- Added direct browser-side reading of supported Shimadzu GCMSsolution `.qgd` OLE2 compound documents; no intermediate mzML conversion, vendor DLL, or COM automation is required.
+- Reads native retention-time, spectrum-index, TIC, and MS raw-data streams and verifies raw ion-intensity sums against the QGD-stored TIC.
+- Supports the two observed native spectrum-header layouts (20/22 and 24/26 byte encoding/count positions) and intensity encodings 1, 2, and 3.
+- Detects mixed acquisition channels and automatically selects the full-scan-like channel by median spectral point count; interleaved secondary/SIM-like records are excluded from deconvolution.
+- External GCMSsolution 4.53 validation specimen: 8,366 source records, 4,183 selected full-scan records, 4,183 excluded 23-ion secondary records, and 8,366/8,366 exact TIC checks; default deconvolution completed without browser errors.
+- Fixed class-summary CSV generation so the S category is explicitly emitted in L/P/C/F/S/O summaries.
+
 
 ## v1.3.2 sulfur-class extension (classification model 2.1.0)
 

@@ -11,7 +11,7 @@ HTML = ROOT / "software" / "index.html"
 text = HTML.read_text(encoding="utf-8")
 
 required = [
-    "CLASSIFICATION_MODEL_VERSION='2.1.0'",
+    "CLASSIFICATION_MODEL_VERSION='2.2.0'",
     "EXACT_TOLUENE",
     "L_AROMATIC_HYDROCARBON",
     "FORMULA_AROMATIC_HC_L",
@@ -73,7 +73,7 @@ for c in cases[:5]:
     assert c["cat"] == "L", c
     assert c["rule"] == "EXACT_TOLUENE", c
     assert c["locked"] is True, c
-    assert c["model"] == "2.1.0", c
+    assert c["model"] == "2.2.0", c
     assert c["paper"] == "Aromatic hydrocarbons", c
 assert cases[5]["cat"] == "L" and cases[5]["rule"] == "L_AROMATIC_HYDROCARBON", cases[5]
 assert cases[6]["cat"] == "L" and cases[6]["rule"] == "L_AROMATIC_HYDROCARBON", cases[6]
@@ -86,7 +86,7 @@ assert cases[14]["cat"] == "F", cases[14]
 assert cases[15]["cat"] == "O" and cases[15]["locked"] is True, cases[15]
 assert result["t"] == {"cat": "L", "rule": "EXACT_TOLUENE", "locked": True}, result["t"]
 assert "EXACT_TOLUENE" in result["audit"]
-assert "2.1.0" in result["audit"]
+assert "2.2.0" in result["audit"]
 assert "ClassificationModelVersion" in result["results"]
 assert "FinalOriginRuleID" in result["results"]
 

@@ -1,0 +1,1 @@
+Synthetic component records for exercising QC only. Signal intensities, RTs and scores were fabricated for software tests, not experimental observations. Named structures illustrate reporting rules; no NIST reference spectra are included. Import both *_results.csv and the run_manifest.csv. Do not use these records as chemical validation data.

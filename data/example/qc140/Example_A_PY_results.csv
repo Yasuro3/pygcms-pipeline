@@ -1,0 +1,6 @@
+﻿No,RT_min,PureIons,TotalIntensity,Compound,Formula,NIST_MF,NIST_CAS,Category,PaperClass9,AI_Action
+1,3.0,9,200000,Benzene,C6H6,940,71-43-2,L,Aromatic hydrocarbons,accepted
+2,7.11,8,50000,Phenol,C6H6O,910,108-95-2,L,O-aromatics,accepted
+3,3.51,10,90000,Pyrrole,C4H5N,930,109-97-7,P,N-containing aromatics,accepted
+4,5.0,8,2000,"1,3-Cyclohexadiene",C6H8,850,592-57-4,L,Aromatic hydrocarbons,accepted
+5,6.2,9,500,Thiophene,C4H4S,870,110-02-1,S,Others,accepted

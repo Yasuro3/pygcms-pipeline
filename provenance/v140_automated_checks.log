@@ -1,0 +1,208 @@
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_candidate_preservation.py
+PASS: I1 every returned top-N candidate is present in the CSV export
+PASS: I2 original candidate ranks are preserved in the CSV export
+PASS: I3 MF, RMF, probability, CAS, and library are unmodified
+PASS: I4 selecting original rank 2 leaves all alternatives intact
+PASS: I5 all-weak candidates remain archived while the component is unassigned
+PASS: I6 the zero-hit component remains unidentified without fabricated hits
+PASS: I7 repeated manual selection is idempotent and does not grow candidate text
+PASS: I8 CAS grouping and MF-gap flags preserve the complete raw hit list
+PASS: candidate preservation verified without NIST software or licensed data
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_classification_model_v2.py
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "name": "Toluene",
+      "cat": "L",
+      "rule": "EXACT_TOLUENE",
+      "locked": true,
+      "model": "2.2.0",
+      "paper": "Aromatic hydrocarbons",
+      "warning": "Operational group only: toluene is multi-origin and may also arise from charred material, proteins, petrogenic inputs, or secondary pyrolysis; it is not a unique lignin or fulvic-acid tracer."
+    },
+    {
+      "name": "toluene",
+      "cat": "L",
+      "rule": "EXACT_TOLUENE",
+      "locked": true,
+      "model": "2.2.0",
+      "paper": "Aromatic hydrocarbons",
+      "warning": "Operational group only: toluene is multi-origin and may also arise from charred material, proteins, petrogenic inputs, or secondary pyrolysis; it is not a unique lignin or fulvic-acid tracer."
+    },
+    {
+      "name": "Methylbenzene",
+      "cat": "L",
+      "rule": "EXACT_TOLUENE",
+      "locked": true,
+      "model": "2.2.0",
+      "paper": "Aromatic hydrocarbons",
+      "warning": "Operational group only: toluene is multi-origin and may also arise from charred material, proteins, petrogenic inputs, or secondary pyrolysis; it is not a unique lignin or fulvic-acid tracer."
+    },
+    {
+      "name": "Benzene, methyl-",
+      "cat": "L",
+      "rule": "EXACT_TOLUENE",
+      "locked": true,
+      "model": "2.2.0",
+      "paper": "Aromatic hydrocarbons",
+      "warning": "Operational group only: toluene is multi-origin and may also arise from charred material, proteins, petrogenic inputs, or secondary pyrolysis; it is not a unique lignin or fulvic-acid tracer."
+    },
+    {
+      "name": "Unusual library name",
+      "cat": "L",
+      "rule": "EXACT_TOLUENE",
+      "locked": true,
+      "model": "2.2.0",
+      "paper": "Aromatic hydrocarbons",
+      "warning": "Operational group only: toluene is multi-origin and may also arise from charred material, proteins, petrogenic inputs, or secondary pyrolysis; it is not a unique lignin or fulvic-acid tracer."
+    },
+    {
+      "name": "Benzene",
+      "cat": "L",
+      "rule": "L_AROMATIC_HYDROCARBON",
+      "locked": false,
+      "model": "2.2.0",
+      "paper": "Aromatic hydrocarbons",
+      "warning": "Aromatic hydrocarbons are multi-origin and may include char, combustion, petroleum, resin, protein-derived, or secondary pyrolysis products."
+    },
+    {
+      "name": "Naphthalene",
+      "cat": "L",
+      "rule": "L_AROMATIC_HYDROCARBON",
+      "locked": false,
+      "model": "2.2.0",
+      "paper": "Aromatic hydrocarbons",
+      "warning": "Aromatic hydrocarbons are multi-origin and may include char, combustion, petroleum, resin, protein-derived, or secondary pyrolysis products."
+    },
+    {
+      "name": "Pyridine",
+      "cat": "P",
+      "rule": "P_N_CONTAINING",
+      "locked": false,
+      "model": "2.2.0",
+      "paper": "N-containing aromatics",
+      "warning": "Nitrogen-containing products are multi-origin and do not uniquely identify protein or microbial precursors."
+    },
+    {
+      "name": "Thiophene",
+      "cat": "S",
+      "rule": "S_ORGANOSULFUR_NAME",
+      "locked": false,
+      "model": "2.2.0",
+      "paper": "Others",
+      "warning": "S is a compositional/process-associated class, not proof of a unique precursor or redox pathway. Alkylthiophenes can also form during pyrolysis in the presence of elemental sulfur."
+    },
+    {
+      "name": "2-Methylthiophene",
+      "cat": "S",
+      "rule": "S_ORGANOSULFUR_NAME",
+      "locked": false,
+      "model": "2.2.0",
+      "paper": "Others",
+      "warning": "S is a compositional/process-associated class, not proof of a unique precursor or redox pathway. Alkylthiophenes can also form during pyrolysis in the presence of elemental sulfur."
+    },
+    {
+      "name": "Benzothiophene",
+      "cat": "S",
+      "rule": "S_ORGANOSULFUR_NAME",
+      "locked": false,
+      "model": "2.2.0",
+      "paper": "Others",
+      "warning": "S is a compositional/process-associated class, not proof of a unique precursor or redox pathway. Alkylthiophenes can also form during pyrolysis in the presence of elemental sulfur."
+    },
+    {
+      "name": "Benzothiazole",
+      "cat": "S",
+      "rule": "S_ORGANOSULFUR_NAME",
+      "locked": false,
+      "model": "2.2.0",
+      "paper": "N-containing aromatics",
+      "warning": "Mixed N/S compound: counted in S for sulfur accounting; this does not exclude protein/microbial-N origin and does not prove sulfurization."
+    },
+    {
+      "name": "Unlisted sulfur compound",
+      "cat": "S",
+      "rule": "FORMULA_S_S",
+      "locked": false,
+      "model": "2.2.0",
+      "paper": "Others",
+      "warning": "Sulfur-first reporting; mixed N/S contributes once, to S."
+    },
+    {
+      "name": "Furfural",
+      "cat": "C",
+      "rule": "C_FURAN_CARBOHYDRATE",
+      "locked": false,
+      "model": "2.2.0",
+      "paper": "Furans",
+      "warning": "Furans can have several precursors and are operational rather than unique source tracers."
+    },
+    {
+      "name": "Hexadecane",
+      "cat": "F",
+      "rule": "F_ALIPHATIC_HYDROCARBON",
+      "locked": false,
+      "model": "2.2.0",
+      "paper": "Aliphatics (HC)",
+      "warning": "Aliphatic hydrocarbons can also include petroleum or plastic contributions."
+    },
+    {
+      "name": "Cyclomethicone siloxane",
+      "cat": "O",
+      "rule": "CONTAMINANT_OR_ARTIFACT",
+      "locked": true,
+      "model": "2.2.0",
+      "paper": "",
+      "warning": "Retained in the audit record but should not be forced into a natural-organic-matter source class."
+    }
+  ]
+}
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_deconvolution_numeric.py
+PASS: D1 every synthetic component detected exactly once at the correct scan
+PASS: D2 recovered apex retention times match the synthetic values
+PASS: D3 isolated component spectrum reproduced (cosine 1.0000)
+PASS: D4 'overlap_A' resolved to its own spectrum (own 0.9595 vs neighbour 0.0000)
+PASS: D4 'overlap_B' resolved to its own spectrum (own 0.9515 vs neighbour 0.0000)
+PASS: D5 shared ion m/z 39 excluded from both overlapping components, matching the documented shared-fragment limitation (see docs/LIMITATIONS.md)
+PASS: D6 no components invented in the background-only region
+PASS: deconvolution arithmetic verified against a synthetic ground truth (3 components extracted in 0.12 s).
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_example_workflow.py
+PASS: public example produced 3 components and 3 NIST-eligible spectra at defaults
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_mock_bridge_contract.py
+PASS: demo mode conforms to the bridge contract and is labelled synthetic.
+PASS: adversarial fixture contains genuine near-tie, class-conflict, and zero-hit probes.
+PASS: mock NIST bridge contract verified without NIST software or a browser.
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_mzml_fixture.py
+PASS: synthetic mzML fixture is structurally valid.
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_nist_bridge_contract.py
+[18/Oct/2026 03:47:31] "GET /health HTTP/1.1" 200 -
+[18/Oct/2026 03:47:31] "GET /app HTTP/1.1" 200 -
+[18/Oct/2026 03:47:31] "POST /search HTTP/1.1" 200 -
+PASS: licensed NIST bridge HTTP contract and max-candidate propagation verified with a stub backend.
+NOTE: licensed NIST MS Search itself was not launched by this test.
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_parameter_controls.py
+PASS: configurable deconvolution controls and preset functions are present.
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_qc140.py
+PASS: v1.4.0 QC — 41 assertion groups, synthetic data, browser UI and ZIP export.
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_qc140_embed.py
+PASS: canonical QC engine and adapter match embedded source
+PASS: v1.4.0 embedded source and release metadata agree
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_qgd_direct_reader.py
+PASS: direct QGD reader selected the dense channel, excluded interleaved secondary records, and preserved TIC exactly
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_reproduction.py
+PASS: totals reproduce and the classified composition is ordered TD L1-L5 then Py L1-L5.
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_revision_features.py
+PASS: v1.3.2 reviewer-driven controls, sulfur class, and clarifications are present
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_search_eligibility.py
+PASS: 1- and 2-ion components are retained but not auto-submitted; the eligible third component maps correctly
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/tests/test_sulfur_class_v132.py
+PASS: v1.3.2 sulfur class regression checks passed
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/scripts/reproduce_lake_biwa_statistics.py --class-summary-csv /mnt/data/PyGCMS_Pipeline_v1_4_0/data/application/17B_class_summary_percent.csv --outdir /tmp/tmpco7ztiyl/derived
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/scripts/generate_figures.py --outdir /tmp/tmpco7ztiyl/figures --class-summary /mnt/data/PyGCMS_Pipeline_v1_4_0/data/application/17B_class_summary_percent.csv --check-only
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/scripts/validate_mzml_structure.py /mnt/data/PyGCMS_Pipeline_v1_4_0/data/validation/full_length/17B_L1_PY_full_length_validation.mzML --output /tmp/tmpco7ztiyl/full_length_structure.json
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/scripts/extract_literature_rules.py --html /mnt/data/PyGCMS_Pipeline_v1_4_0/software/index.html --outdir /mnt/data/PyGCMS_Pipeline_v1_4_0/provenance --check
+PASS: machine-readable literature rules match the embedded LITDB
++ /opt/pyvenv/bin/python /mnt/data/PyGCMS_Pipeline_v1_4_0/scripts/verify_checksums.py /mnt/data/PyGCMS_Pipeline_v1_4_0/CHECKSUMS.sha256
+PASS: SHA-256 manifest verified for 133 archived files
+PASS: all public reproducibility checks completed; browser tests executed.
