@@ -1,6 +1,7 @@
-PyGCMS Pipeline v1.3.2 peer-review revision
+PyGCMS Pipeline v1.4.0
 
-Upload the finalized v1.3.2 archive to Zenodo as a new version, then replace
-[VERSION-SPECIFIC-ZENODO-DOI] in the revised manuscript and response package.
-Do not label the previous v1.3.0 DOI (10.5281/zenodo.21369547) as the DOI for
-v1.3.2.
+After publication of this version in Zenodo, insert its actual version-specific DOI
+into CITATION.cff, VERSION_DOI.txt, README.md and the relevant application manuscript.
+A reserved but unpublished DOI is not by itself a public download link.
+No version-specific DOI or v1.4.0 GitHub release has been issued by this local build.
+Keep the v1.3.x archive and its identifiers unchanged.

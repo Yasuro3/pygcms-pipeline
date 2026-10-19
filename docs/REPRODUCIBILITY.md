@@ -2,8 +2,8 @@
 
 ## Minimal workflow
 
-1. Record the authorized conversion route in `provenance/data_conversion_record.yaml`.
-2. Validate the mzML with `scripts/validate_mzml_structure.py` and compare scan count, retention-time range, TIC, and representative spectra with the authorized source software.
+1. Record the raw input format and, when mzML is used, the authorized conversion route in `provenance/data_conversion_record.yaml`.
+2. For mzML, validate with `scripts/validate_mzml_structure.py`. For direct Shimadzu QGD, run `scripts/validate_shimadzu_qgd_browser.py --qgd <file.qgd>` and record the detected channels, selected channel, scan count, retention-time range, and TIC-integrity result. Compare representative TIC/spectra with GCMSsolution when establishing a new QGD variant.
 3. Optimize deconvolution parameters on representative simple, weak, and coeluting regions; include blanks and standards when available.
 4. Export the accepted preset from the application and apply the same preset to samples intended for comparison.
 5. Complete `provenance/nist_configuration.yaml` for the licensed NIST installation and libraries.
@@ -54,6 +54,17 @@ python scripts/validate_browser_pipeline.py \
 By default this uses Playwright's bundled Chromium. `--chromium PATH` may be
 supplied when a particular executable must be tested. New reports record the
 browser and host environment together with single-run timings.
+
+
+## Direct Shimadzu QGD validation
+
+For an additional QGD file or a different GCMSsolution version, run:
+
+```bash
+python scripts/validate_shimadzu_qgd_browser.py --qgd path/to/sample.qgd
+```
+
+The validator executes the same browser parser distributed in `software/index.html`, reports the native-record count, selected acquisition channel, excluded records, median point counts, m/z range, and raw-sum/TIC mismatches, and builds the nominal-mass EIC matrix. A non-zero TIC mismatch or a parser error should be treated as an unsupported/native-format variation until compared with GCMSsolution or an authorized mzML export.
 
 ## Licensed NIST bridge verification
 

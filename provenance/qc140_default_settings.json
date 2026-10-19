@@ -1,0 +1,11 @@
+{
+  "minMF": 800,
+  "minIons": 3,
+  "minResponsePct": 0.001,
+  "nearTieGap": 10,
+  "rtBandGap": 0.12,
+  "nearRT": 0.08,
+  "rtDiagnostics": true,
+  "exclusionProfile": "JAAP_LEGACY",
+  "retentionWarningPct": 90
+}

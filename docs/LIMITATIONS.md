@@ -1,13 +1,16 @@
 # Limitations
 
-- The reader targets a documented subset of nominal-mass, MS1, full-scan mzML and is not a universal mzML implementation.
+- The mzML reader targets a documented subset of nominal-mass, MS1, full-scan mzML and is not a universal mzML implementation.
+- The direct Shimadzu QGD reader is a browser implementation based on validated OLE2/CFB streams and observed GCMSsolution record layouts; it does **not** use or claim compatibility with an official Shimadzu SDK. QGD variants with different native streams or record layouts may be rejected rather than guessed.
 - Accurate-mass profile information is mapped to nominal-mass bins; the release is not intended for high-resolution exact-mass interpretation.
 - MS-Numpress, MSn acquisition, ion mobility, GCxGC-specific structures, and unsupported parameter-reference patterns are outside the validated scope.
 - Browser parsing of very large mzML files is limited by available memory.
 - Deconvolution results depend on chromatographic quality and the selected parameters. Defaults are starting points, not universal optima.
 - High thresholds or correlation requirements can remove weak components; permissive settings can admit noise or neighboring ions.
 - Coeluting compounds with highly similar ion profiles may remain unresolved.
-- The public release does not read vendor-native files and does not establish universal native-file/mzML equivalence.
+- The public release reads supported Shimadzu GCMSsolution `.qgd` natively, but does not claim universal vendor-native support or universal native-file/mzML equivalence. Other vendor formats remain unsupported.
+- In mixed-acquisition QGD files, the channel with the largest median point count is selected automatically as the full-scan-like channel. This is appropriate for the validated full-scan+secondary/SIM file but should be checked for unusual multi-channel methods.
+- SIM-only QGD files may be technically readable, but low-ion spectra can be unsuitable for deconvolution or library search; the existing minimum-ion search-eligibility gate still applies.
 - NIST library candidates remain putative unless supported by standards or independent evidence.
 - NIST results can change with product build, library release, search mode, preprocessing, and top-N settings.
 - Literature-guided classes are matrix- and context-dependent and should remain traceable to reviewed sources.

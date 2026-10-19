@@ -1,0 +1,8 @@
+# Preserve release-manifest bytes across Windows checkouts.
+* text=auto eol=lf
+*.cmd -text
+*.png -text
+*.jpg -text
+*.pdf -text
+*.webm -text
+*.zip -text

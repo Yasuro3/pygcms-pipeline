@@ -3,7 +3,7 @@
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 text=(ROOT/'software/index.html').read_text(encoding='utf-8')
-for token in ["['S','Sulfur-containing']", "S_ORGANOSULFUR_NAME", "FORMULA_S_S", "CLASSIFICATION_MODEL_VERSION='2.1.0'", "S:'Sulfur-containing / sulfurization-associated'"]:
+for token in ["['S','Sulfur-containing']", "S_ORGANOSULFUR_NAME", "FORMULA_S_S", "CLASSIFICATION_MODEL_VERSION='2.2.0'", "S:'Sulfur-containing / sulfurization-associated'", "S:'Sulfur-containing',O:'Other'"]:
     assert token in text, token
 try:
     from playwright.sync_api import sync_playwright

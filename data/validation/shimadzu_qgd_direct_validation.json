@@ -1,0 +1,39 @@
+{
+  "schema": "PyGCMS-QGD-direct-validation-v1",
+  "software_version": "1.3.2",
+  "validation_date": "2026-10-14",
+  "source_software": "Shimadzu GCMSsolution 4.53",
+  "specimen_distribution": "not redistributed",
+  "specimen_sha256": "230453701cf7f0746616ab03692eb1b597ef0766b95b25407b3ef836bd942007",
+  "source_records": 8366,
+  "channels": [
+    {
+      "channel": 0,
+      "records": 4183,
+      "median_points": 560,
+      "header_offsets": [
+        20
+      ]
+    },
+    {
+      "channel": 1,
+      "records": 4183,
+      "median_points": 23,
+      "header_offsets": [
+        24
+      ]
+    }
+  ],
+  "selected_channel": 0,
+  "selected_records": 4183,
+  "excluded_records": 4183,
+  "tic_exact_records": 8366,
+  "tic_mismatches": 0,
+  "selected_rt_min": 1.65,
+  "selected_rt_max": 39.985,
+  "nominal_mz_bins_after_mapping": 562,
+  "browser_page_errors": 0,
+  "default_deconvolution_components": 270,
+  "automatic_nist_eligible_components": 240,
+  "note": "Technical parser/deconvolution validation only; not a chemical-identification validation."
+}

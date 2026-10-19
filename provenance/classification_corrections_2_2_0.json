@@ -1,0 +1,113 @@
+{
+  "version": "2.2.0",
+  "explicit_overrides": [
+    {
+      "CAS": "592-57-4",
+      "names": [
+        "1,3-Cyclohexadiene",
+        "Cyclohexa-1,3-diene"
+      ],
+      "expected_formula": "C6H8",
+      "native_category": "F",
+      "structural_class": "Aliphatics (HC)",
+      "report_group": "F",
+      "rule_id": "NONAROMATIC_CYCLOHEXADIENE"
+    },
+    {
+      "CAS": "628-41-1",
+      "names": [
+        "1,4-Cyclohexadiene",
+        "Cyclohexa-1,4-diene"
+      ],
+      "expected_formula": "C6H8",
+      "native_category": "F",
+      "structural_class": "Aliphatics (HC)",
+      "report_group": "F",
+      "rule_id": "NONAROMATIC_CYCLOHEXADIENE"
+    },
+    {
+      "CAS": "542-92-7",
+      "names": [
+        "1,3-Cyclopentadiene",
+        "Cyclopenta-1,3-diene"
+      ],
+      "expected_formula": "C5H6",
+      "native_category": "F",
+      "structural_class": "Aliphatics (HC)",
+      "report_group": "F",
+      "rule_id": "NONAROMATIC_CYCLOPENTADIENE"
+    },
+    {
+      "CAS": "",
+      "names": [
+        "1,3-Cyclopentadiene, 1-methyl-",
+        "1-Methyl-1,3-cyclopentadiene"
+      ],
+      "expected_formula": "C6H8",
+      "native_category": "F",
+      "structural_class": "Aliphatics (HC)",
+      "report_group": "F",
+      "rule_id": "NONAROMATIC_METHYLCYCLOPENTADIENE"
+    },
+    {
+      "CAS": "689-97-4",
+      "names": [
+        "1-Buten-3-yne",
+        "But-1-en-3-yne",
+        "Vinylacetylene"
+      ],
+      "expected_formula": "C4H4",
+      "native_category": "F",
+      "structural_class": "Aliphatics (HC)",
+      "report_group": "F",
+      "rule_id": "ACYCLIC_ENYNE_NOT_AROMATIC"
+    },
+    {
+      "CAS": "4505-38-8",
+      "names": [
+        "1,4-Cyclohex-2-enedione",
+        "2-Cyclohexene-1,4-dione"
+      ],
+      "expected_formula": "C6H6O2",
+      "native_category": "O",
+      "structural_class": "Carbonyls",
+      "report_group": "R",
+      "rule_id": "NONAROMATIC_CYCLIC_DIONE"
+    },
+    {
+      "CAS": "123-91-1",
+      "names": [
+        "1,4-Dioxane",
+        "p-Dioxane"
+      ],
+      "expected_formula": "C4H8O2",
+      "native_category": "O",
+      "structural_class": "Others",
+      "report_group": "R",
+      "rule_id": "SATURATED_ETHER_NOT_O_AROMATIC"
+    },
+    {
+      "CAS": "6713-72-0",
+      "names": [
+        "1,4-Dioxane-2,5-dione, 3,3,6,6-tetramethyl-"
+      ],
+      "expected_formula": "C8H12O4",
+      "native_category": "O",
+      "structural_class": "Others",
+      "report_group": "R",
+      "rule_id": "NONAROMATIC_CYCLIC_DIESTER"
+    },
+    {
+      "CAS": "760-93-0",
+      "names": [
+        "Methacrylic anhydride"
+      ],
+      "expected_formula": "C8H10O3",
+      "native_category": "O",
+      "structural_class": "Carbonyls",
+      "report_group": "R",
+      "rule_id": "ANHYDRIDE_NOT_O_AROMATIC"
+    }
+  ],
+  "scope": "Conditional structure rules; not proof of identity. Additional formula/name guards are in the canonical source."
+}

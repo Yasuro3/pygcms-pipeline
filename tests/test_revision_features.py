@@ -28,7 +28,7 @@ for phrase in [
     "neutral nine-class structural-product summary",
     "immutable snapshot",
     "conventional nominal-mass, MS1 full-scan GC-MS",
-    "ClassificationModelVersion 2.1.0",
+    "ClassificationModelVersion 2.2.0",
     "Sulfur-containing / sulfurization-associated",
 ]:
     if phrase not in text:

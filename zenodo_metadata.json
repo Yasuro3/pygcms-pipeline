@@ -2,7 +2,7 @@
   "metadata": {
     "title": "PyGCMS Pipeline: a configurable and candidate-preserving workflow for nominal-mass pyrolysis GC-MS chromatograms",
     "upload_type": "software",
-    "description": "PyGCMS Pipeline v1.3.2 is an archived browser-based workflow for nominal-mass, MS1, full-scan GC-MS and pyrolysis GC-MS chromatograms. It performs configurable chromatographic deconvolution, submits search-eligible reconstructed spectra to a separately licensed local NIST MS Search installation, and preserves the complete returned top-N hit list with original ranks and scores. Version 1.3.2 retains the reviewer-response functionality of v1.3.1 and introduces ClassificationModelVersion 2.1.0 with six operational NOM/diagenetic marker groups (L/P/C/F/S/O). The new S category separately evaluates sulfur-containing / sulfurization-associated products, including thiophenes, benzothiophenes, reduced-sulfur compounds, mixed N/S sulfur compounds, and formula-only S-bearing candidates, rather than merging them into the N-containing/protein/microbial P class. The S class is explicitly documented as a compositional/process-associated annotation, not a stand-alone diagnosis of anoxia, sulfate reduction, or in-situ sulfurization; the known possibility of alkylthiophene formation during pyrolysis in the presence of elemental sulfur is retained as an interpretation warning. Chromatographic deconvolution, raw candidate preservation, exact-toluene handling, and the neutral nine-class structural-product summary are unchanged. The archived v1.3.1 validation and Figure 4 records are retained as historical material; new analyses use ClassificationModelVersion 2.1.0. No vendor-native reader, NIST executable, NIST library, licensed spectrum, licence key, or credential is included. The new version-specific Zenodo DOI should be inserted into the manuscript and CITATION.cff after deposit.",
+    "description": "PyGCMS Pipeline v1.4.0 adds an offline saved-component-CSV quality-control and reporting layer to the existing mzML/recognized Shimadzu QGD and licensed local NIST workflow. ClassificationModelVersion 2.2.0 corrects explicit non-aromatic and structural-class inconsistencies. IdentificationQCVersion 1.0.0 applies configurable MF, retained-ion and relative-response screening, conservative identity labels, retention-time review flags, and reproducible detection-frequency and seven-group response summaries. Original measured intensities, selected library annotations, ranks and all candidate records remain preserved. Candidate-conditional and identity-conservative summaries are separate, documented outputs. No new authentic-standard identification or chromatographic realignment is claimed. The supplied source includes the direct-QGD v1.3.2 base, public historical fixtures, new synthetic tests, documentation and checksums. No licensed NIST reference library, credential or private JAAP analytical dataset is included.",
     "creators": [
       {
         "name": "Fuse, Yasuro",
@@ -19,8 +19,8 @@
     ],
     "access_right": "open",
     "license": "MIT",
-    "version": "1.3.2",
-    "publication_date": "2026-08-12",
+    "version": "1.4.0",
+    "publication_date": "2026-10-18",
     "keywords": [
       "pyrolysis GC-MS",
       "chromatographic deconvolution",
@@ -33,9 +33,16 @@
       "GC-MS",
       "match gap",
       "CAS duplicate grouping",
-      "retention index"
+      "retention index",
+      "Shimadzu QGD",
+      "GCMSsolution",
+      "vendor-native GC-MS",
+      "identification quality control",
+      "classification correction",
+      "detection frequency",
+      "CSV reprocessing"
     ],
-    "notes": "Revision prepared in response to SoftwareX peer review. The version-specific DOI is assigned by Zenodo at upload and must be inserted into the manuscript before resubmission. Funding: JSPS KAKENHI Grant Number JP25K03248.",
+    "notes": "Prepared on 18 October 2026. Public deposition and the version-specific DOI are pending owner action. This build must not reuse the DOI of v1.3.x. Tests and their limitations are recorded in VALIDATION_REPORT.md. Funding retained from the software record: JSPS KAKENHI JP25K03248.",
     "related_identifiers": [
       {
         "identifier": "https://github.com/Yasuro3/pygcms-pipeline",
@@ -44,6 +51,6 @@
       }
     ]
   },
-  "version": "1.3.2",
-  "description": "PyGCMS Pipeline v1.3.2 is an archived browser-based workflow for nominal-mass, MS1, full-scan GC-MS and pyrolysis GC-MS chromatograms. It performs configurable chromatographic deconvolution, submits search-eligible reconstructed spectra to a separately licensed local NIST MS Search installation, and preserves the complete returned top-N hit list with original ranks and scores. Version 1.3.2 retains the reviewer-response functionality of v1.3.1 and introduces ClassificationModelVersion 2.1.0 with six operational NOM/diagenetic marker groups (L/P/C/F/S/O). The new S category separately evaluates sulfur-containing / sulfurization-associated products, including thiophenes, benzothiophenes, reduced-sulfur compounds, mixed N/S sulfur compounds, and formula-only S-bearing candidates, rather than merging them into the N-containing/protein/microbial P class. The S class is explicitly documented as a compositional/process-associated annotation, not a stand-alone diagnosis of anoxia, sulfate reduction, or in-situ sulfurization; the known possibility of alkylthiophene formation during pyrolysis in the presence of elemental sulfur is retained as an interpretation warning. Chromatographic deconvolution, raw candidate preservation, exact-toluene handling, and the neutral nine-class structural-product summary are unchanged. The archived v1.3.1 validation and Figure 4 records are retained as historical material; new analyses use ClassificationModelVersion 2.1.0. No vendor-native reader, NIST executable, NIST library, licensed spectrum, licence key, or credential is included. The new version-specific Zenodo DOI should be inserted into the manuscript and CITATION.cff after deposit."
+  "version": "1.4.0",
+  "description": "PyGCMS Pipeline v1.4.0 is an archived browser-based workflow for nominal-mass, MS1, full-scan GC-MS and pyrolysis GC-MS chromatograms. It performs configurable chromatographic deconvolution, submits search-eligible reconstructed spectra to a separately licensed local NIST MS Search installation, and preserves the complete returned top-N hit list with original ranks and scores. Version 1.3.2 retains the reviewer-response functionality of v1.3.1 and introduces ClassificationModelVersion 2.1.0 with six operational NOM/diagenetic marker groups (L/P/C/F/S/O). The new S category separately evaluates sulfur-containing / sulfurization-associated products, including thiophenes, benzothiophenes, reduced-sulfur compounds, mixed N/S sulfur compounds, and formula-only S-bearing candidates, rather than merging them into the N-containing/protein/microbial P class. The S class is explicitly documented as a compositional/process-associated annotation, not a stand-alone diagnosis of anoxia, sulfate reduction, or in-situ sulfurization; the known possibility of alkylthiophene formation during pyrolysis in the presence of elemental sulfur is retained as an interpretation warning. Chromatographic deconvolution, raw candidate preservation, exact-toluene handling, and the neutral nine-class structural-product summary are unchanged. The archived v1.3.1 validation and Figure 4 records are retained as historical material; new analyses use ClassificationModelVersion 2.1.0. No NIST executable, NIST library, licensed spectrum, licence key, or credential is included. The new version-specific Zenodo DOI should be inserted into the manuscript and CITATION.cff after deposit. Version 1.3.2 also includes direct browser-side input for supported Shimadzu GCMSsolution .qgd OLE2 files. The QGD reader requires no vendor DLL or intermediate conversion, validates decoded intensity sums against the native TIC stream, and automatically isolates the full-scan-like channel from mixed full-scan/secondary acquisitions by median spectral point count. This native-format support is validated on observed GCMSsolution record layouts and is not claimed as universal QGD compatibility."
 }

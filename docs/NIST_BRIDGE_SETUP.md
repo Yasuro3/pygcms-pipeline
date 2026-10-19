@@ -14,7 +14,7 @@ PyGCMS Pipeline communicates only with a user-supplied, locally licensed NIST MS
 6. **Start the bridge.** Run `00_START_EN.cmd`. The terminal should report the NIST path and bridge URL.
 7. **Connect the browser.** Open `software/index.html`; keep `http://127.0.0.1:18789` unless changed; press **Check connection**.
 8. **Run a diagnostic.** Use `05_NIST_BACKGROUND_SELFTEST.cmd` or the synthetic quick-start workflow before an analytical batch.
-9. **Run the search.** Deconvolute an mzML file, choose candidate count and minimum spectral-ion count, and press **Run NIST search**.
+9. **Run the search.** Deconvolute an mzML or supported Shimadzu QGD file, choose candidate count and minimum spectral-ion count, and press **Run NIST search**.
 10. **Archive the record.** Save the results CSV, candidate columns, parameter JSON, run manifest, NIST configuration, input hash, and bridge log.
 
 ## Search-eligible spectra

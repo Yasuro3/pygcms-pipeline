@@ -1,124 +1,214 @@
-# PyGCMS Pipeline v1.3.2
+# PyGCMS Pipeline v1.4.0
 
-PyGCMS Pipeline is a fixed, English-language research-software release for nominal-mass, MS1, full-scan GC-MS chromatograms, with development and real-data validation centered on pyrolysis GC-MS. The browser application reads a documented mzML subset, performs configurable chromatographic deconvolution, sends search-eligible reconstructed spectra to a separately licensed local NIST MS Search installation, and preserves the complete returned top-N candidate list with original ranks, scores, identifiers, selected status, rationale, analysis parameters, and run provenance.
+**Identification QC, structure-aware classification corrections and reproducible reporting.**
 
-The release does **not** call, wrap, or depend on PyMassSpec/PyMS for deconvolution. The extraction code is an independent JavaScript implementation of established chromatographic concepts. PyMassSpec/PyMS is cited in the associated manuscript only as an established programmable GC-MS framework. The release does not claim a new deconvolution theory or definitive compound identification.
+This distribution was prepared on 18 October 2026. It is a new local release package;
+publication of a `v1.4.0` GitHub tag or Zenodo DOI is a separate owner action.
+No DOI belonging to an earlier release is presented as the DOI of this build.
 
-> **Zenodo note for this peer-review revision:** upload this directory as version 1.3.2, then insert the new version-specific Zenodo DOI into `CITATION.cff`, this README, and the revised manuscript. The previous v1.3.0 DOI must not be presented as the v1.3.2 archive DOI.
+## What is new
 
-## What changed in v1.3.2
+The software preserves the component signal and original library annotations while
+adding an auditable reporting layer. The final classifier is version **2.2.0**,
+identification-QC rules are **1.0.0**, and the seven-group reporting model is
+**JAAP-7-v1.0.0**. The software, classifier and reporting scheme have separate versions.
 
-- Added a sixth operational class, **S — sulfur-containing / sulfurization-associated products**, so sulfur-bearing pyrolysis products are no longer merged into P.
-- Added explicit thiophene, benzothiophene, dibenzothiophene, reduced-S, mixed N/S and oxidized-S rules plus a sulfur-aware formula fallback.
-- Added sulfur-specific literature provenance and cautions: S is a compositional/process-associated class, not a stand-alone diagnosis of anoxia or sulfate reduction, and alkylthiophenes can form during pyrolysis in the presence of elemental sulfur.
-- Bumped `ClassificationModelVersion` from 2.0.0 to **2.1.0** while leaving chromatographic deconvolution and candidate preservation unchanged.
+- Reprocess saved component-level `*_results.csv` files without re-deconvolution,
+  another NIST search, or a new external-model call.
+- Apply one recorded screening preset: MF >= 800, at least three retained spectral
+  ions and at least 0.001% of the within-run pre-screening retained response.
+- Preserve rejected/below-threshold records in the audit instead of deleting them.
+- Correct explicit non-aromatic assignments, structural-class conflicts and
+  formula-only aromaticity claims; retain the previous annotations separately.
+- Flag conflicting identifiers, inadequate spectral information, same-formula
+  nearby alternatives, multiple retention-time bands and unresolved stereochemistry.
+  Do not merge molecular identities merely because their formulas or RTs are similar.
+- Export conservative reporting names, complete candidate frequencies, per-run
+  coverage, corrected seven-group summaries, ratios, RT diagnostics and change logs.
+- Produce an offline printable all-candidate HTML table, including table borders
+  and repeated column headings for printing.
+- Keep the existing mzML reader, supported Shimadzu GCMSsolution QGD reader,
+  deconvolution, licensed local NIST bridge, candidate archive and raw-data batch workflow.
 
-- Replaced the public quick-start mzML with a synthetic file that produces three components at the documented defaults.
-- Added a configurable minimum spectral-ion count for automatic NIST submission. Low-ion components remain in the component table and CSV with an explicit search-eligibility reason.
-- Added a configurable match-factor gap between the first two **unique chemical species** and a `near-tie` filter. The full raw top-N list is always retained.
-- Added a CAS-based duplicate-species view. Repeated NIST entries are collapsed only on screen; their original ranks and values remain in the CSV.
-- Added an optional compact ambiguity/QC CSV.
-- Fixed repeated candidate selection so it is idempotent and no static NIST notice or reason text grows with repeated clicks.
-- Clarified the optional classification layers. New analyses use six application-specific L/P/C/F/S/O marker groups, while the archived paper figure remains a historical five-group L/P/C/F/O aggregate; the separate nine-class structural-product summary is unchanged.
-- Expanded NIST setup, NIST-search-record, retention-index, candidate-review, and walkthrough documentation.
-- Added a short silent walkthrough video at `walkthrough/PyGCMS_Pipeline_v1_3_1_walkthrough.webm`.
-- Added browser regression tests for the public example, candidate-text idempotence, match-gap metrics, CAS grouping, and raw-candidate preservation.
-- Added public summaries of spectral-ion distributions and profile sensitivity for the full-length validation mzML.
+The six native L/P/C/F/S/O marker groups, the structural-product classes and the
+seven A/OAr/C/N/F/S/R report groups are **not interchangeable**. No group is a
+source-pure environmental pool. See `docs/CLASSIFICATION_LAYERS.md`.
 
-## Quick start without a NIST licence
+## Start the browser application
 
-```bash
-python -m pip install -r requirements-browser.txt
-python scripts/run_checks.py --require-browser
-```
+Unzip the **complete directory**. Open `software/index.html` in a current Chromium-based
+browser. On Windows, `09_OPEN_QC.cmd` opens the application directly without starting
+a NIST bridge. Choose **Reprocess saved CSV / QC v1.4.0** on the initial screen, or
+**QC & reports v1.4.0** in the application toolbar.
 
-1. Start the synthetic bridge in one terminal:
+1. Select one or more original `*_results.csv` files. Do not select the class-summary,
+   TIC-only, candidate-catalogue or candidate-selection-audit CSV files instead.
+2. Optionally load an explicit run manifest; a template and synthetic example are included.
+3. Check the preset, click **Run QC**, and inspect per-run coverage and warnings.
+4. Export the complete QC ZIP, candidate CSV or printable HTML table.
 
-   ```bash
-   python scripts/mock_nist_bridge.py
-   ```
+Processing occurs in the browser locally. The new QC module makes no external API calls.
+The older application still has an optional external-model stage; enabling that is
+separate from offline QC. Keep confidential material out of any public upload.
+For hundreds of MB of verbose candidate exports, use the command-line route below.
 
-2. Open `software/index.html` in a Chromium-based desktop browser.
-3. Keep the bridge URL at `http://127.0.0.1:18789` and press **Check connection**.
-4. Load `data/example/synthetic_gc_ms.mzML`.
-5. Run deconvolution with the defaults. The example is regression-tested to produce three NIST-eligible components.
-6. Run the mock NIST search, inspect candidates, select an alternative if desired, and export the results CSV.
+## Reprocess a folder or original batch ZIP
 
-The mock verifies software behaviour, not chemistry. Every mock hit is labelled `MOCKLIB-SYNTHETIC-1.0`.
-
-## Licensed NIST MS Search on Windows
-
-1. Install and license NIST MS Search locally. No NIST file is included here.
-2. Copy `nistms_path.example.txt` to `nistms_path.txt` and enter the full path to `NISTMS$.EXE`.
-3. In NIST MS Search, enable Automation and set the number of hits printed to at least the candidate count requested by the browser.
-4. Start `00_START_EN.cmd`.
-5. In the browser, press **Check connection**, then **Run NIST search**.
-6. Record the NIST MS Search build, library release, library names, search type/options, mass range, constraints, preprocessing, top-N, and output configuration in `provenance/nist_configuration.yaml`.
-
-See `docs/NIST_BRIDGE_SETUP.md` for the detailed procedure and troubleshooting.
-
-## Search eligibility, ambiguity, and repeated library entries
-
-The default automatic-search threshold is three reconstructed spectral ions. This is a workflow QC flag, not a claim that three ions guarantee a reliable identification. Analysts may raise the threshold for their application or explicitly include low-ion components. In all cases, deconvoluted components are retained and exported.
-
-The interface computes `MF(rank 1 unique species) - MF(rank 2 unique species)`. Species are grouped by CAS when available and otherwise by normalized name. A user-set threshold flags narrow gaps. The raw NIST hit list is never reduced: grouping and near-tie filtering are presentation/QC layers only.
-
-## Retention index
-
-Retention-index evidence is optional and independent of the NIST scores. The application supports documented RT-to-RI calibration using manual anchors or an n-alkane ladder and retains calculated RI, external reference RI, and their difference separately. See `docs/RETENTION_INDEX_GUIDE.md`, the in-app RI controls, and `data/example/ri_calibration_example.csv`.
-
-## Optional review layers
-
-The stages are deliberately separated:
-
-1. **NIST candidate snapshot**: immutable original ranks/scores/identifiers.
-2. **Deterministic QC**: optional rules for low scores, artefact names, formula plausibility, ion support, RI, and literature markers.
-3. **External-model advice**: optional and constrained to the supplied candidates or an unassigned outcome.
-4. **Human disposition**: final selection or unassigned result, stored separately from the raw candidate snapshot.
-
-No review stage invents a candidate, deletes the archived alternatives, or overwrites original NIST scores.
-
-## Conventional GC-MS scope
-
-Nothing in the core mzML reader, chromatographic deconvolution, candidate-preservation, or provenance model requires a pyrolysis-specific input. The software can therefore be applied to conventional nominal-mass, MS1, full-scan GC-MS profiles such as complex extracts or headspace chromatograms after dataset-specific parameter optimization. The public real-data validation and application example are Py-GC/MS datasets; performance for other matrices and chromatographic modes has not been systematically benchmarked.
-
-## Classification layers
-
-The current L/P/C/F/S/O groups are application-specific, literature-guided marker groups; S separately reports sulfur-containing / sulfurization-associated products. The archived Figure 4 was produced with the earlier five-group L/P/C/F/O scheme and is preserved as a historical result rather than numerically reconstructed. They are not proposed as universally accepted organic-matter classes. The separate nine-class view describes product structure more neutrally. Both layers are optional downstream annotations and are independent of deconvolution and candidate preservation.
-
-## Archive contents
-
-- `software/index.html`: self-contained browser application.
-- `docs/`: setup, RI, classification-layer, candidate-review, walkthrough, limitations, release-note, and reproducibility guidance.
-- `data/example/`: working synthetic quick-start mzML and RI example.
-- `data/validation/`: full-length validation mzML, accepted-ion distributions, and profile-sensitivity summaries.
-- `scripts/`: bridge, mock, validation, statistics, comparison utilities, and checksum verification.
-- `tests/`: numerical extraction, bridge contracts, public-example regression, candidate-preservation invariants I1-I8, and browser tests.
-- `provenance/`: parameter, conversion, NIST, literature-rule, AI-use, and run-record templates.
-- `CHECKSUMS.sha256`: archive-relative SHA-256 manifest. Python cache files are excluded.
-
-## Reproducibility checks
+Python 3.10+ and Playwright are used to run the **same embedded JavaScript engine** as
+the browser. There is no independent Python implementation with different chemistry rules.
 
 ```bash
-python -m pip install -r requirements.txt
-python -m pip install -r requirements-browser.txt
-playwright install chromium  # optional when a system Chromium is available
-python scripts/run_checks.py --require-browser
+python -m pip install -r requirements.txt -r requirements-browser.txt
+python -m playwright install chromium
+python scripts/qc_reprocess.py path/to/batch.zip --out path/to/new_results
 ```
 
-Browser helpers use `PYGCMS_CHROMIUM`, system Chromium, or Playwright Chromium in that order.
+On Windows, replace `python` with `py` as needed. An existing Chrome/Chromium may be
+used by the supplied browser helper; alternatively set `PYGCMS_CHROMIUM` to its
+executable. See `README_JA.md` for the Windows workflow.
 
-## Source and citation
+Examples:
 
-- Source: `https://github.com/Yasuro3/pygcms-pipeline`
-- Version-specific archive: **insert the Zenodo DOI assigned to v1.3.2 after upload**.
+```bash
+python scripts/qc_reprocess.py path/to/results_folder --out new_results
+python scripts/qc_reprocess.py batch.zip --pattern "21*_results.csv" --out survey_only
+python scripts/qc_reprocess.py batch.zip --manifest run_manifest.csv --out explicit_runs
+python scripts/qc_reprocess.py batch.zip --generic --min-mf 850 --out alternative_QC
+```
 
-Suggested citation after the DOI has been assigned:
+The output directory must be empty. The CLI streams original raw CSV columns back
+into the component audit after computing on a compact projection, preserving all
+original candidates, ranks, scores, AI review text and measurements. Source hashes
+refer to the original CSV bytes, not to the compact processing view.
 
-> Fuse, Y., Okuda, H., & Chu, X. (2026). PyGCMS Pipeline (v1.3.2) [Software]. Zenodo. https://doi.org/[VERSION-SPECIFIC-DOI]
+## Parameters and denominator
 
-## Classification model 2.1.0
+| Parameter | Default | Meaning |
+|---|---:|---|
+| Minimum NIST MF | 800 | Saved selected-candidate match factor, not an identity probability |
+| Minimum retained ions | 3 | Saved `PureIons`; absence is recorded, not inferred |
+| Minimum relative response | 0.001% | Component intensity / pre-screening retained run response |
+| Near-tie MF gap | 10 | Diagnostic between unique chemical candidate keys |
+| RT band gap | 0.12 min | Diagnostic grouping only; not retention alignment |
+| Nearby alternative window | 0.08 min | Same-formula/near-RT review flag; not identity merging |
+| Coverage warning | 90% | Warning only; never lowers QC thresholds to force coverage |
 
-Software version 1.3.2 uses **ClassificationModelVersion 2.1.0**. It retains the final-writer, exact-name/CAS invariants, auditable rule/confidence/warning fields, and long-format candidate-audit design from model 2.0.0, and adds a separate S category so sulfur-bearing products are not merged into P. Chromatographic deconvolution and raw candidate preservation are unchanged.
+The default **JAAP_LEGACY** profile retains the article's original annotation-based
+exclusions (including exact toluene and specified siloxane/phthalate names). These
+are inherited protocol exclusions, not evidence of blank contamination. For other
+studies choose **NONE / generic**, which does not treat toluene as a solvent by default.
+Original `AI_Action=rejected-all` records remain outside the retained annotated
+population in either profile, but are present in the complete audit.
 
-Exact toluene aliases and CAS 108-88-3 are locked to category L and the structural class `Aromatic hydrocarbons`; they cannot be overwritten by a later literature, matrix or optional model-review step. This is an operational multi-origin group, not a unique lignin or fulvic-acid assignment. In the Lake Biwa double-shot experiment, toluene was the solvent of the added internal-standard solution and must not be interpreted as an environmental source marker. Figure 4 is an archived structural-product aggregate; the P-to-L origin-category correction does not change toluene's structural assignment as an aromatic hydrocarbon. See `docs/CLASSIFICATION_LAYERS.md` and `provenance/origin_classification_model_v2.json`.
+The denominator is frozen **before the new MF/ion/relative-response filters**. It is
+not a TIC integral, concentration, response-factor correction or detection limit.
+Coverage of all retained annotations differs from coverage of a legacy classified
+subset. Explicit `eligible_fixed` flags can additionally expose legacy-primary
+coverage; the software never invents this membership.
+
+## Frequencies and summaries
+
+TD and PY frequencies count distinct loaded runs containing at least one passing
+assignment to the candidate key. Multiple peaks carrying the key in one run count
+once for frequency but all measured responses remain in sums. **Either** uses the
+union across complete, unambiguous TD/PY pairs. Repeated runs for one pair are not
+silently collapsed. Unknown phase/pair information is reported rather than guessed.
+An explicit zero-component run can be added in the manifest with
+`Zero_component_run=true`; otherwise a manifest run with missing input is an error.
+
+Two clearly named summary modes are exported:
+
+- **corrected_candidate_conditional**: quality-screened responses grouped by the
+  corrected class, conditional on the original tentative candidate name.
+- **identity_conservative**: exact-name-withheld candidates are carried in R
+  (residual/unresolved) instead of asserting their proposed group is correct.
+
+They use the same passing signal population and each has its own complete seven-group
+response balance. They are different inferential views, not interchangeable result
+files. Ratios are not calculated when their denominator is zero. The retained raw
+response, mass-normalized response (only where mass was recorded), and per-run
+percentages are separate fields. A conservative R assignment does not erase signal.
+
+## Output files
+
+| File | Contents |
+|---|---|
+| `01_component_QC_audit.csv` | All original component columns plus new `QC140_*` fields |
+| `02_reported_candidates.csv` | Every passing candidate key, cautious name, classification and frequencies |
+| `03_run_QC_summary.csv` | Run-level retention, denominator, counts and metadata |
+| `04_group_summary.csv` | Seven-group summaries for both explicitly named modes |
+| `05_group_ratios.csv` | OAr/N and A/(N+C), by run and summary mode |
+| `06_retention_band_diagnostics.csv` | RT bands with signal contribution; no automatic realignment |
+| `07_classification_transitions.csv` | Original-to-corrected classification transitions |
+| `08_author_review_queue.csv` | Candidates with unresolved or withheld precise names |
+| `09_processing_manifest.json` | Parameters, versions, source hashes and reproducibility boundary |
+| `10_printable_inventory.html` | Complete printable candidate table; no unsupported exact identities |
+
+The existing regular results export receives appended QC fields. Its archived raw
+candidate/score columns remain available. The former six-group GUI preview is explicitly
+labelled a legacy preview; use the new reports for screened seven-group composition.
+
+## Identification boundary
+
+A high MF, a repeated name or consistent RT is not an authentic-standard confirmation.
+No positional or stereochemical identity is newly established by this release. The
+RT windows are diagnostics, not universal chromatographic tolerances. Independent
+standards, characteristic-ion traces and matched retention-index evidence remain
+necessary when a study needs a stronger molecular claim. No threshold targets a
+particular catalogue size or a desired environmental pattern.
+
+Recorded `IsotopeEvidenceReviewed=true` is an author-supplied review indicator, not an
+automatically calculated isotope pattern. Halogenated candidates without such recorded
+review are conservatively flagged/withheld, not deleted or declared absent. Similar
+formula/RT flags likewise indicate possible ambiguity, not proven misidentification.
+
+## Raw-data and licensed NIST workflow
+
+`00_START_EN.cmd` starts the existing local NIST bridge. Copy `nistms_path.example.txt`
+to `nistms_path.txt` and configure your licensed NIST MS Search installation as in
+`docs/NIST_BRIDGE_SETUP.md`. Neither NIST software nor its licensed reference spectra,
+keys or credentials are distributed here. Existing QGD support is for the recognized
+OLE2 layouts and full-scan-like channels; unsupported variants fail with a message.
+It is not a universal vendor-format reader.
+
+## Tests and release provenance
+
+```bash
+python scripts/embed_qc140.py --check
+python scripts/run_checks.py --require-browser
+python scripts/verify_checksums.py CHECKSUMS.sha256
+```
+
+See `VALIDATION_REPORT.md` for the checks actually executed for this build and their
+limits. Existing published/example data are retained as historical fixtures, not
+relabelled as newly measured v1.4.0 validation. Private JAAP study data are **not** part
+of this public software distribution.
+
+Base: the supplied `v1.3.2 ... direct_Shimadzu_QGD_upload_ready.zip`. Public v1.3.2 main
+was identified at GitHub commit `b80df88e00378655d6c1d4cc1647df1fe085a6fb`.
+The direct-QGD base and public source are not asserted to be byte-identical.
+Base hashes are in `provenance/v140_build_provenance.json`.
+
+## Citation and licence
+
+MIT licence; copyright/authors are retained from the base distribution. Cite the
+associated SoftwareX article and the exact v1.4.0 release/commit once published.
+`CITATION.cff` contains the software contributors, which are not necessarily the
+same as the authors of an application paper. Do not reuse a v1.3.x version-specific
+Zenodo DOI for this build. This package does not publish itself to GitHub or Zenodo.
+
+
+## Reprocessing a v1.4.0 export / v1.4.0出力の再処理
+
+Do not import a `QC140_*` audit back over itself. For a newly analyzed sample,
+use **Component-source CSV** to save a reprocessable snapshot without appended QC
+columns. This preserves previous QC outputs rather than overwriting their history.
+`QC140_*`列付きの結果は再入力で上書きしません。新規測定の再処理用には、
+**Component-source CSV**を保存してください。コマンドではファイルを直接指定するか、
+`--pattern "*_component_source.csv"`を指定します。
+
+For the identity-conservative view, any exact-name-withheld occurrence or conflicting
+report-group assignment makes the entire candidate key R across the loaded batch.
+This keeps the catalogue class and every contributing summary row consistent.
+The candidate-conditional view remains separate and does not apply this propagation.
+This is a deliberately conservative sensitivity view, not proof all those signals are false.
