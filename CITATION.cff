@@ -1,12 +1,12 @@
 cff-version: 1.2.0
-message: Cite PyGCMS Pipeline v1.4.0 and the associated SoftwareX article. Publication of this build on GitHub/Zenodo is pending; no v1.4.0 DOI has been issued.
+message: For experimental v1.4.1, cite the corresponding GitHub prerelease tag or immutable commit, together with the SoftwareX article. No Zenodo software DOI is assigned.
 title: PyGCMS Pipeline
 type: software
-version: 1.4.0
-date-released: '2026-10-19'
+version: 1.4.1-rc1
+date-released: 2026-10-23
 license: MIT
 repository-code: https://github.com/Yasuro3/pygcms-pipeline
-url: https://github.com/Yasuro3/pygcms-pipeline
+url: https://github.com/Yasuro3/pygcms-pipeline/releases/tag/v1.4.1-rc1
 authors:
   - family-names: Fuse
     given-names: Yasuro

@@ -1,0 +1,171 @@
+{
+  "repository": "https://github.com/Yasuro3/pygcms-pipeline",
+  "tag": "v1.4.0",
+  "commit": "7d7ab77cef342cf5061eb87c412126789f152a3f",
+  "selection": "Minimal runtime and documentation for /health, /search, /app and offline QC140. Upstream file contents are unmodified.",
+  "files": [
+    {
+      "path": "scripts/nist_mssearch_bridge_server.py",
+      "upstream_path": "scripts/nist_mssearch_bridge_server.py",
+      "bytes": 39379,
+      "sha256": "62903ab687ddc3b09b3df4f57d93d220fefcc3003ca29e2cd2d0dcc2a876f637",
+      "github_blob_sha": "6f363887467a2482e0900b6a7a6219b3c0c0aef3",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/scripts/nist_mssearch_bridge_server.py",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "scripts/nist_mssearch_bridge.py",
+      "upstream_path": "scripts/nist_mssearch_bridge.py",
+      "bytes": 49806,
+      "sha256": "15351448f96c5fa5b2282c37512e7ede19e4a0c44684c56e22835274acecc6fe",
+      "github_blob_sha": "4ec923ec65c7760564e51be75b2289b126cb706f",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/scripts/nist_mssearch_bridge.py",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "scripts/nist_dll_backend.py",
+      "upstream_path": "scripts/nist_dll_backend.py",
+      "bytes": 11198,
+      "sha256": "f41da769aeb0f832088ccddb6307af4549310d0247dd752121b47b0c33f19a8b",
+      "github_blob_sha": "7ba93a70accaccee89c56d5fb348889b77dcbe01",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/scripts/nist_dll_backend.py",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "software/index.html",
+      "upstream_path": "software/index.html",
+      "bytes": 445426,
+      "sha256": "c346ea1e089bc47f5af1b9220e7bf744be61668c0b26c24f045622833d4aa673",
+      "github_blob_sha": "bc8e30666714f396efe9b79b5755ed48f392346d",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/software/index.html",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "software/qc140.js",
+      "upstream_path": "software/qc140.js",
+      "bytes": 33950,
+      "sha256": "b962b94334fd630ab4ea935e09765ecd10996988cfc8405d7810c0a58d73dd5d",
+      "github_blob_sha": "231096c9be3fa157cd9ec165390102ad7f5bc876",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/software/qc140.js",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "software/qc140_ui.js",
+      "upstream_path": "software/qc140_ui.js",
+      "bytes": 8851,
+      "sha256": "bb6ed997a262398704879eb455b81ed8c885776fe67b0c7e9a22f6d7c1cd5963",
+      "github_blob_sha": "c5a91fbd22bcbda1bb82c8d7c453e8709ba7ad80",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/software/qc140_ui.js",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "LICENSE.txt",
+      "upstream_path": "LICENSE.txt",
+      "bytes": 1068,
+      "sha256": "da870c1d9bd1741880046acba690ac29204d72ab771f9531472bf6ef55e6999b",
+      "github_blob_sha": "175adf40e508db5e534a8bd31dc633995c01d0c0",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/LICENSE.txt",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "CITATION.cff",
+      "upstream_path": "CITATION.cff",
+      "bytes": 1073,
+      "sha256": "fecb4c9e42450f51fac47fe7bc54f363b1a475cbfb78a5c33e9ea3088ebf9edf",
+      "github_blob_sha": "5e68c6c66a9de43dad9fb1d85d56faf49e5fe091",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/CITATION.cff",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "README.md",
+      "upstream_path": "README.md",
+      "bytes": 12342,
+      "sha256": "8cf59531ee1789be3dd0c7fd1ab971b8b4d74cdc8028ccbe43057de32d6931a9",
+      "github_blob_sha": "7b99c300ef13f298edc5a845d6a090d25531420f",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/README.md",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "docs/NIST_BRIDGE_SETUP.md",
+      "upstream_path": "docs/NIST_BRIDGE_SETUP.md",
+      "bytes": 4470,
+      "sha256": "b41fa973873156c79e4d65489f9de98ab5cef94fb8b5ec2aed565589ebdde24b",
+      "github_blob_sha": "c9a70ba9f772411b9ff76b679ca0bd2e7ce6ec01",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/docs/NIST_BRIDGE_SETUP.md",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "docs/LIMITATIONS.md",
+      "upstream_path": "docs/LIMITATIONS.md",
+      "bytes": 7273,
+      "sha256": "f357231f54c7f33d00f7fb99cc56b289f355e450f6312f6aa21088f561979c24",
+      "github_blob_sha": "f700eee714feb8b6890fd18b40f211d14608f381",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/docs/LIMITATIONS.md",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "docs/SHIMADZU_QGD_DIRECT_INPUT.md",
+      "upstream_path": "docs/SHIMADZU_QGD_DIRECT_INPUT.md",
+      "bytes": 3886,
+      "sha256": "481eadbfcd0ab0ba8c3873c67b653ca1b88fd96a1a1f4cfe5f63f788e93c0e52",
+      "github_blob_sha": "58b4a603e2b281e7934e93a900d9c6be745069f6",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/docs/SHIMADZU_QGD_DIRECT_INPUT.md",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "docs/IDENTIFICATION_QC_V140.md",
+      "upstream_path": "docs/IDENTIFICATION_QC_V140.md",
+      "bytes": 5116,
+      "sha256": "c8a1d2f10c35fc9ed975277628e9186f72cd6c911b7257b2c861890c2e7c44e2",
+      "github_blob_sha": "c6734521b37a1be2fb96b62547ec73b2b24ea26b",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/docs/IDENTIFICATION_QC_V140.md",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "docs/CLASSIFICATION_LAYERS.md",
+      "upstream_path": "docs/CLASSIFICATION_LAYERS.md",
+      "bytes": 3638,
+      "sha256": "8f223d779ba6782f563fa738ecddf41352df340271d9e5cf6f5ad0a44216c06d",
+      "github_blob_sha": "6eb5bb49c8c77a7c9aa3520e032ad33b70188375",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/docs/CLASSIFICATION_LAYERS.md",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "docs/REPRODUCIBILITY.md",
+      "upstream_path": "docs/REPRODUCIBILITY.md",
+      "bytes": 5420,
+      "sha256": "7bd26fe93f616b0925c40608d27cc9688efd5c9b10c1320ff8fb709bd8461d47",
+      "github_blob_sha": "4bbb5d463d5402a0afe71f505f9225122a321428",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/docs/REPRODUCIBILITY.md",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "provenance/nist_configuration_template.yaml",
+      "upstream_path": "provenance/nist_configuration_template.yaml",
+      "bytes": 1167,
+      "sha256": "49a1af59950d56343ef71816086d2ccc836d12352150de4b8f5b2b18a85c0264",
+      "github_blob_sha": "c9d7c29c0d40fcfc3013313e97bd7bbf4543a007",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/provenance/nist_configuration_template.yaml",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "provenance/ui_parameter_defaults.json",
+      "upstream_path": "provenance/ui_parameter_defaults.json",
+      "bytes": 10974,
+      "sha256": "cf3896e322db1177e23725b813d415130d2fcc02b3fc66ce8bb9293d350482db",
+      "github_blob_sha": "e436530e313e573417b89117927a5b3c46107e63",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/provenance/ui_parameter_defaults.json",
+      "byte_identical_to_upstream": true
+    },
+    {
+      "path": "provenance/deconvolution_parameters_validation_default.json",
+      "upstream_path": "provenance/deconvolution_parameters_validation_default.json",
+      "bytes": 491,
+      "sha256": "128ce7b0431048992638278efb0422a473fdf189f0a1633082911c7d2ff07ebc",
+      "github_blob_sha": "91ca0997354c8a30507a14847d12dc5a214674e3",
+      "url": "https://github.com/Yasuro3/pygcms-pipeline/blob/7d7ab77cef342cf5061eb87c412126789f152a3f/provenance/deconvolution_parameters_validation_default.json",
+      "byte_identical_to_upstream": true
+    }
+  ],
+  "omitted": "Sample data, upstream Windows launchers and historical execution-specific NIST configuration. NIST software and licensed libraries are not distributed."
+}

@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.qgd
+*.mzML
+*.msp
+*.zip
+*.qgm
+*.qgb
+*.seq
+*.log
+.env
+nist_search/inputs/*
+!nist_search/inputs/.gitkeep
+nist_search/results/
+audit_v141/
+samples/*LOCAL*

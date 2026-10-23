@@ -1,10 +1,29 @@
-# PyGCMS Pipeline v1.4.0
+# PyGCMS Pipeline — v1.4.1-rc1
+
+**Experimental Global NNLS deconvolution for supported Shimadzu QGD data, with the existing NIST bridge and identification QC.**
+
+The new implementation is in [`pipeline_v141/`](pipeline_v141/). It is an experimental prerelease; see the [release notes](RELEASE_NOTES_v1.4.1-rc1.md), [Japanese instructions](README_v1.4.1_JA.md), and [publication validation](pipeline_v141/docs/PUBLICATION_VALIDATION_v1.4.1-rc1.md).
+
+## Start v1.4.1-rc1 on Windows
+
+1. Extract the complete source archive and open **`pipeline_v141`**.
+2. Run **`00_INSTALL_DEPENDENCIES.cmd`** (Python 3.10+ required).
+3. Start **`START_v141_GUI.cmd`** to process your QGD ZIP or directory.
+4. Follow [`pipeline_v141/README.md`](pipeline_v141/README.md) for input validation and licensed local NIST MS Search setup.
+
+The retained `software/index.html` and the bundled runtime HTML perform legacy v1.4.0 deconvolution. The new Global NNLS engine uses the Python launcher above. The v1.4.0 release remains available at [v1.4.0](https://github.com/Yasuro3/pygcms-pipeline/releases/tag/v1.4.0).
+
+Global signal allocation passes the supplied numerical and query-mapping tests. Model overprediction and incomplete chemical-separation validation remain limitations. A four-run authentic AMDIS comparison is documented; this does not certify a stable replacement.
+
+For v1.4.1-rc1, cite the exact GitHub tag or commit together with the SoftwareX article. A software Zenodo DOI is not assigned. The input field `software_version: "1.4.1"` identifies the compatible data contract; the publication identifier is **1.4.1-rc1**.
+
+---
+
+## Retained v1.4.0 workflow
 
 **Identification QC, structure-aware classification corrections and reproducible reporting.**
 
-This distribution was prepared on 18 October 2026. It is a new local release package;
-publication of a `v1.4.0` GitHub tag or Zenodo DOI is a separate owner action.
-No DOI belonging to an earlier release is presented as the DOI of this build.
+The following sections describe the retained v1.4.0 workflow in `software/` and `scripts/`. The v1.4.0 tag and release were published on 19 October 2026. Use the separate `pipeline_v141/` entrypoint for experimental Global NNLS processing.
 
 ## What is new
 
@@ -192,7 +211,7 @@ Base hashes are in `provenance/v140_build_provenance.json`.
 ## Citation and licence
 
 MIT licence; copyright/authors are retained from the base distribution. Cite the
-associated SoftwareX article and the exact v1.4.0 release/commit once published.
+associated SoftwareX article and the exact release/commit used (v1.4.0 for the legacy workflow).
 `CITATION.cff` contains the software contributors, which are not necessarily the
 same as the authors of an application paper. Do not reuse a v1.3.x version-specific
 Zenodo DOI for this build. This package does not publish itself to GitHub or Zenodo.

@@ -1,0 +1,2 @@
+source_sha256,run_id,phase,run_type,sample_id,sample_label,mass_mg
+<YOUR_64_CHARACTER_QGD_SHA256>,Q01,TD,FA試料,FA01,FA sample 01,2.0
