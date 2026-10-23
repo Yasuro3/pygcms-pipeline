@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PyGCMS Pipeline v1.4.1: QGD -> global NNLS -> immutable MSP / audit.
+"""PyGCMS Pipeline v1.4.1: mzML -> global NNLS -> immutable MSP / audit.
 
 Does not identify chemicals. Independent NIST search is done through the included
 v1.4.0 bridge, under a versioned v1.4.1 query index. The separation model is
@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from dataclasses import asdict
 
 import numpy as np
-from qgd_native import decode_qgd
+from mzml_native import decode_mzml
 from global_engine import extraction, Settings
 
 BASE = Path(__file__).resolve().parents[1]
@@ -23,7 +23,7 @@ SRC_CSV_FIELDS = [
     'CSVSchemaVersion','ClassificationModelVersion','Deconv_Algorithm','Deconv_AlgorithmVersion',
     'Deconv_FitL2_Local','Deconv_ApexPurity','Deconv_PeakSNR','Deconv_SeedScore','Deconv_ReviewFlag',
     'Deconv_GlobalArea','Deconv_GlobalAllocatedArea','Deconv_WholeRunUnassignedArea','Deconv_Pass',
-    'Deconv_RawQGD_SHA256','Deconv_Config_SHA256']
+    'Deconv_RawmzML_SHA256','Deconv_Config_SHA256']
 VERSION='1.4.1'
 DECONV='global-NNLS-shared-cell-allocation-v0.3.1-EXPERIMENTAL-NOT-AMDIS'
 
@@ -45,17 +45,17 @@ def stream_inputs(path:Path):
     ZIP entry names are untrusted; they are labels ONLY, never extraction paths.
     """
     if path.is_dir():
-        paths=sorted((p for p in path.rglob('*') if p.is_file() and p.suffix.lower()=='.qgd'),key=lambda p:p.relative_to(path).as_posix().lower())
+        paths=sorted((p for p in path.rglob('*') if p.is_file() and p.suffix.lower()=='.mzml'),key=lambda p:p.relative_to(path).as_posix().lower())
         for p in paths:yield p.relative_to(path).as_posix(), p.read_bytes()
-    elif path.is_file() and path.suffix.lower()=='.qgd':
+    elif path.is_file() and path.suffix.lower()=='.mzml':
         yield path.name,path.read_bytes()
     elif path.is_file() and path.suffix.lower()=='.zip':
         with zipfile.ZipFile(path) as z:
-            entries=sorted((p for p in z.infolist() if not p.is_dir() and p.filename.lower().endswith('.qgd')),key=lambda p:p.filename.lower())
+            entries=sorted((p for p in z.infolist() if not p.is_dir() and p.filename.lower().endswith('.mzml')),key=lambda p:p.filename.lower())
             for p in entries:
-                if p.file_size>300_000_000:raise ValueError('Unreasonably large QGD member: '+p.filename)
+                if p.file_size>2_000_000_000:raise ValueError('Unreasonably large mzML member: '+p.filename)
                 yield p.filename,z.read(p)
-    else:raise ValueError('Specify a QGD file, directory or ZIP containing QGD files: '+str(path))
+    else:raise ValueError('Specify a mzML file, directory or ZIP containing mzML files: '+str(path))
 
 def manifest_map(path):
     if not path:return {}
@@ -69,7 +69,7 @@ def manifest_map(path):
     byhash={}
     for row in records:
         h=str(row.get('source_sha256') or row.get('sha256') or '').strip().lower()
-        if not re.fullmatch('[a-f0-9]{64}',h):raise ValueError('Manifest requires SHA-256 of each QGD file')
+        if not re.fullmatch('[a-f0-9]{64}',h):raise ValueError('Manifest requires SHA-256 of each mzML file')
         if h in byhash:raise ValueError('Duplicate SHA-256 in manifest')
         byhash[h]=row
     return byhash
@@ -107,9 +107,9 @@ def select_runs(raw_items, byhash):
     rows=[];seen=set();known=set()
     for path, raw in raw_items:
         h=sha(raw)
-        if h in seen:raise ValueError('Same QGD appears twice in input: '+path)
+        if h in seen:raise ValueError('Same mzML appears twice in input: '+path)
         seen.add(h)
-        if byhash and h not in byhash:raise ValueError('QGD missing from supplied manifest: '+path)
+        if byhash and h not in byhash:raise ValueError('mzML missing from supplied manifest: '+path)
         info=dict(infer_metadata(path,h),**byhash.get(h,{}))
         phase=str(info.get('phase') or '').upper().strip()
         if phase in ('BLANK','BL','GC BLANK'):
@@ -125,12 +125,12 @@ def select_runs(raw_items, byhash):
         if info.get('run_id') and not re.fullmatch(r'Q\d{2,}',str(info['run_id'])):
             raise ValueError('Invalid manifest run_id: '+str(info['run_id']))
         rows.append((path, raw, info))
-    if not rows:raise ValueError('No QGD files found')
+    if not rows:raise ValueError('No mzML files found')
     return rows
 
 def main(argv=None):
     arg=argparse.ArgumentParser(description=__doc__)
-    arg.add_argument('--input',required=True,help='QGD archive .zip, QGD directory or individual .qgd file')
+    arg.add_argument('--input',required=True,help='mzML archive .zip, mzML directory or individual .mzml file')
     arg.add_argument('--manifest',help='CSV/JSON with source_sha256,phase,run_id,sample_id,run_type')
     arg.add_argument('--config',default=str(BASE/'settings'/'deconvolution.json'))
     arg.add_argument('--output',default=str(BASE/'nist_search'))
@@ -165,9 +165,8 @@ def main(argv=None):
     for path,raw,meta in rows:
         k=meta['run_id'];h=sha(raw)
         print(f'[{k}] {meta["phase"]} ...',flush=True)
-        d=decode_qgd(raw)
-        md={**meta,'source_file':path,'source_sha256':h,'qgd_channels':d.meta.get('channels'),
-            'qgd_selected_channel':d.meta.get('selected_channel'),'tic_mismatches':d.meta.get('tic_mismatches')}
+        d=decode_mzml(raw)
+        md={**meta,'source_file':path,'source_sha256':h,'source_format':d.meta.get('source_format'), 'ms1_scans':d.meta.get('selected_records'), 'excluded_ms2':d.meta.get('ignored_non_ms1')}
         metadata.append(md)
         if meta['phase']=='EGA':
             ega.append({'run_id':k,'phase':meta['phase'],'sample_label':meta.get('sample_label'),
@@ -199,7 +198,7 @@ def main(argv=None):
                 'Deconv_GlobalArea':round(diag['total_signal_area'],5),
                 'Deconv_GlobalAllocatedArea':round(diag['allocated_component_area'],5),
                 'Deconv_WholeRunUnassignedArea':round(diag['unassigned_signal_area'],5),
-                'Deconv_Pass':c['pass'],'Deconv_RawQGD_SHA256':h,'Deconv_Config_SHA256':settings_hash})
+                'Deconv_Pass':c['pass'],'Deconv_RawmzML_SHA256':h,'Deconv_Config_SHA256':settings_hash})
             if not good:continue
             comment=f'Run_ID={k} OriginalName={original} RT_min={t:.3f} Scan={scan} PureIons={n} v1.4.1_GLOBAL_NNLS_experimental=true'
             a=msp_text(name,c['mass'],c['intensities'],comment)
