@@ -19,6 +19,7 @@ class App(tk.Tk):
         self.title('PyGCMS Pipeline 1.4.1 | Global NNLS (experimental)')
         self.minsize(860,640)
         self.source=tk.StringVar()
+        self.phase=tk.StringVar(value='PY')
         self.manifest=tk.StringVar(value=str(ROOT/'samples'/'kobe_fa_40_manifest_LOCAL.json') if (ROOT/'samples'/'kobe_fa_40_manifest_LOCAL.json').exists() else '')
         self.events=queue.Queue();self.working=False
         top=ttk.Frame(self,padding=16);top.pack(fill='both',expand=True)
@@ -28,6 +29,8 @@ class App(tk.Tk):
         row=ttk.Frame(top);row.pack(fill='x',pady=(2,8));ttk.Entry(row,textvariable=self.source).pack(side='left',fill='x',expand=True)
         ttk.Button(row,text='ZIP/mzMLを選択',command=self.pick_source).pack(side='left',padx=(8,0))
         ttk.Button(row,text='フォルダーを選択',command=self.pick_directory).pack(side='left',padx=(5,0))
+        ttk.Label(top,text='測定法（manifest未指定時）').pack(anchor='w')
+        ttk.Combobox(top,textvariable=self.phase,values=['PY','TD','SS','EGA','GC_BLANK'],state='readonly',width=20).pack(anchor='w',pady=(0,8))
         ttk.Label(top,text='測定一覧 CSV / JSON（推奨：試料種とSS/TD/PY/EGAを明示）').pack(anchor='w')
         row=ttk.Frame(top);row.pack(fill='x',pady=(2,12));ttk.Entry(row,textvariable=self.manifest).pack(side='left',fill='x',expand=True)
         ttk.Button(row,text='測定一覧を選択',command=self.pick_manifest).pack(side='left',padx=(8,0))
@@ -80,6 +83,7 @@ class App(tk.Tk):
         if m:
             if not Path(m).exists():messagebox.showerror('測定一覧なし','指定した測定一覧が存在しません。');return None
             options+=['--manifest',m]
+        else:options+=['--phase',self.phase.get()]
         return options
     def preview(self):
         a=self.raw_args()
