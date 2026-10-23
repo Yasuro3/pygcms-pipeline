@@ -103,7 +103,7 @@ def msp_text(name, masses, intensities, comment):
     lines.extend('; '.join(f'{mz} {intensity}' for mz,intensity in peaks[i:i+8]) for i in range(0,len(peaks),8))
     return '\r\n'.join(lines)+'\r\n\r\n'
 
-def select_runs(raw_items, byhash):
+def select_runs(raw_items, byhash, explicit_phase=None):
     rows=[];seen=set();known=set()
     for path, raw in raw_items:
         h=sha(raw)
@@ -112,10 +112,11 @@ def select_runs(raw_items, byhash):
         if byhash and h not in byhash:raise ValueError('mzML missing from supplied manifest: '+path)
         info=dict(infer_metadata(path,h),**byhash.get(h,{}))
         phase=str(info.get('phase') or '').upper().strip()
+        if explicit_phase and not byhash:phase=explicit_phase
         if phase in ('BLANK','BL','GC BLANK'):
             folder=str(info.get('folder_mode') or '').upper()
-            # The original Kobe archive has 500-scan EGA blanks and 1600-scan GC blanks
-            # in the same folder. A method/manifest is essential for reliable sorting.
+            # Prior data archives may include EGA and GC blanks
+            # Manifest / explicit phase remains the authoritative acquisition type.
             count=info.get('n_scans')
             if folder=='EGA' and str(count)=='500':phase='EGA'
             else:phase='GC_BLANK'
@@ -131,6 +132,7 @@ def select_runs(raw_items, byhash):
 def main(argv=None):
     arg=argparse.ArgumentParser(description=__doc__)
     arg.add_argument('--input',required=True,help='mzML archive .zip, mzML directory or individual .mzml file')
+    arg.add_argument('--phase',choices=['SS','TD','PY','EGA','GC_BLANK'],help='Measurement type for mzML inputs without a manifest')
     arg.add_argument('--manifest',help='CSV/JSON with source_sha256,phase,run_id,sample_id,run_type')
     arg.add_argument('--config',default=str(BASE/'settings'/'deconvolution.json'))
     arg.add_argument('--output',default=str(BASE/'nist_search'))
@@ -141,13 +143,14 @@ def main(argv=None):
     config=json.loads(setting_path.read_text(encoding='utf-8-sig'))
     settings=Settings(**config['parameters']);settings_hash=sha(setting_path.read_bytes())
     byhash=manifest_map(args.manifest)
-    rows=select_runs(stream_inputs(Path(args.input)),byhash)
+    rows=select_runs(stream_inputs(Path(args.input)),byhash,args.phase)
     assigned_ids=set()
     for n,(_,_,info) in enumerate(rows,1):
         info['run_id']=str(info.get('run_id') or f'Q{n:02d}')
         if info['run_id'] in assigned_ids:raise ValueError('Duplicate run_id '+info['run_id'])
         assigned_ids.add(info['run_id'])
     print('PyGCMS Pipeline v'+VERSION+' experimental Global NNLS')
+    print('mzML-only public input; vendor-native formats are not supported')
     print('Sources:',len(rows),' / GC:',sum(info['phase']!='EGA' for _,_,info in rows),' / EGA:',sum(info['phase']=='EGA' for _,_,info in rows))
     if args.dry_run:
         for path,raw,info in rows:print(info['run_id'], info['phase'],info.get('run_type'), path,sha(raw)[:10])
