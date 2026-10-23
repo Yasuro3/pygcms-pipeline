@@ -2,11 +2,11 @@ cff-version: 1.2.0
 message: For experimental v1.4.1, cite the corresponding GitHub prerelease tag or immutable commit, together with the SoftwareX article. No Zenodo software DOI is assigned.
 title: PyGCMS Pipeline
 type: software
-version: 1.4.1-rc1
+version: 1.4.1-rc2
 date-released: 2026-10-23
 license: MIT
 repository-code: https://github.com/Yasuro3/pygcms-pipeline
-url: https://github.com/Yasuro3/pygcms-pipeline/releases/tag/v1.4.1-rc1
+url: https://github.com/Yasuro3/pygcms-pipeline/releases/tag/v1.4.1-rc2
 authors:
   - family-names: Fuse
     given-names: Yasuro

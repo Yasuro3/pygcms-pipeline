@@ -1,3 +1,5 @@
+> **Public mzML-only experimental release (v1.4.1-rc2).** The text below is historical background for v1.4.1-rc1; vendor-native QGD functionality is not part of this release. The current entrypoints accept XML mzML only. See MZML_ONLY_RELEASE.md.
+
 # PyGCMS Pipeline v1.4.1 — Global NNLS（試験版 / Release Candidate）
 
 **この配布物は、従来のv1.4.0のTIC局所極大方式とは異なる、全成分共通のNNLSデコンボリューションを行うWindows向けソフトウェアです。** QGD原データの読込み、成分モデルの計算、NIST MSP出力、NIST MS Searchとの一括連携、公式分類・QCエンジンでの再集計に対応します。NISTライセンス・ライブラリ自体は同梱しません。

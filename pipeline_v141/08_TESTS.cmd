@@ -3,6 +3,8 @@ setlocal
 chcp 65001 >nul
 cd /d "%~dp0"
 set "OPENBLAS_NUM_THREADS=1"
+py -3 engine\test_mzml.py
+if errorlevel 1 (echo mzML INPUT TEST FAILED. & pause & exit /b 2)
 py -3 engine\test_global.py
 if errorlevel 1 (echo GLOBAL NNLS TEST FAILED. & pause & exit /b 2)
 py -3 engine\test_nist_contract.py
