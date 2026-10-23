@@ -1,9 +1,11 @@
 PyGCMS Pipeline
-Software version: 1.4.0
+Release version: 1.4.1-rc1
+Engine/input-format series: 1.4.1
+Status: experimental prerelease
+Publication date: 2026-10-23
+Bundled NIST bridge and QC: v1.4.0 (unchanged)
 Classification model: 2.2.0
 Identification QC rules: 1.0.0
-Reporting model: JAAP-7-v1.0.0
-Prepared: 2026-10-18
-Version-specific DOI: not issued for this build
-GitHub release/tag: not created by this package generation
-Do not substitute a v1.3.x version-specific DOI.
+GitHub release/tag: https://github.com/Yasuro3/pygcms-pipeline/releases/tag/v1.4.1-rc1
+Software Zenodo DOI: not assigned; cite the GitHub tag/commit and SoftwareX article.
+Study-data DOI is managed separately.

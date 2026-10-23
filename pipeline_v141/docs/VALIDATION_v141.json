@@ -1,0 +1,40 @@
+{
+  "generated": "2026-10-21",
+  "software": "PyGCMS Pipeline 1.4.1-rc1",
+  "primary_engine": "global NNLS v0.3.1 experimental",
+  "original_archive_sha256": "7ee2c59bc8d3f9cf8cf003527ba46061c7421647a257c9801f57198e07a1e2cc",
+  "full_run": {
+    "GC_runs": 29,
+    "EGA_runs": 11,
+    "candidate_components": 10446,
+    "nist_eligible_spectra": 10444,
+    "FA_eligible_spectra": 7978
+  },
+  "full_gc_total_candidate_components_from_QA": 10446,
+  "gc_max_allocation_conservation_rel_error": 2.6051471301212263e-09,
+  "gc_max_model_overprediction_fraction": 0.2791834850189672,
+  "gc_min_model_overprediction_fraction": 0.07509277640714615,
+  "gc_med_model_overprediction_fraction": 0.1428980853224959,
+  "gc_runs_with_model_overprediction_gt_0_10": 26,
+  "num_eic_GC_runs": 29,
+  "EGA_profiles": 11,
+  "license_nist_test_performed": false,
+  "authentic_amdis_comparison_complete": false,
+  "pass_conditions": [
+    "global conservation on all 29 GC",
+    "stable unique MSP name/peak number for 10444 NIST inputs",
+    "NIST v1.4.0 bridge compatibility validation all/FA",
+    "synthetic coelution and overlap cap"
+  ],
+  "limitations": [
+    "numerical accounting is not spectral deconvolution accuracy",
+    "baseline may subtract broad real signals",
+    "many neighboring near-identical components still require independent expert review",
+    "real NIST Windows GUI is untested in this environment"
+  ],
+  "runtime": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
+  }
+}

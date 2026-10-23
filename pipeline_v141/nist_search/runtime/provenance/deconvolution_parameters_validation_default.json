@@ -1,0 +1,17 @@
+{
+  "schema": "PyGCMS-deconvolution-parameters-v1",
+  "softwareVersion": "1.2.0",
+  "purpose": "Archived default used for the full-length mzML technical validation; not asserted as a universal optimum.",
+  "minRT": 2,
+  "ticHeight": 5000,
+  "peakSeparation": 5,
+  "halfWindow": 6,
+  "shapeCorrelation": 0.85,
+  "ionCutoffPctBP": 1.0,
+  "minIonApexIntensity": 500,
+  "minTraceIntensity": 200,
+  "sharpnessMinimum": 5.0,
+  "modelIonFraction": 0.5,
+  "maxModelIons": 15,
+  "removeBleed": true
+}

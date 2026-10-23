@@ -1,0 +1,4 @@
+PyGCMS Pipeline 1.4.1-rc1
+Primary executable: app_v141.py / engine/batch_v141.py
+Underlying v1.4.0 identification QC 1.0.0 and classification 2.2.0
+Global NNLS deconvolution 0.3.1-experimental; NOT NIST AMDIS

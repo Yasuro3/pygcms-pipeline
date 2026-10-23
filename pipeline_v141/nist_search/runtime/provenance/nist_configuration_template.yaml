@@ -1,0 +1,38 @@
+schema_version: '1.3.2'
+record_type: user-completed licensed-NIST-search configuration
+product:
+  name: NIST MS Search
+  version_build: ''
+  executable_path_or_redacted_identifier: ''
+library:
+  release: ''
+  installed_library_names: []
+  library_build_or_date: ''
+  licence: user-supplied licensed resource; not redistributed
+search:
+  search_type: ''
+  automation_mode: ''
+  top_n_candidates_requested: 15
+  number_of_hits_configured_to_print: 15
+  mass_range: ''
+  spectrum_preprocessing: ''
+  constraints: ''
+  molecular_weight_limits: ''
+  retention_index_options: ''
+  other_options: ''
+  output_format: SRCRESLT.TXT or equivalent bridge-parsed candidate table
+workflow_qc:
+  minimum_reconstructed_ions_for_automatic_submission: 3
+  include_low_ion_override: false
+  unique_species_grouping: CAS when available; normalized name otherwise
+  near_tie_mf_gap_threshold: 30
+environment:
+  operating_system: ''
+  locale: ''
+operator:
+  name: ''
+  date_utc: ''
+notes: >-
+  Complete this record before analytical searching. Fields are not inferred by
+  PyGCMS Pipeline. If a field was not recorded, write 'not recorded' rather
+  than reconstructing it after the fact.
