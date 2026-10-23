@@ -1,3 +1,5 @@
+> **Public mzML-only experimental release (v1.4.1-rc2).** The text below is historical background for v1.4.1-rc1; vendor-native QGD functionality is not part of this release. The current entrypoints accept XML mzML only. See MZML_ONLY_RELEASE.md.
+
 # PyGCMS Pipeline 1.4.1 RC — experimental globally coupled NNLS
 
 This is the Python/Windows batch entrypoint for a **non-production, experimental** global NNLS GC-MS deconvolution pipeline. It is compatible with the released v1.4.0 NIST MS Search bridge and v1.4.0 identification/classification engine, **which remain unmodified and identifiable by their SHA256 / Git blob checksums**.
