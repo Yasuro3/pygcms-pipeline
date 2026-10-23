@@ -7,8 +7,8 @@ py -3 -c "import sys;sys.exit(0 if sys.version_info>=(3,10) else 1)" >nul 2>nul
 if errorlevel 1 set "PY=python"
 %PY% -c "import numpy,scipy;import sys;sys.exit(0 if sys.version_info>=(3,10) else 1)" >nul 2>nul
 if errorlevel 1 (echo First run 00_INSTALL_DEPENDENCIES.cmd & pause & exit /b 2)
-echo Drag or enter a QGD ZIP, directory, or single QGD file.
-set /p "INPUT=Raw QGD input path: "
+echo Drag or enter a mzML ZIP, directory, or single mzML file.
+set /p "INPUT=Raw mzML input path: "
 if not defined INPUT (echo Missing input. & pause & exit /b 2)
 set "INPUT=%INPUT:"=%"
 echo Optional run manifest CSV/JSON. For the provided Kobe archive type: samples\kobe_fa_40_manifest_LOCAL.json
